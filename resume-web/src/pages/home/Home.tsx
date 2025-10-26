@@ -8,10 +8,10 @@ const Home = () => {
   return (
     <div className='flex justify-center scroll-smooth' >
       <div className='w-[90%]'>
-        <ProfileInfo></ProfileInfo>
         <Nav></Nav>
-        <Experience></Experience>
+        <ProfileInfo></ProfileInfo>
         <Education></Education>
+        <Experience></Experience>
         <Skills></Skills>
       </div>
     </div>
