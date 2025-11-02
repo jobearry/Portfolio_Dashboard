@@ -1,16 +1,18 @@
+const navLinks = [
+  {name: "Home", link: "#"},
+  {name: "Experience", link: "#experience"},
+  {name: "Education", link: "#education"},
+]
+
 export const Nav = () => {
   return (
     <nav className="m-2">
       <ul className="grid grid-cols-3 place-items-center gap-2">
-        <li className="border w-full rounded-md h-[2rem]">
-          <a href="#" className="w-full h-full grid place-items-center">Home</a>
-        </li>
-        <li className="border w-full rounded-md h-[2rem]">
-          <a href="#experience" className="w-full h-full grid place-items-center">Experience</a>
-        </li>
-        <li className="border w-full rounded-md h-[2rem]">
-          <a href="#education" className="w-full h-full grid place-items-center">Education</a>
-        </li>
+        {navLinks.map(navLink => (
+          <li className="border w-full rounded-md h-10 h-max-12">
+            <a href={navLink.link} className="w-full h-full grid place-items-center">{navLink.name}</a>
+          </li>
+        ))}
       </ul>
     </nav>
   )
