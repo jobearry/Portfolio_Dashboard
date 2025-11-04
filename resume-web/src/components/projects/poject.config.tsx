@@ -31,11 +31,22 @@ export const sdmiProjects: Project[] = [
   new Project(
     2,
     'Progress Management',
-    'Feature Developer',
+    'Fullstack Developer',
     '2 weeks',
     `Setup QR Scanner component that displays a snapshot of the scanned QR image, 
-     and enables users to cherry pick successfully scanned images.`,
+     and enables users to cherry pick successfully scanned images and save to database.`,
     ['#csharp', '#asp-dotnet', '#angular', '#igniteui'],
     ''
   ),
+
+  // new Project(
+  //   3,
+  //   'Progress Management',
+  //   'Fullstack Developer',
+  //   '2 weeks',
+  //   `Setup QR Scanner component that displays a snapshot of the scanned QR image, 
+  //    and enables users to cherry pick successfully scanned images and save to database.`,
+  //   ['#csharp', '#asp-dotnet', '#angular', '#igniteui'],
+  //   ''
+  // ),
 ]

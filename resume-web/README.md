@@ -1,7 +1,6 @@
 # 📂 Web-based Resume
 
-This is a web based view of my latest resume using React, Typescript and TailwindCSS.
-This is supposed to be included with my portfolio website, but I decided to make it separate while I also improve the portfolio website.
+This is a web based view of my latest resume using React, Typescript, Tailwind(ShadcnUI).
 
-Have a look 👀 \
+Have a look 👀
 Cheers! 🍻🍻🍻
