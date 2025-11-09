@@ -7,7 +7,7 @@ import { Skills } from "../../components/skills/Skills";
 const Home = () => {
   return (
     <div className='flex justify-center scroll-smooth' >
-      <div className='w-max-[90%]'>
+      <div>
         <Nav></Nav>
         <Profile></Profile>
         <Education></Education>

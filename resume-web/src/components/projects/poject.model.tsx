@@ -60,11 +60,10 @@ export const sdmiProjects: Project[] = [
   //   'Fullstack Developer',
   //   '2 weeks',
   //   [
-  //     "Migrated a legacy monolithic .NET Framework app to a modern Angular-based web application.",
-  //     "Enhanced route navigation for project input modules, improving user experience and browsing efficiency.",
-  //     "Implemented a responsive sidebar component to enable intuitive navigation and advanced filtering options."
+  //     "Setup QR Scanner component that captures and displays snapshots of scanned QR codes.",
+  //     "Enables users to selectively review and save successfully scanned images to the database."
   //   ],
-  //   ['#csharp', '#asp-dotnet', '#angular', '#igniteui'],
+  //   ['#csharp', '#asp-dotnet', '#angular', '#igniteui', '#zxing-library'],
   //   ''
   // ),
 ]
