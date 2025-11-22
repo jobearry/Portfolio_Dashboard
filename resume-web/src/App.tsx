@@ -1,10 +1,12 @@
 import './App.css'
+import { Footer } from './components/common/footer'
 import Home from './pages/home/Home'
 
 export function App() {
   return (
-    <div className="bg-[#252424] text-gray-400">
+    <div className=''>
       <Home></Home>
+      <Footer></Footer>
     </div>
   )
 }

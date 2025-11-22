@@ -1,17 +1,16 @@
 #root {
-  max-width: 1280px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
 
 /* Custom scrollbar for Tailwind */
-.scrollbar-thin::-webkit-scrollbar {
+/* .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #4b5563; /* gray-700 */
+  background-color: #4b5563;
   border-radius: 9999px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -24,4 +23,4 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+} */

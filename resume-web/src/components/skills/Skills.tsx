@@ -1,4 +1,4 @@
-import { Pill } from "../pill/Pill"
+import { Pill } from "../ui/pill"
 import { skills } from "./skills.model"
 
 export const Skills = () => {
