@@ -1,4 +1,4 @@
-import { Project } from "./poject.model";
+import { Project } from "@/lib/constants/poject.constants";
 
 interface ProjectEvents {
   events: Project[]
