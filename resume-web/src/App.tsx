@@ -4,7 +4,7 @@ import Home from './pages/home/Home'
 
 export function App() {
   return (
-    <div className=''>
+    <div className='dark'>
       <Home></Home>
       <Footer></Footer>
     </div>
