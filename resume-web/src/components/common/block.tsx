@@ -11,7 +11,7 @@ export interface BlockProps {
 
 export const Block: React.FC<BlockProps> = ({id, title, icon, description, children, className, gridClass}) => {
   return (
-    <div id={id} className={`
+    <div key={id} className={`
         border-gray-500 rounded-sm bg-[#141414] m-2
         ${gridClass} 
         ${className}`

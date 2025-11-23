@@ -1,11 +1,11 @@
 import './App.css'
 import { Footer } from './components/common/footer'
-import Home from './pages/home/Home'
+import { AppRouter } from './routes/route'
 
 export function App() {
   return (
     <div className='dark'>
-      <Home></Home>
+      <AppRouter/>
       <Footer></Footer>
     </div>
   )

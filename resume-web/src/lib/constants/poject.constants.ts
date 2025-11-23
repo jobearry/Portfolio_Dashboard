@@ -10,7 +10,7 @@ export class Project {
   ){}
 }
 
-export const sdmiProjects: Project[] = [
+export const corpoProjects: Project[] = [
   new Project(
     1,
     'Project Management',

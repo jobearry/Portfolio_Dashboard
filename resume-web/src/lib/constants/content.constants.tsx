@@ -1,9 +1,9 @@
 import type { BlockProps } from "@/components/common/block";
 import { Timeline } from "@/pages/home/components/timeline";
-import { sdmiProjects } from "./poject.constants";
-import { Projects } from "@/pages/home/components/Projects";
+import { corpoProjects } from "./poject.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
 import { BookOpen, Building, IdCard, ToolCase } from "lucide-react";
+import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
 
 export interface TimelineEvent{
   title: string,
@@ -47,7 +47,7 @@ export const BlockContent: BlockProps[] = [
     id: "block_3",
     title: "Projects",
     icon: <Building size={20} strokeWidth={1.5}/>,
-    children: <Projects events={sdmiProjects}></Projects>,
+    children: <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
     gridClass: "md:col-span-1 md:row-span-2 md:row-start-1 md:col-start-3"
   },
   {
