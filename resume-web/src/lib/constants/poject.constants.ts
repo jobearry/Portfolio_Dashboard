@@ -21,7 +21,7 @@ export const corpoProjects: Project[] = [
       // "Enhanced route navigation for project input modules, improving user experience and browsing efficiency.",
       // "Implemented a responsive sidebar component to enable intuitive navigation and advanced filtering options."
     ],
-    ['#csharp', '#asp-dotnet', '#swagger', '#angular', '#igniteui'],
+    ['CSharp', 'DotNetCore', 'Swagger', 'Angular', 'IgniteUI'],
     ''
   ),
   
@@ -32,13 +32,13 @@ export const corpoProjects: Project[] = [
     '2 weeks',
     [
       // "Setup QR Scanner component that captures and displays snapshots of scanned QR codes.",
-      "Enables users to selectively review and save successfully scanned QR images to the database."
+      "Enables users to selectively review and save successfully scanned QR images."
     ],
-    ['#csharp', '#asp-dotnet', '#angular', '#igniteui', '#zxing-library'],
+    ['CSharp', 'DotNetCore', 'Angular', 'IgniteUI', 'zxing'],
     ''
   ),
 
-  new Project(
+  new Project (
     3,
     'AWS S3 Integration',
     'Fullstack Developer',
@@ -46,7 +46,7 @@ export const corpoProjects: Project[] = [
     [
       "Integrated AWS S3 as file storage across multiple systems to mitigate cloud storage costs. "
     ],
-    ['#csharp', '#asp-dotnet', '#angular', '#igniteui', '#zxing-library'],
+    ['CSharp', 'DotNetCore', 'Swagger'],
     ''
   ),
 ]

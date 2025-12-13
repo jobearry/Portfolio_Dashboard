@@ -1,7 +1,9 @@
 import type { Project } from "@/lib/constants/poject.constants";
 import { MoveLeft } from "lucide-react"
-import type { MouseEvent } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { ProjectBlock } from "./project-block";
+import { useGithubStore } from "@/store/github-store";
 
 interface ProjectEvents {
   children: Project[]
@@ -11,9 +13,15 @@ interface ProjectEvents {
 export const Projects: React.FC<ProjectEvents> = ({children}) => {
   const navigate = useNavigate()
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log("🚀 ~ handleClick ~ e:", e)
     navigate("/home")
   }
+
+  const {githubRepos, loading, getRepos} = useGithubStore()
+
+  useEffect(() => {
+    getRepos()
+  },[])
+
   return (
     <section className="m-6 text-start flex flex-col">
       <button onClick={handleClick}
@@ -21,17 +29,36 @@ export const Projects: React.FC<ProjectEvents> = ({children}) => {
         <MoveLeft/> 
         Go back
       </button>
-      <ul>
-        {children!.map(event => (
-          <li key={event.id} className="cursor-pointer transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
-            <article className="border border-gray-500 my-2 rounded-sm p-2 bg-[#141414]">
-              <h3 className="font-bold text-sm">{event.title}</h3>
-              <p className="text-gray-400 text-xs">{event.duration}</p>
-              <p className="my-1 text-sm">{event.contirbution}</p>
-            </article>
-          </li>
-        ))}
-      </ul>
+      
+      <div>
+        <h2 className="text-lg font-bold p-2">Corporate</h2>
+        <ProjectBlock content={children}></ProjectBlock>
+      </div>
+
+      
+      <div>
+        <h2 className="text-lg font-bold p-2">GitHub</h2>
+        { loading? (
+          <div className="w-full grid place-items-center">
+            <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full 
+              animate-spin">
+            </div>
+          </div>
+        ) : (
+          <ProjectBlock content={!loading? githubRepos.filter(x => x.title !== "jobearry"): []}></ProjectBlock>
+        )}
+      </div>
+
+      {/* <div>
+        <h2 className="text-lg font-bold p-2">Codepen</h2>
+        <ProjectBlock content={children}></ProjectBlock>
+      </div>
+      
+      <div>
+        <h2 className="text-lg font-bold p-2">FrontendMentor</h2>
+        <ProjectBlock content={children}></ProjectBlock>
+      </div> */}
+    
     </section>
-  )
-}
+  ) 
+} 

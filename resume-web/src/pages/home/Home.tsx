@@ -8,8 +8,8 @@ const Home = () => {
       <div>
         <Profile></Profile>
         <div className="grid md:grid-cols-3">
-          {BlockContent.map((block) => (
-            <Block className={`border ${block.className}`}
+          {BlockContent.map((block, index) => (
+            <Block key={index} className={`border ${block.className}`}
               id={block.id} 
               title={block.title} 
               icon={block.icon} 
