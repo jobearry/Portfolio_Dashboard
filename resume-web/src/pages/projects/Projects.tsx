@@ -1,6 +1,6 @@
 import type { Project } from "@/lib/constants/poject.constants";
 import { MoveLeft } from "lucide-react"
-import { useEffect, type MouseEvent } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProjectBlock } from "./project-block";
 import { useGithubStore } from "@/store/github-store";
@@ -12,7 +12,7 @@ interface ProjectEvents {
 
 export const Projects: React.FC<ProjectEvents> = ({children}) => {
   const navigate = useNavigate()
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     navigate("/home")
   }
 
