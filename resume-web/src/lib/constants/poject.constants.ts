@@ -21,7 +21,7 @@ export const corpoProjects: Project[] = [
       // "Enhanced route navigation for project input modules, improving user experience and browsing efficiency.",
       // "Implemented a responsive sidebar component to enable intuitive navigation and advanced filtering options."
     ],
-    ['CSharp', 'DotNetCore', 'Swagger', 'Angular', 'IgniteUI'],
+    ['CSharp', 'DotNetCore', 'Swagger', 'Angular'],
     ''
   ),
   
@@ -34,7 +34,7 @@ export const corpoProjects: Project[] = [
       // "Setup QR Scanner component that captures and displays snapshots of scanned QR codes.",
       "Enables users to selectively review and save successfully scanned QR images."
     ],
-    ['CSharp', 'DotNetCore', 'Angular', 'IgniteUI', 'zxing'],
+    ['CSharp', 'DotNetCore', 'Angular'],
     ''
   ),
 
