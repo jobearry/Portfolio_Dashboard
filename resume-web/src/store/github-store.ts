@@ -2,7 +2,6 @@ import type { Project } from "@/lib/constants/poject.constants";
 import { GithubService } from "@/services/github-service";
 import { create } from "zustand";
 
-
 interface GithubRepoState{
   githubRepos: Project[],
   loading: boolean,
