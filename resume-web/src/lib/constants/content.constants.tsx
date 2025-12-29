@@ -2,8 +2,9 @@ import type { BlockProps } from "@/components/common/block";
 import { Timeline } from "@/pages/home/components/timeline";
 import { corpoProjects } from "./poject.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
-import { BookOpen, Building, IdCard, ToolCase } from "lucide-react";
+import { BookOpen, Building, IdCard, MessageSquare, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
+import { CommentLoader } from "@/components/ui/comment-loader";
 
 export interface TimelineEvent{
   title: string,
@@ -52,6 +53,13 @@ export const BlockContent: BlockProps[] = [
   },
   {
     id: "block_4",
+    title: "Comments",
+    icon: <MessageSquare size={20} strokeWidth={1.5}/>,
+    children: <CommentLoader/>,
+    gridClass: "md:col-span-2"
+  },
+  {
+    id: "block_5",
     title: "Tech Stack",
     icon: <ToolCase size={20} strokeWidth={1.5}/>,
     children: <TechStack></TechStack>,

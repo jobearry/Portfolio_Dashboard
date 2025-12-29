@@ -18,7 +18,7 @@ export const corpoProjects: Project[] = [
     '',
     [
       `Provide an alternative to the current flow of file management request tasks. 
-       Enabled storage cost mitigation from the company's previous storage plan.`
+       Enabled storage cost mitigation.`
     ],
     ['CSharp', 'Swagger',],
     ''
@@ -30,8 +30,7 @@ export const corpoProjects: Project[] = [
     'Feature Developer',
     '',
     [
-      `Fixed an issue so that a DMZ server can connect to an intranet server through server
-       side communication which enabled the sending of QR Images to the backend`,
+      `Implemented DMZ to intranet communication, to enable processing QR images to backend.`,
     ],
     ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
     ''
@@ -55,8 +54,7 @@ export const corpoProjects: Project[] = [
     'Fullstack Developer',
     '',
     [
-      `Display bill of materials data across a number of tables, and provide an editable cell 
-       feature to enable CRUD functionality.`
+      `Display bill of materials data across a number of tables with CRUD functionality.`
     ],
     ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
     ''

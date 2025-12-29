@@ -25,7 +25,8 @@ export const Projects: React.FC<ProjectEvents> = ({children}) => {
   return (
     <section className="m-6 text-start flex flex-col">
       <button onClick={handleClick}
-        className="flex items-center gap-4 h-8 m-2 cursor-pointer">
+        className="flex items-center gap-4 h-8 m-2 cursor-pointer w-fit
+          transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
         <MoveLeft/> 
         Go back
       </button>

@@ -19,7 +19,7 @@ const api = axios.create({
 export class GithubService {
   async getRepos(){
     const response = await api.get("/users/jobearry/repos")
-    console.log("🚀 ~ GithubService ~ getRepos ~ response:", response.data)
+    // console.log("🚀 ~ GithubService ~ getRepos ~ response:", response.data)
     const projects = response.data.map(async (x: GitHubRepo) => {
       const langs = await api.get(x.languages_url)
       return new Project(

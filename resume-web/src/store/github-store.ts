@@ -19,7 +19,7 @@ export const useGithubStore = create<GithubRepoState>((set) => {
       set({loading: true})
       try {
         const data = await githubService.getRepos()
-        console.log("🚀 ~ GithubStore ~ data:", data)
+        // console.log("🚀 ~ GithubStore ~ data:", data)
         
         set({githubRepos: data})
       }catch (err){

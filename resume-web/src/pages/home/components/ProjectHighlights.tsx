@@ -1,5 +1,4 @@
 import { Project } from "@/lib/constants/poject.constants";
-import type { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ProjectEvents {
@@ -8,8 +7,8 @@ interface ProjectEvents {
 
 export const ProjectHighlights: React.FC<ProjectEvents> = ({events}) => {
   const navigate = useNavigate()
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log("🚀 ~ handleClick ~ e:", e)
+  const handleClick = () => {
+    // console.log("🚀 ~ handleClick ~ e:", e)
     navigate("/projects")
   }
   return (

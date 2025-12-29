@@ -5,7 +5,7 @@ interface ProjectBlockProps {
   content: Project[]
 }
 export const ProjectBlock: React.FC<ProjectBlockProps> = ({content}) => {
-  console.log("🚀 ~ ProjectBlock ~ content:", content)
+  // console.log("🚀 ~ ProjectBlock ~ content:", content)
   return (
     <ul className="md:grid md:grid-cols-3 md:gap-5">
       {content.map(event => (
