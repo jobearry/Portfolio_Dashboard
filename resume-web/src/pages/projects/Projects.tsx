@@ -9,7 +9,6 @@ interface ProjectEvents {
   children: Project[]
 }
 
-
 export const Projects: React.FC<ProjectEvents> = ({children}) => {
   const navigate = useNavigate()
   const handleClick = () => {

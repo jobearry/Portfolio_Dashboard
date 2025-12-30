@@ -1,6 +1,9 @@
-export const Contacts = () => {
+interface ContactsProps {
+  className?: string
+}
+export const Contacts = ({className}: ContactsProps) => {
   return (
-    <ul className="flex place-items-evenly m-2 gap-3 ">
+    <ul className={`flex place-items-evenly m-2 gap-3 ${className}`}>
       <li className="border border-gray-400 p-2 rounded-md grid place-items-center
         transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
         <a href="https://github.com/jobearry" target="_blank" className="flex gap-1 justify-center">

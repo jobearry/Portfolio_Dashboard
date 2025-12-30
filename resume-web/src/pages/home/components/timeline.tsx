@@ -8,7 +8,7 @@ export const Timeline: React.FC<TimelineProps> = ({events}) => {
   return (              
     <div className="relative border-l-2 border-orange-700 ml-5">
       {events.map((event, index) => (
-        <div key={index} className="mb-8 ml-[1.95rem] relative">
+        <div key={index} className="mb-8 ml-[1.9rem] relative">
           {/* Dot */}
           <span className="absolute -left-10 w-4 h-4 bg-orange-700 rounded-full"></span>
           
