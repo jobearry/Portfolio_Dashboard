@@ -1,6 +1,6 @@
 import type { BlockProps } from "@/components/common/block";
 import { Timeline } from "@/pages/home/components/timeline";
-import { corpoProjects } from "./poject.constants";
+import { corpoProjects } from "../../../lib/constants/project.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
 import { BookOpen, Building, IdCard, MessageSquare, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
@@ -25,6 +25,11 @@ export const TimelineEvents: TimelineEvent[] = [
     date: '2022', 
     description: 'Completed Computer Engineering degree' 
   },
+  { 
+    title: 'Gardner College Diliman', 
+    date: '2018', 
+    description: 'Finished Senior High School (STEM)' 
+  },
 ];
 export const BlockContent: BlockProps[] = [
   {
@@ -35,34 +40,34 @@ export const BlockContent: BlockProps[] = [
       I am a full-stack developer that focuses on developing web applications through Angular and .NET.
       Professionally, I primarily manage backend and minimal frontend work. 
     `,
-    gridClass: "md:col-span-2"
+    gridClass: "md:col-span-1"
   },
   {
     id: "block_2",
     title: "Experience",
     icon: <BookOpen size={20} strokeWidth={1.5}/>,
-    children: <Timeline events={TimelineEvents} />,
-    gridClass: "md:col-span-2"
+    children: () => <Timeline events={TimelineEvents} />,
+    gridClass: "md:col-span-1 md:row-start-1 md:col-start-3 md:row-span-2"
   },
   {
     id: "block_3",
     title: "Projects",
     icon: <Building size={20} strokeWidth={1.5}/>,
-    children: <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
-    gridClass: "md:col-span-1 md:row-span-2 md:row-start-1 md:col-start-3"
+    children: () => <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
+    gridClass: "md:col-span-2 "
   },
   {
     id: "block_4",
-    title: "Comments",
-    icon: <MessageSquare size={20} strokeWidth={1.5}/>,
-    children: <CommentLoader/>,
-    gridClass: "md:col-span-2"
+    title: "Tech Stack",
+    icon: <ToolCase size={20} strokeWidth={1.5}/>,
+    children: () => <TechStack/>,
+    gridClass: "md:col-span-1 md:row-start-1 md:col-start-2" 
   },
   {
     id: "block_5",
-    title: "Tech Stack",
-    icon: <ToolCase size={20} strokeWidth={1.5}/>,
-    children: <TechStack></TechStack>,
-    gridClass: "md:col-span-1 md:row-start-3 md:col-start-3"
-  }
+    title: "Feedback",
+    icon: <MessageSquare size={20} strokeWidth={1.5}/>,
+    children: () => <CommentLoader/>,
+    gridClass: "md:col-span-1 md:row-start-3"
+  },
 ]

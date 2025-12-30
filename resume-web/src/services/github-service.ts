@@ -1,4 +1,4 @@
-import { Project } from "@/lib/constants/poject.constants"
+import { Project } from "@/lib/constants/project.constants"
 import axios from "axios"
 
 interface GitHubRepo {

@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/constants/poject.constants"
+import type { Project } from "@/lib/constants/project.constants"
 import { ExternalLink } from "lucide-react"
 
 interface ProjectBlockProps {

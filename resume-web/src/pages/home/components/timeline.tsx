@@ -1,4 +1,4 @@
-import type { TimelineEvent } from "@/lib/constants/content.constants"
+import type { TimelineEvent } from "@/pages/home/constants/content.constants"
 
 interface TimelineProps {
   events: TimelineEvent[]
