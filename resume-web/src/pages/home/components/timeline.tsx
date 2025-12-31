@@ -1,7 +1,11 @@
-import type { TimelineEvent } from "@/pages/home/constants/content.constants"
-
 interface TimelineProps {
   events: TimelineEvent[]
+}
+
+export interface TimelineEvent{
+  title: string,
+  date: string,
+  description: string
 }
 
 export const Timeline: React.FC<TimelineProps> = ({events}) => {

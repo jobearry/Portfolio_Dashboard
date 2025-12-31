@@ -1,18 +1,10 @@
 import type { BlockProps } from "@/components/common/block";
-import { Timeline } from "@/pages/home/components/timeline";
+import { Timeline, type TimelineEvent } from "@/pages/home/components/timeline";
 import { corpoProjects } from "../../../lib/constants/project.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
 import { BookOpen, Building, CircleUser, IdCard, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
 import { Profile } from "../components/profile/Profile";
-
-export interface TimelineEvent{
-  title: string,
-  date: string,
-  description: string
-}
-  // Experience: <Timeline events={TimelineEvents} />,
-  // Projects: <Projects events={sdmiProjects}></Projects>
 
 export const TimelineEvents: TimelineEvent[] = [
   { 
@@ -33,12 +25,11 @@ export const TimelineEvents: TimelineEvent[] = [
 ];
 
 export const BlockContent: BlockProps[] = [
-  
   {
     id: "block_1",
     title: "",
     icon: <CircleUser size={20} strokeWidth={1.5}/>,
-    children: () => <Profile className={"grid md:grid-cols-2 place-items-center"}/>,
+    children: () => <Profile className={"place-items-center md:flex md:justify-evenly"}/>,
     gridClass: "md:col-span-2"
   },
   {
