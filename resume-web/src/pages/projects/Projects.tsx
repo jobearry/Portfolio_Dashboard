@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/constants/poject.constants";
+import type { Project } from "@/lib/constants/project.constants";
 import { MoveLeft } from "lucide-react"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import { useGithubStore } from "@/store/github-store";
 interface ProjectEvents {
   children: Project[]
 }
-
 
 export const Projects: React.FC<ProjectEvents> = ({children}) => {
   const navigate = useNavigate()

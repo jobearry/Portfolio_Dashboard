@@ -1,4 +1,4 @@
-import { corpoProjects } from "@/lib/constants/poject.constants";
+import { corpoProjects } from "@/lib/constants/project.constants";
 import Home from "@/pages/home/Home";
 import { Projects } from "@/pages/projects/Projects";
 import { Navigate, Route, Routes } from "react-router-dom";

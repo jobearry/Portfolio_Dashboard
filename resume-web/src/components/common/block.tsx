@@ -4,14 +4,14 @@ export interface BlockProps {
   title: string
   icon?: ReactNode
   description?: string
-  children?: ReactNode
+  children?: ReactNode | (() => ReactNode)
   className?: string
   gridClass?: string
 }
 
-export const Block: React.FC<BlockProps> = ({id, title, icon, description, children, className, gridClass}) => {
+export const Block = ({title, icon, description, children, className, gridClass}: BlockProps) => {
   return (
-    <div key={id} className={`
+    <div className={`
         border-gray-500 rounded-sm bg-[#141414] m-2
         ${gridClass} 
         ${className}`
@@ -28,7 +28,7 @@ export const Block: React.FC<BlockProps> = ({id, title, icon, description, child
       </p>
 
       <div>
-        {children}
+        {typeof children === "function"? children() : children}
       </div>
     </div>
   )

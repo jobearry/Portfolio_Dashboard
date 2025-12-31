@@ -1,18 +1,10 @@
 import type { BlockProps } from "@/components/common/block";
-import { Timeline } from "@/pages/home/components/timeline";
-import { corpoProjects } from "./poject.constants";
+import { Timeline, type TimelineEvent } from "@/pages/home/components/timeline";
+import { corpoProjects } from "../../../lib/constants/project.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
-import { BookOpen, Building, IdCard, MessageSquare, ToolCase } from "lucide-react";
+import { BookOpen, Building, CircleUser, IdCard, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
-import { CommentLoader } from "@/components/ui/comment-loader";
-
-export interface TimelineEvent{
-  title: string,
-  date: string,
-  description: string
-}
-  // Experience: <Timeline events={TimelineEvents} />,
-  // Projects: <Projects events={sdmiProjects}></Projects>
+import { Profile } from "../components/profile/Profile";
 
 export const TimelineEvents: TimelineEvent[] = [
   { 
@@ -25,8 +17,21 @@ export const TimelineEvents: TimelineEvent[] = [
     date: '2022', 
     description: 'Completed Computer Engineering degree' 
   },
+  { 
+    title: 'Gardner College Diliman', 
+    date: '2018', 
+    description: 'Finished Senior High School (STEM)' 
+  },
 ];
+
 export const BlockContent: BlockProps[] = [
+  {
+    id: "block_1",
+    title: "",
+    icon: <CircleUser size={20} strokeWidth={1.5}/>,
+    children: () => <Profile className={"place-items-center md:flex md:justify-evenly"}/>,
+    gridClass: "md:col-span-2"
+  },
   {
     id: "block_1",
     title: "About",
@@ -35,34 +40,34 @@ export const BlockContent: BlockProps[] = [
       I am a full-stack developer that focuses on developing web applications through Angular and .NET.
       Professionally, I primarily manage backend and minimal frontend work. 
     `,
-    gridClass: "md:col-span-2"
+    gridClass: ""
   },
   {
     id: "block_2",
     title: "Experience",
     icon: <BookOpen size={20} strokeWidth={1.5}/>,
-    children: <Timeline events={TimelineEvents} />,
-    gridClass: "md:col-span-2"
+    children: () => <Timeline events={TimelineEvents} />,
+    gridClass: ""
   },
   {
     id: "block_3",
     title: "Projects",
     icon: <Building size={20} strokeWidth={1.5}/>,
-    children: <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
-    gridClass: "md:col-span-1 md:row-span-2 md:row-start-1 md:col-start-3"
-  },
-  {
-    id: "block_4",
-    title: "Comments",
-    icon: <MessageSquare size={20} strokeWidth={1.5}/>,
-    children: <CommentLoader/>,
+    children: () => <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
     gridClass: "md:col-span-2"
   },
   {
-    id: "block_5",
+    id: "block_4",
     title: "Tech Stack",
     icon: <ToolCase size={20} strokeWidth={1.5}/>,
-    children: <TechStack></TechStack>,
-    gridClass: "md:col-span-1 md:row-start-3 md:col-start-3"
-  }
+    children: () => <TechStack/>,
+    gridClass: ""
+  },
+  // {
+  //   id: "block_5",
+  //   title: "Feedback",
+  //   icon: <MessageSquare size={20} strokeWidth={1.5}/>,
+  //   children: () => <CommentLoader/>,
+  //   gridClass: ""
+  // },
 ]

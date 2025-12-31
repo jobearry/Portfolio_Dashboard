@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/constants/poject.constants";
+import type { Project } from "@/lib/constants/project.constants";
 import { GithubService } from "@/services/github-service";
 import { create } from "zustand";
 
