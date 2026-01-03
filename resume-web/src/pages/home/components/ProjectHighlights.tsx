@@ -12,6 +12,7 @@ export const ProjectHighlights: React.FC<ProjectEvents> = ({events}) => {
     navigate("/projects")
   }
   return (
+    
     <section className="m-6 text-start flex flex-col gap-2">
       <ul className="grid md:grid-cols-2 gap-2">
         {events.map(event => (
@@ -21,6 +22,8 @@ export const ProjectHighlights: React.FC<ProjectEvents> = ({events}) => {
               <p className="text-gray-400 text-xs">{event.duration}</p>
               <p className="my-1 text-sm">{event.contirbution}</p>
             </article>
+
+            
           </li>
         ))}
       </ul>
