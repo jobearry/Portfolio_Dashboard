@@ -4,7 +4,7 @@ import { BlockContent } from "@/pages/home/constants/content.constants";
 const Home = () => {
   return (
     <section className='flex justify-center scroll-smooth p-8' >
-      <div className="grid md:grid-cols-5 ">
+      <div className="grid md:grid-cols-6">
         {BlockContent.map((block) => (
           <Block key={block.id} className={`border ${block.className}`}
             id={block.id} 

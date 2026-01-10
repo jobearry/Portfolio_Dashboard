@@ -29,24 +29,25 @@ export const BlockContent: BlockProps[] = [
     id: "block_1",
     title: "",
     icon: <CircleUser size={20} strokeWidth={1.5}/>,
-    children: () => <Profile className={"place-items-center md:flex md:justify-evenly"}/>,
-    gridClass: "md:col-span-3"
+    children: () => <Profile className={"md:justify-evenly"}/>,
+    gridClass: "md:col-span-2"
   },
   {
     id: "block_1",
     title: "About",
     icon: <IdCard size={20} strokeWidth={1.5}/>,
-    children: () => <div className="m-3 mb-5 text-justify text-sm">
-      <p>
-        I am a full-stack developer that focuses on developing web applications through Angular and .NET.
-        Professionally, I primarily manage backend and minimal frontend work. 
-      </p>
-      <br />
-      <p>
-        On my free time, I enjoy learning new things, and try new technologies.
-        Right now, I am learning React, and Cloud development using Azure, and doing some LeetCode exercises.
-      </p>
-    </div>,
+    children: () => 
+      <div className="m-3 mb-5 text-justify text-sm">
+        <p>
+          I am a full-stack developer that focuses on developing web applications through Angular and .NET.
+          Professionally, I primarily manage backend and minimal frontend work. 
+        </p>
+        <br />
+        <p>
+          On my free time, I enjoy learning new things, and try new technologies.
+          Right now, I am learning React, and Cloud development using Azure, and doing some LeetCode exercises.
+        </p>
+      </div>,
     gridClass: "md:col-span-2"
   },
   {
@@ -61,14 +62,14 @@ export const BlockContent: BlockProps[] = [
     title: "Projects",
     icon: <Building size={20} strokeWidth={1.5}/>,
     children: () => <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
-    gridClass: "md:col-span-3"
+    gridClass: "md:col-span-4"
   },
   {
     id: "block_4",
     title: "Tech Stack",
     icon: <ToolCase size={20} strokeWidth={1.5}/>,
     children: () => <TechStack/>,
-    gridClass: "md:col-span-2"
+    gridClass: "md:col-span-2 md:row-start-1 md:col-start-5"
   },
   // {
   //   id: "block_5",

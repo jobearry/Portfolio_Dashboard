@@ -25,7 +25,7 @@ export const Profile = ({className}: ProfileProp) => {
 
         <p className='text-sm text-center'>Software Developer</p>
 
-        <address className='not-italic'>
+        <address className='not-italic grid place-items-center'>
           <Contacts className='flex'/>
         </address>
       </div>

@@ -2,15 +2,31 @@ export interface Skill{
   tag: string
 }
 
-export const skills: Skill[] = [
-  {tag: "C#"},
+export const frontend: Skill[] = [
   {tag: "JavaScript"},
   {tag: "TypeScript"},
-  {tag: "PostgreSQL"},
-  {tag: "RxJs"},
-  {tag: "NgRx"},
   {tag: "Angular"},
   {tag: "React"},
-  {tag: ".NET"},
   {tag: "TailwindCSS"},
+  {tag: "ShadcnUI"},
+  {tag: "RxJs"},
+  {tag: "NgRx"},
+]
+
+export const backend: Skill[] = [
+  {tag: "C#"},
+  {tag: ".NET"},
+  {tag: "Swagger"},
+  {tag: "EF Core"},
+  {tag: "JWT Auth"},
+]
+
+export const database: Skill[] = [
+  {tag: "PostgreSQL"},
+  {tag: "MSSQL"},
+  {tag: "SQLite"},
+]
+
+export const aiTools: Skill[] = [
+  {tag: "Github Copilot"},
 ]
