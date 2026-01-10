@@ -48,14 +48,14 @@ export const BlockContent: BlockProps[] = [
           Right now, I am learning React, and Cloud development using Azure, and doing some LeetCode exercises.
         </p>
       </div>,
-    gridClass: "md:col-span-2"
+    gridClass: "md:col-span-2 md:row-start-2 md:col-start-1"
   },
   {
     id: "block_2",
     title: "Experience",
     icon: <BookOpen size={20} strokeWidth={1.5}/>,
     children: () => <Timeline events={TimelineEvents} />,
-    gridClass: "md:col-span-2"
+    gridClass: "md:col-span-2 md:row-start-3 md:col-start-1"
   },
   {
     id: "block_3",
@@ -69,7 +69,8 @@ export const BlockContent: BlockProps[] = [
     title: "Tech Stack",
     icon: <ToolCase size={20} strokeWidth={1.5}/>,
     children: () => <TechStack/>,
-    gridClass: "md:col-span-2 md:row-start-1 md:col-start-5"
+    gridClass: `md:col-span-2
+       md:row-start-4 md:col-start-1`
   },
   // {
   //   id: "block_5",
