@@ -5,6 +5,7 @@ import { TechStack } from "@/pages/home/components/TechStack";
 import { BookOpen, Building, CircleUser, IdCard, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
 import { Profile } from "../components/profile/Profile";
+import { Heatmap } from "@/components/ui/chart";
 
 export const TimelineEvents: TimelineEvent[] = [
   { 
@@ -72,15 +73,14 @@ export const BlockContent: BlockProps[] = [
     gridClass: `md:col-span-2
        md:row-start-4 md:col-start-1`
   },
-  // {
-  //   id: "block_5",
-  //   title: "Tech Stack",
-  //   icon: <ToolCase size={20} strokeWidth={1.5}/>,
-  //   children: () => 
-  //     <div>
-  //     </div>,
-  //   gridClass: ""
-  // },
+  {
+    id: "block_5",
+    title: "",
+    icon: <ToolCase size={20} strokeWidth={1.5}/>,
+    children: () => 
+      <Heatmap></Heatmap>,
+    gridClass: "md:col-span-4"
+  },
   // {
   //   id: "block_6",
   //   title: "Feedback",
