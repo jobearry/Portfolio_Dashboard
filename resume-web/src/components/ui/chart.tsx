@@ -7,7 +7,7 @@ export const Heatmap: React.FC = () => {
 
   useEffect(() => {
     if (chartRef.current) {
-      chartInstance.current = echarts.init(chartRef.current, "dark");
+      chartInstance.current = echarts.init(chartRef.current);
       const year = new Date().getFullYear().toString()
       
       const getVirtualData = (year: string) => {
@@ -25,22 +25,20 @@ export const Heatmap: React.FC = () => {
       }
 
      const option: echarts.EChartsOption = {
-      title: {
-        top: 30,
-        left: 'center',
-        text: 'Github Heatmap'
-      },
+      title: {},
       tooltip: {},
       visualMap: {
         min: 0,
-        max: 10000,
+        max: 1000,
         type: 'piecewise',
         orient: 'horizontal',
         left: 'center',
-        top: 65
+        top: 0,
+        bottom: 0,
+        showLabel: false
       },
       calendar: {
-        top: 120,
+        top: 0,
         left: 30,
         right: 30,
         cellSize: ['auto', 13],
@@ -48,13 +46,18 @@ export const Heatmap: React.FC = () => {
         itemStyle: {
           borderWidth: 0.5
         },
-        yearLabel: { show: false }
+        yearLabel: { show: false },
+        monthLabel: { show: false },
+        dayLabel: { show: false },
+        
       },
       series: {
         type: 'heatmap',
         coordinateSystem: 'calendar',
-        data: getVirtualData(year)
+        data: getVirtualData(year),
+        label: {show: false}
       }
+      
     };
 
       chartInstance.current.setOption(option);
@@ -69,5 +72,5 @@ export const Heatmap: React.FC = () => {
     }
   }, []);
 
-  return <div ref={chartRef} className="w-full h-[250px] grid place-items-center" />;
+  return <div ref={chartRef} className="w-full h-28 grid place-items-center" />;
 };
