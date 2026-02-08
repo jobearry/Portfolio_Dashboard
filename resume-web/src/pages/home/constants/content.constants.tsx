@@ -2,9 +2,10 @@ import type { BlockProps } from "@/components/common/block";
 import { Timeline, type TimelineEvent } from "@/pages/home/components/timeline";
 import { corpoProjects } from "../../../lib/constants/project.constants";
 import { TechStack } from "@/pages/home/components/TechStack";
-import { BookOpen, Building, CircleUser, IdCard, ToolCase } from "lucide-react";
+import { BookOpen, Building, ChartArea, CircleUser, IdCard, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
 import { Profile } from "../components/profile/Profile";
+import { GitHubHeatmap } from "@/components/ui/chart";
 
 export const TimelineEvents: TimelineEvent[] = [
   { 
@@ -23,21 +24,21 @@ export const TimelineEvents: TimelineEvent[] = [
     description: 'Finished Senior High School (STEM)' 
   },
 ];
-
-export const BlockContent: BlockProps[] = [
+export const SideBlockContent: BlockProps[] = [
   {
-    id: "block_1",
+    id: "side_block_1",
     title: "",
     icon: <CircleUser size={20} strokeWidth={1.5}/>,
     children: () => <Profile className={"md:justify-evenly"}/>,
-    gridClass: "md:col-span-2"
+    // gridClass: "md:col-span-2"
   },
   {
-    id: "block_1",
+    id: "side_block_2",
     title: "About",
     icon: <IdCard size={20} strokeWidth={1.5}/>,
+    hasHeader: true,
     children: () => 
-      <div className="m-3 mb-5 text-justify text-sm">
+      <div className="m-3 mb-5 text-left text-sm">
         <p>
           I am a full-stack developer that focuses on developing web applications through Angular and .NET.
           Professionally, I primarily manage backend and minimal frontend work. 
@@ -48,43 +49,49 @@ export const BlockContent: BlockProps[] = [
           Right now, I am learning React, and Cloud development using Azure, and doing some LeetCode exercises.
         </p>
       </div>,
-    gridClass: "md:col-span-2"
+    // gridClass: "md:col-span-2 md:row-start-2 md:col-start-1"
   },
   {
-    id: "block_2",
+    id: "side_block_3",
     title: "Experience",
     icon: <BookOpen size={20} strokeWidth={1.5}/>,
+    hasHeader: true,
     children: () => <Timeline events={TimelineEvents} />,
-    gridClass: "md:col-span-2"
-  },
+    // gridClass: "md:col-span-2 md:row-start-3 md:col-start-1"
+  },  
   {
-    id: "block_3",
-    title: "Projects",
-    icon: <Building size={20} strokeWidth={1.5}/>,
-    children: () => <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
-    gridClass: "md:col-span-4"
-  },
-  {
-    id: "block_4",
+    id: "side_block_4",
     title: "Tech Stack",
     icon: <ToolCase size={20} strokeWidth={1.5}/>,
+    hasHeader: true,
     children: () => <TechStack/>,
-    gridClass: "md:col-span-2 md:row-start-1 md:col-start-5"
+    // gridClass: `md:col-span-2 md:row-start-4 md:col-start-1`
   },
-  // {
-  //   id: "block_5",
-  //   title: "Tech Stack",
-  //   icon: <ToolCase size={20} strokeWidth={1.5}/>,
-  //   children: () => 
-  //     <div>
-  //     </div>,
-  //   gridClass: ""
-  // },
+]
+export const BlockContent: BlockProps[] = [
+  {
+    id: "main_block_1",
+    title: "Projects",
+    icon: <Building size={20} strokeWidth={1.5}/>,
+    hasHeader: true,
+    children: () => <ProjectHighlights events={corpoProjects}></ProjectHighlights>,
+    // gridClass: "md:col-span-4"
+  },
+
+  {
+    id: "main_block_2",
+    title: "",
+    icon: <ChartArea size={20} strokeWidth={1.5}/>,
+    hasHeader: false,
+    children: () => 
+      <GitHubHeatmap></GitHubHeatmap>,
+    // gridClass: "md:col-span-4"
+  },
   // {
   //   id: "block_6",
   //   title: "Feedback",
   //   icon: <MessageSquare size={20} strokeWidth={1.5}/>,
   //   children: () => <CommentLoader/>,
-  //   gridClass: ""
+  // //   gridClass: ""
   // },
 ]
