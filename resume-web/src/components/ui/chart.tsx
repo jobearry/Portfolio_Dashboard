@@ -2,14 +2,12 @@ import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import { useGithubStore } from "@/store/github-store";
 
-export const GitHubHeatmap = () => {
+export const GitHubHeatmap: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts>(null);
 
   const {
-    githubRepos,
     yearlyCommits,
-    loading,
     commitsLoading,
     currentYear,
     getRepos,
@@ -284,20 +282,20 @@ export const GitHubHeatmap = () => {
   };
 
   // Year navigation
-  const handlePrevYear = () => {
-    const prevYear = parseInt(currentYear) - 1;
-    getYearlyCommits(prevYear);
-  };
+  // const handlePrevYear = () => {
+  //   const prevYear = parseInt(currentYear) - 1;
+  //   getYearlyCommits(prevYear);
+  // };
 
-  const handleNextYear = () => {
-    const nextYear = parseInt(currentYear) + 1;
-    const currentYearNum = new Date().getFullYear();
+  // const handleNextYear = () => {
+  //   const nextYear = parseInt(currentYear) + 1;
+  //   const currentYearNum = new Date().getFullYear();
 
-    // Don't fetch future years
-    if (nextYear <= currentYearNum) {
-      getYearlyCommits(nextYear);
-    }
-  }
+  //   // Don't fetch future years
+  //   if (nextYear <= currentYearNum) {
+  //     getYearlyCommits(nextYear);
+  //   }
+  // }
 
   // const yearData = yearlyCommits[currentYear];
   // const activeDays = yearData
