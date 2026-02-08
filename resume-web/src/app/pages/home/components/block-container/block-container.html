@@ -1,0 +1,18 @@
+<div [class]="`border border-gray-700 rounded-sm bg-[#040810] m-2 ${class}`">
+  <div class="m-4 flex items-center gap-3">
+    @if(title){
+      <span class="font-bold text-lg text-start flex items-center gap-2">
+        <ng-content select="[slot=icon]"></ng-content> {{title}}
+      </span>
+      <div class="flex-1 border-t border-gray-500"></div>
+    }
+  </div>
+
+  <p class="text-start mx-5 my-4 text-sm">
+    {{description}}
+  </p>
+
+  <div>
+    <ng-content select="[slot=content]"></ng-content>
+  </div>
+</div>

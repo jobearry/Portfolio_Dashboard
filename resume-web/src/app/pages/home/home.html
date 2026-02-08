@@ -1,0 +1,15 @@
+<section class="grid md:grid-cols-6 scroll-smooth p-8">
+  <div class="w-full col-span-full md:col-span-2">
+    @for(block of sideblock; track $index){
+      <app-block [id]="block.id" [title]="block.title!" [class]="block.class!">
+        @if(block.icon){
+          <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
+        }
+        <ng-container slot="content" *ngComponentOutlet="block.content!"></ng-container>
+      </app-block>
+    }
+  </div>
+  <div>
+
+  </div>
+</section>
