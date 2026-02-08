@@ -5,7 +5,7 @@ import { TechStack } from "@/pages/home/components/TechStack";
 import { BookOpen, Building, ChartArea, CircleUser, IdCard, ToolCase } from "lucide-react";
 import { ProjectHighlights } from "@/pages/home/components/ProjectHighlights";
 import { Profile } from "../components/profile/Profile";
-import { Heatmap } from "@/components/ui/chart";
+import { GitHubHeatmap } from "@/components/ui/chart";
 
 export const TimelineEvents: TimelineEvent[] = [
   { 
@@ -38,7 +38,7 @@ export const SideBlockContent: BlockProps[] = [
     icon: <IdCard size={20} strokeWidth={1.5}/>,
     hasHeader: true,
     children: () => 
-      <div className="m-3 mb-5 text-justify text-sm">
+      <div className="m-3 mb-5 text-left text-sm">
         <p>
           I am a full-stack developer that focuses on developing web applications through Angular and .NET.
           Professionally, I primarily manage backend and minimal frontend work. 
@@ -84,7 +84,7 @@ export const BlockContent: BlockProps[] = [
     icon: <ChartArea size={20} strokeWidth={1.5}/>,
     hasHeader: false,
     children: () => 
-      <Heatmap></Heatmap>,
+      <GitHubHeatmap></GitHubHeatmap>,
     // gridClass: "md:col-span-4"
   },
   // {

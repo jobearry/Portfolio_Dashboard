@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/constants/project.constants"
+import type { Project } from "@/lib/types/project.type"
 import { ExternalLink } from "lucide-react"
 
 interface ProjectBlockProps {
@@ -23,7 +23,7 @@ export const ProjectBlock: React.FC<ProjectBlockProps> = ({content}) => {
                 </a>
               </h3>
               <p className="text-gray-400 text-xs">{event.duration}</p>
-              <p className="my-1 text-sm">{event.contirbution}</p>
+              <p className="my-1 text-sm">{event.contribution}</p>
               
             
             </article>

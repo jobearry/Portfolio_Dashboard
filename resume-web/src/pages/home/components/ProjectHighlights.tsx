@@ -1,4 +1,4 @@
-import { Project } from "@/lib/constants/project.constants";
+import type { Project } from "@/lib/types/project.type";
 import { useNavigate } from "react-router-dom";
 
 interface ProjectEvents {
@@ -20,7 +20,7 @@ export const ProjectHighlights: React.FC<ProjectEvents> = ({events}) => {
             <article className="h-full border border-gray-500 rounded-sm p-2">
               <h3 className="font-bold text-sm">{event.title}</h3>
               <p className="text-gray-400 text-xs">{event.duration}</p>
-              <p className="my-1 text-sm">{event.contirbution}</p>
+              <p className="my-1 text-sm">{event.contribution}</p>
             </article>
 
             
