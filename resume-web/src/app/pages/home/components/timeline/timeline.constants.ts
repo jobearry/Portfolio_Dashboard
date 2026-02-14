@@ -3,7 +3,7 @@ export type TimelineEvent = {
   date: string;
   description?: string;
 };
-export const TimelineEvents: TimelineEvent[] = [
+export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     title: 'SHI Design and Manufacturing Inc.',
     date: '2023',
