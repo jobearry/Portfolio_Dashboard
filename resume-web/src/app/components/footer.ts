@@ -7,14 +7,16 @@ import { environment } from '../../environments/environment';
   template: `
     <footer class="border-t-gray-500 border-t h-16 grid place-items-center text-sm">
       <span>
-        Jonathan Golimlim | {{ year }} |
-        <span class="text-red-600 font-bold">{{ env }}</span>
+        Jonathan Golimlim | {{ year }}
+        @if(env){
+          | <span class="text-red-600 font-bold">{{ env }}</span>
+        }
       </span>
     </footer>
   `,
   styles: ``,
 })
 export class Footer {
-  env = environment.title;
+  env: string = environment.title;
   year: number = new Date().getFullYear();
 }

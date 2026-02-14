@@ -4,8 +4,7 @@ const { title } = require('process');
 require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
 
 function writeEnv(filePath, obj) {
-  const content = `export const environment = ${JSON.stringify(obj, null, 2)};
-`;
+  const content = `export const environment = ${JSON.stringify(obj, null, 2)};`;
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, content, { encoding: 'utf8' });
   console.log('Wrote', filePath);
@@ -16,7 +15,7 @@ const githubToken = process.env.GITHUB_TOKEN || '';
 const prod = {
   production: true,
   githubToken: githubToken,
-  title: "PROD"
+  title: null
 };
 
 const dev = {
