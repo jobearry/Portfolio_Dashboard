@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './block-container.html',
 })
-export class Block {
+export class BlockComponent {
   @Input() class: string = '';
   @Input() title: string = '';
   @Input() description: string = '';

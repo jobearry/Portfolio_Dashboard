@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
       <button class="self-end cursor-pointer items-center justify-center rounded-sm border-[1.58px] 
           border-zinc-600 px-3 py-1 text-xs text-slate-200 shadow-md transition-all duration-300 
           hover:transform-[translateY(-.2rem)]"
-        (click)="gotoProjects()">
+        (click)="gotoProjects()" >
         View more
       </button>
     </section>

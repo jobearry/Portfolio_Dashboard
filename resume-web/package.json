@@ -4,10 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "npm run gen:env && ng serve --configuration=development",
     "build": "ng build --configuration=development",
     "build:prod": "ng build --configuration=production",
     "vercel-build": "ng build --configuration=development",
     "watch": "ng build --watch --configuration development",
+
+    "gen:env": "node scripts/genenv.js",
     "test": "ng test"
   },
   "prettier": {
@@ -40,6 +43,7 @@
     "@angular/cli": "^21.1.2",
     "@angular/compiler-cli": "^21.1.0",
     "@tailwindcss/postcss": "^4.1.12",
+    "dotenv": "^17.3.1",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.12",
