@@ -1,1 +1,22 @@
-<p>projects works!</p>
+<div class="m-6 text-start flex flex-col">
+  <button (click)="goHome()"
+    class="flex items-center gap-4 h-8 m-2 cursor-pointer w-fit
+      transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
+    <lucide-icon name="arrow-left"></lucide-icon>
+    Go back
+  </button>
+
+  <app-block [id]="'pj_block_1'" 
+      [title]="'Client Projects'" [class]="'border-0 bg-transparent'">
+      <!-- @if(block.icon){ -->
+        <lucide-icon slot="icon" [name]="'Blocks'"></lucide-icon>
+      <!-- } -->
+
+      <ng-container slot="content">
+        <app-highlights [data]="recents" class="w-[90%]" ></app-highlights>
+      </ng-container>
+
+  </app-block>
+    <!-- } -->
+
+</div>

@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
   selector: 'app-footer',
   imports: [],
   template: `
-    <footer class="border-t-gray-500 border-t h-16 grid place-items-center text-sm">
+    <footer class="h-16 grid place-items-center text-sm">
       <span>
         Jonathan Golimlim | {{ year }}
         @if(env){

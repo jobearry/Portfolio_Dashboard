@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const { title } = require('process');
-require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
+
+// Try to load .env if `dotenv` is available (may be missing in CI production installs)
+try {
+  // eslint-disable-next-line global-require
+  require('dotenv').config({ path: path.resolve(process.cwd(), '.env') });
+} catch (err) {
+  console.warn('[GEN:ENV] dotenv not available, skipping .env load');
+}
 
 function writeEnv(filePath, obj) {
   const content = `export const environment = ${JSON.stringify(obj, null, 2)};`;
@@ -15,7 +21,7 @@ const githubToken = process.env.GITHUB_TOKEN || '';
 const prod = {
   production: true,
   githubToken: githubToken,
-  title: null
+  title: ''
 };
 
 const dev = {
