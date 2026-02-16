@@ -1,8 +1,21 @@
-# 📂 Web-based Resume
+# 🗃️ Web Resume
+A web-based resume/portfolio created with Angular.
 
-This is a web based view of my latest resume using React, Typescript, Tailwind(ShadcnUI).
+**Quick facts** 
+- **Framework:** Angular (standalone components + NgRx)
+- **Angular version:** 21.x
+- **Styling:** Tailwind CSS
+- **Icons:** lucide-angular
+- **Deployment:** Vercel
 
-Have a look 👀  
-Cheers! 🍻🍻🍻  
+What the app does
+- ✅ Renders a resume/profile page showcasing my knowledge and experiences.
+- ✅ Downloadable CV
+- ✅ View public github repo (Github API)
+- ✅ State management (NgRx)
+- 🛠️ Display heatmap (similar to Github) of recent commits per month (or year) - **IN DEVELOPMENT**
 
-Inspired by sir [Bryl Lim's](https://github.com/bryllim?tab=overview&from=2025-12-01&to=2025-12-31) [Website](https://bryllim.com/)
+Planning to add more features to make it more interactive.
+
+---
+**The project was migrated from an earlier React implementation to Angular.**
