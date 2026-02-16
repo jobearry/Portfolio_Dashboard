@@ -4,6 +4,9 @@
       <span class="font-bold text-lg text-start flex items-center gap-2">
         <ng-content select="[slot=icon]"></ng-content> {{title}}
       </span>
+      @if(loading){
+        <app-spinner></app-spinner>
+      }
       <div class="flex-1 border-t border-gray-500"></div>
     }
   </div>

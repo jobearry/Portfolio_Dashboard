@@ -1,7 +1,7 @@
-<section class="grid md:grid-cols-6 scroll-smooth py-2">
+<section class="grid md:grid-cols-6 scroll-smooth p-4">
   <div class="w-full col-span-full md:col-span-2">
     @for(block of sideblock; track $index){
-    <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' border-0 border-b'">
+    <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' rounded-sm'">
       @if(block.icon){
       <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
       }
@@ -14,10 +14,10 @@
     </app-block>
     }
   </div>
-  @if(isDesktop){
+  <!-- @if(isDesktop){ -->
     <div class="w-full col-span-full md:col-span-4 ">
       @for(block of mainblock; track $index){
-      <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' rounded-sm'">
+      <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' border-0 border-b'">
         @if(block.icon){
         <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
         }
@@ -30,7 +30,7 @@
       </app-block>
       }
     </div>
-  }
+  <!-- } -->
   <div>
 
   </div>
