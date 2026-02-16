@@ -1,7 +1,7 @@
-# Web Resume
+# 🗃️ Web Resume
 A web-based resume/portfolio created with Angular.
 
-**Quick facts**
+**Quick facts** 
 - **Framework:** Angular (standalone components + NgRx)
 - **Angular version:** 21.x
 - **Styling:** Tailwind CSS
@@ -9,9 +9,11 @@ A web-based resume/portfolio created with Angular.
 - **Deployment:** Vercel
 
 What the app does
-- Renders a resume/profile page showcasing my knowledge and experiences.
-- Downloadable CV
-- Display heatmap (similar to Github) of recent commits per month (or year) - **IN DEVELOPMENT**
+- ✅ Renders a resume/profile page showcasing my knowledge and experiences.
+- ✅ Downloadable CV
+- ✅ View public github repo (Github API)
+- ✅ State management (NgRx)
+- 🛠️ Display heatmap (similar to Github) of recent commits per month (or year) - **IN DEVELOPMENT**
 
 Planning to add more features to make it more interactive.
 
