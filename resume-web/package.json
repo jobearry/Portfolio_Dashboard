@@ -7,12 +7,12 @@
     "start": "npm run gen:env && ng serve --configuration=development",
     "start:prod": "npm run gen:env && ng serve --configuration=production",
 
-    "build": "ng build --configuration=development",
-    "build:prod": "ng build --configuration=production",
+    "build": "npm run gen:env && ng build --configuration=development",
+    "build:prod": "npm run gen:env && ng build --configuration=production",
 
     "gen:env": "node scripts/genenv.js",
     "vercel-build": "npm run gen:env && npm run build:prod",
-    
+
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
