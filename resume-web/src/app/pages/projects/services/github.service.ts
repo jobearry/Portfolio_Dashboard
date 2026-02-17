@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({providedIn:'root'})
 export class GithubService {
@@ -10,7 +10,7 @@ export class GithubService {
     'Authorization': `Bearer ${environment.githubToken}`,
     'Accept': 'application/vnd.github.v3+json'
   });
-  private baseUrl = "https://api.github.com";
+  private baseUrl = environment.githubURL;
 
   constructor(private api: HttpClient){}
 

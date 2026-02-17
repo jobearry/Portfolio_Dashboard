@@ -17,22 +17,26 @@ function writeEnv(filePath, obj) {
 }
 
 const githubToken = process.env.GITHUB_TOKEN || '';
+const githubURL = process.env.GITHUB_BASE_URL || '';
 
 const prod = {
   production: true,
   githubToken: githubToken,
-  title: ''
+  githubURL: githubURL,
+  title: '',
 };
 
 const dev = {
   production: false,
   githubToken: githubToken,
+  githubURL: githubURL,
   title: "DEV"
 };
 
 const example = {
   production: false,
   githubToken: '',
+  githubURL: githubURL,
   title: "SAMPLE"
 };
 
