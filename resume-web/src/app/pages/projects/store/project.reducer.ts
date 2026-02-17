@@ -21,7 +21,6 @@ export const projectReducer = createReducer(
       clientProjects: PROJECT_HIGHLIGHT,
       loading: false
     }
-    console.log("🚀 ~ result:", result)
     return result;
   }),
 )

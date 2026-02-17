@@ -11,7 +11,7 @@
     "build:prod": "npm run gen:env && ng build --configuration=production",
 
     "gen:env": "node scripts/genenv.js",
-    "vercel-build": "npm run gen:env && npm run build:prod",
+    "vercel-build": "npm run build:prod",
 
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

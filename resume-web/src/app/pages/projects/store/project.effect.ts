@@ -18,7 +18,6 @@ export class ProjectEffects{
       switchMap((actions) => {
         return this.githubService.get<GithubRepo[]>("users/jobearry/repos").pipe(
           map(repos => {
-            console.log("🚀 ~ ProjectEffects ~ repos:", repos)
             return ProjectActions.viewGithubProjectsSuccess({repos})
           }),
           catchError(err => {
