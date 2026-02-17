@@ -3,16 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-
     "start": "npm run gen:env && ng serve --configuration=development",
     "start:prod": "npm run gen:env && ng serve --configuration=production",
-
     "build": "npm run gen:env && ng build --configuration=development",
     "build:prod": "npm run gen:env && ng build --configuration=production",
-
     "gen:env": "node scripts/genenv.js",
     "vercel-build": "npm run build:prod",
-
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -40,6 +36,7 @@
     "@ngrx/effects": "^21.0.1",
     "@ngrx/store": "^21.0.1",
     "@vercel/analytics": "^1.6.1",
+    "echarts": "^6.0.0",
     "lucide-angular": "^0.563.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

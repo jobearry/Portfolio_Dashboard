@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { ArrowLeft, Blocks, BookOpen, Building, ChartArea, CircleUser, ExternalLink, History, IdCard, LucideAngularModule, ToolCase } from 'lucide-angular'
+import { ArrowLeft, Blocks, BookOpen, Building, ChartArea, ChartScatter, CircleUser, Construction, ExternalLink, History, IdCard, LucideAngularModule, ToolCase } from 'lucide-angular'
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(ProjectEffects),
     importProvidersFrom(LucideAngularModule.pick({
         BookOpen, Building, ChartArea, CircleUser, IdCard, ToolCase, History,
-        Blocks, ArrowLeft, Github, ExternalLink
+        Blocks, ArrowLeft, Github, ExternalLink, ChartScatter, Construction
     })),
 ]
 };

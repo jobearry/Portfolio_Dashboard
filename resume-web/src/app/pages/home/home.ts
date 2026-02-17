@@ -3,12 +3,14 @@ import { MAIN_BLOCK_CONTENT, SIDE_BLOCK_CONTENT } from './constants/home.constan
 import { LucideAngularModule } from "lucide-angular";
 import { DynamicHostComponent } from "./components/host";
 import { BlockComponent } from './components/block-container/block-container';
+import { Heatmap } from "../../components/heatmap/heatmap";
 
 @Component({
   selector: 'app-home',
   imports: [
     BlockComponent, LucideAngularModule,
-    DynamicHostComponent
+    DynamicHostComponent,
+    Heatmap
 ],
   templateUrl: './home.html',
 })
