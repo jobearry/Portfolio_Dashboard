@@ -10,5 +10,17 @@
 		"templateUrl:\\s*[\"']([^\"']*)[\"']",
 		"styles:\\s*`([\\s\\S]*?)`"
 	],
-	"tailwindCSS.emmetCompletions": true
+	"tailwindCSS.emmetCompletions": true,
+	"emmet.includeLanguages": {
+		"javascript": "html",
+		"typescript": "html",
+		"javascriptreact": "html",
+		"typescriptreact": "html"
+	},
+	"editor.quickSuggestions": {
+		"other": true,
+		"comments": false,
+		"strings": true
+	},
+	"editor.colorDecorators": true
 }

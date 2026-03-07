@@ -14,7 +14,11 @@ import { Router } from '@angular/router';
   template: `
     <div class="m-2 p-2 grid">
       @if(!(loading$ | async)){
-        <p class="text-xs justify-self-end px-3">- {{monthLabel}} -</p>
+        <p class="text-xs justify-self-end italic px-3 py-2">
+          <span class="font-black">{{totalCommits}}</span>
+          commits on
+          <span class="font-black">{{monthLabel}}</span>
+        </p>
         <div class="grid gap-3">
           <div class="p-1 border rounded-md border-zinc-600">
             <app-chart [options]="option" [theme]="'dark'" [autoResize]="true" [height]="'100px'"></app-chart>
@@ -24,7 +28,7 @@ import { Router } from '@angular/router';
               border-zinc-600 px-3 py-1 text-xs text-slate-200 shadow-md transition-all duration-300
               hover:transform-[translateY(-.2rem)]"
               (click)="gotoProjects()">
-                View more
+                View Github projects
             </button>
           </div>
         </div>
@@ -43,10 +47,9 @@ export class Heatmap implements OnInit, AfterViewInit {
   monthLabel: string = ""
   selectedYear!: number;
   selectedMonthIndex!: number;
-
+  totalCommits: number = 0;
   loading$: Observable<boolean>
   constructor(
-    private cdr: ChangeDetectorRef,
     private store: Store<State>,
     private router: Router
   ){
@@ -60,7 +63,7 @@ export class Heatmap implements OnInit, AfterViewInit {
     this.selectedMonthIndex = prev.getMonth(); // 0-based
     const month = this.selectedMonthIndex + 1; // 1-based
     const monthStr = `${this.selectedYear}-${String(month).padStart(2, '0')}`;
-    this.monthLabel = monthStr;
+    this.monthLabel = prev.toLocaleString('en-US', { month: 'long' }) + " " + prev.getFullYear();
 
     // compute ISO range for selected (previous) month (UTC midnight boundaries)
     const startISO = new Date(Date.UTC(this.selectedYear, this.selectedMonthIndex, 1, 0, 0, 0)).toISOString();
@@ -79,8 +82,8 @@ export class Heatmap implements OnInit, AfterViewInit {
         type: 'continuous',
         show: false,
         inRange: {
-          // GitHub-like green scale
-          color: ['#c6e48b', '#7bc96f', '#239a3b']
+              // Extended GitHub-like green scale — darker variants to blend with dark background
+              color: ['#9fc55f', '#56a14a', '#2f8346', '#1f7a34', '#103e1b']
         }
       },
       calendar: {
@@ -90,7 +93,7 @@ export class Heatmap implements OnInit, AfterViewInit {
         cellSize: ['auto', 12],
         range: monthStr,
         itemStyle: {
-          borderWidth: 0.5,
+          borderWidth: 0.75,
         },
         yearLabel: { show: false },
         monthLabel: { show: false },
@@ -114,14 +117,32 @@ export class Heatmap implements OnInit, AfterViewInit {
     this.store.select(s => s.project.monthlyCommits).subscribe(commits => {
       if (!commits || !commits.length) return;
       const data = this.buildHeatmapData(commits, year, monthIndex);
+      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ data:", data)
+      // compute max commits to scale the color map so higher counts get darker shades
+      const maxCount = data.reduce((mx, entry) => {
+        const v = Array.isArray(entry) ? (entry[1] as number | null) : null;
+        return Math.max(mx, (v as number) || 0);
+      }, 0);
+      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ maxCount:", maxCount)
+      const visualMax = Math.max(1, maxCount);
       // immutably update option so chart input change is detected
       const existingSeries = Array.isArray(this.option?.series) ? this.option.series : [this.option?.series || {}];
+      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ existingSeries:", existingSeries)
+
+      // compute total commits for the month to display on the chart
+      const totalCount = data.reduce((sum, entry) => {
+        const v = Array.isArray(entry) ? (entry[1] as number | null) : null;
+        return sum + ((v as number) || 0);
+      }, 0);
+
+      this.totalCommits = totalCount
       this.option = {
         ...this.option,
+        visualMap: { ...(this.option?.visualMap || {}), min: 1, max: visualMax },
         series: [ { ...existingSeries[0], data } ]
       };
       // ensure change detection runs so child `app-chart` receives the new `options`
-      try { this.cdr.detectChanges(); } catch (e) { /* ignore */ }
+      // try { this.cdr.detectChanges(); } catch (e) { /* ignore */ }
     });
 
   }
