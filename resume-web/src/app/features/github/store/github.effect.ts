@@ -19,10 +19,10 @@ export class ProjectEffects{
     this.actions$.pipe(
       ofType(GithubAPIActions.viewGithubProjects),
       switchMap((actions) => {
-        return this.githubService.get<GithubRepo[]>("users/jobearry/repos").pipe(
+        return this.githubService.get<GithubRepo[]>("user/repos").pipe(
           map(repos => {
-            console.log("🚀 ~ ProjectEffects ~ repos:", repos)
-            return GithubAPIActions.viewGithubProjectsSuccess({repos})
+            const publicRepos = repos.filter(x => x.private !== true)
+            return GithubAPIActions.viewGithubProjectsSuccess({repos: publicRepos})
           }),
           catchError(err => {
             return of(GithubAPIActions.viewGithubProjectsFail())
@@ -57,7 +57,7 @@ export class ProjectEffects{
 
             // If no repos in state, fetch the user's repos first, then aggregate commits
             if (!project.githubRepos || !project.githubRepos.length) {
-              return this.githubService.get<GithubRepo[]>("users/jobearry/repos").pipe(
+              return this.githubService.get<GithubRepo[]>("user/repos").pipe(
                 switchMap((repos) => {
                   // Optionally you could dispatch viewGithubProjectsSuccess here, but we proceed directly
                   return aggregateCommitsFor(repos);

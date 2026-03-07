@@ -114,7 +114,6 @@ export class Heatmap implements OnInit, AfterViewInit {
     this.store.select(s => s.project.monthlyCommits).subscribe(commits => {
       if (!commits || !commits.length) return;
       const data = this.buildHeatmapData(commits, year, monthIndex);
-      console.log("🚀 ~ Heatmap ~ ngOnInit ~ data:", data)
       // immutably update option so chart input change is detected
       const existingSeries = Array.isArray(this.option?.series) ? this.option.series : [this.option?.series || {}];
       this.option = {

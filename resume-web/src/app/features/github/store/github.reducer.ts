@@ -8,7 +8,7 @@ export const projectReducer = createReducer(
   on(GithubAPIActions.viewGithubProjects, (state) => {
     const result: GithubProjectState = {
       ...state,
-      githubRepos: [],
+      githubRepoPublic: [],
       loading: true
     }
     return result;
@@ -16,7 +16,7 @@ export const projectReducer = createReducer(
   on(GithubAPIActions.viewGithubProjectsSuccess, (state, {repos}) => {
     const result: GithubProjectState = {
       ...state,
-      githubRepos: repos,
+      githubRepoPublic: repos,
       loading: false
     }
     return result;
@@ -31,7 +31,6 @@ export const projectReducer = createReducer(
     return result;
   }),
   on(GithubAPIActions.viewGithubCommitsSuccess, (state, {commits}) => {
-    console.log("🚀 ~ commits:", commits)
     const result: GithubProjectState = {
       ...state,
       monthlyCommits: commits,
