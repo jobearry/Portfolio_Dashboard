@@ -18,25 +18,14 @@ import { Router } from '@angular/router';
           </li>
         }
       </ul>
-      @if(hasBtn){
-        <button class="self-end cursor-pointer items-center justify-center rounded-sm border-[1.58px] 
-            border-zinc-600 px-3 py-1 text-xs text-slate-200 shadow-md transition-all duration-300 
-            hover:transform-[translateY(-.2rem)]"
-          (click)="gotoProjects()">
-          View more
-        </button>
-      }
     </section>
   `,
   styles: ``,
 })
 export class Highlights {
   @Input() data: Project[] = [];
-  @Input() hasBtn: boolean = false;
-  
+
   constructor(private router: Router){}
 
-  gotoProjects(){
-    this.router.navigate(['/projects'])
-  }
+
 }

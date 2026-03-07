@@ -1,10 +1,10 @@
 import { ActionReducerMap, MetaReducer } from "@ngrx/store";
-import { ProjectState } from "../pages/projects/store/project.state";
-import { projectReducer } from "../pages/projects/store/project.reducer";
+import { GithubProjectState } from "../features/github/store/github.state";
+import { projectReducer } from "../features/github/store/github.reducer";
 import { isDevMode } from "@angular/core";
 
 export interface State {
-  project: ProjectState
+  project: GithubProjectState
 }
 
 export const reducers: ActionReducerMap<State> = {

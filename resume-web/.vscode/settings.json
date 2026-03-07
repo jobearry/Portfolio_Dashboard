@@ -1,0 +1,14 @@
+{
+	"tailwindCSS.includeLanguages": {
+		"typescript": "html",
+		"typescriptreact": "html"
+	},
+	"tailwindCSS.experimental.classRegex": [
+		"template:\\s*`([\\s\\S]*?)`",
+		"template:\\s*'([^']*)'",
+		"template:\\s*\"([^\"]*)\"",
+		"templateUrl:\\s*[\"']([^\"']*)[\"']",
+		"styles:\\s*`([\\s\\S]*?)`"
+	],
+	"tailwindCSS.emmetCompletions": true
+}

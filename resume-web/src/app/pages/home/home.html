@@ -14,35 +14,29 @@
       </app-block>
     }
   </div>
-    <div class="w-full col-span-full md:col-span-4 ">
-      @for(block of mainblock; track $index){
-        <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' border-0 border-b'">
-          @if(block.icon){
-          <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
-          }
-    
-          <ng-container slot="content">
-            <app-host [component]="block.content!" [inputs]="block.inputs">
-            </app-host>
-          </ng-container>
-    
-        </app-block>
-      }
-      <div>
-        <app-block [id]="'heatmap_block'" [title]="'Github Heatmap'" [class]="'md:col-span-2 bg-transparent' + ' border-0 border-b'">
-          <!-- @if(){ -->
-            <lucide-icon slot="icon" [name]="'ChartScatter'"></lucide-icon>
-          <!-- } -->
-    
-          <ng-container slot="content">
-            <!-- <app-heatmap class="w-full"></app-heatmap> -->
-            <div class="w-full grid place-items-center p-5 my-2">
-              <lucide-icon name="construction" size="50"></lucide-icon>
-              <h1>...working on it...</h1>
-            </div>
-          </ng-container>
-    
-        </app-block>
-      </div>
-    </div>
+  <div class="w-full col-span-full md:col-span-4">
+    @for(block of mainblock; track $index){
+      <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' border-0 border-b'">
+        @if(block.icon){
+        <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
+        }
+
+        <ng-container slot="content">
+          <app-host [component]="block.content!" [inputs]="block.inputs">
+          </app-host>
+        </ng-container>
+
+      </app-block>
+    }
+    <app-block [id]="'heatmap_block'" [title]="'Github Heatmap'" [class]="' bg-transparent' + ' border-0 border-b'">
+      <!-- @if(){ -->
+        <lucide-icon slot="icon" [name]="'ChartScatter'"></lucide-icon>
+      <!-- } -->
+
+      <ng-container slot="content">
+        <app-heatmap></app-heatmap>
+      </ng-container>
+
+    </app-block>
+  </div>
 </section>

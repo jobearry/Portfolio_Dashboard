@@ -3,26 +3,30 @@ import { Highlights } from "./components/highlights";
 import { LucideAngularModule } from "lucide-angular";
 import { BlockComponent } from "../home/components/block-container/block-container";
 import { Router } from '@angular/router';
-import { GithubService } from './services/github.service';
+import { GithubService } from '../../features/github/store/github.service';
 import { Observable } from 'rxjs';
-import { ProjectState } from './store/project.state';
 import { Store } from '@ngrx/store';
 import { State } from '../../shared/store.provider';
-import { ProjectActions } from './store/project.action';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../components/card';
+import { PROJECT_HIGHLIGHT } from './constants/project.constant';
+import { Project } from './types/project.type';
+import { GithubProjectState } from '../../features/github/store/github.state';
+import { GithubAPIActions } from '../../features/github/store/github.action';
+import { Github } from "../../features/github/github";
 
 @Component({
   selector: 'app-projects',
   imports: [
     Highlights, LucideAngularModule, BlockComponent, CommonModule,
-    Card
-  ],
+    Github,
+],
   templateUrl: './projects.html',
   styles: ``,
 })
 export class Projects implements OnInit {
-  projectState$!: Observable<ProjectState>
+  corpoProjects: Project[] = PROJECT_HIGHLIGHT
+  projectState$!: Observable<GithubProjectState>
   constructor(
     private router: Router,
     private store: Store<State>
@@ -31,7 +35,7 @@ export class Projects implements OnInit {
   }
 
   ngOnInit(): void {
-   this.store.dispatch(ProjectActions.viewGithubProjects());
+   this.store.dispatch(GithubAPIActions.viewGithubProjects());
   }
 
   goHome(){

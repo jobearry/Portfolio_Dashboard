@@ -12,35 +12,14 @@
       <!-- @if(block.icon){ -->
         <lucide-icon slot="icon" [name]="'Blocks'"></lucide-icon>
       <!-- } -->
-    
+
         <ng-container slot="content">
-          <app-highlights [data]="projectState.clientProjects" class="w-[90%]" ></app-highlights>
+          <app-highlights [data]="projectState.loading? []:corpoProjects" class="w-[90%]" ></app-highlights>
         </ng-container>
-        
-    </app-block>
-    <app-block [id]="'pj_block_2'" [loading]="projectState.loading"
-      [title]="'Github Repos'" [class]="'border-0 bg-transparent'">
-      <!-- @if(block.icon){ -->
-        <lucide-icon slot="icon" [name]="'Github'"></lucide-icon>
-      <!-- } -->
-    
-        <ng-container slot="content">
-          <section class="m-6 text-start flex flex-col gap-2">
-            <ul class="grid md:grid-cols-2 gap-2">
-              @for(repo of projectState.githubRepos; track $index){
-                <li class="cursor-pointer transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
-                  <a [href]="repo.html_url" target="_blank">
-                    <app-card [title]="repo.name" [subtitle]="repo.full_name" [description]="repo.description"></app-card>
-                  </a>
-                </li>
-              }
-            </ul>
-          </section>
-          <!-- <app-highlights [data]="projectState.githubRepos" class="w-[90%]" ></app-highlights> -->
-        </ng-container>
-        
+
     </app-block>
 
+    <app-github [loading]="projectState.loading" [data]="projectState.githubRepos"></app-github>
   }
 
 </div>

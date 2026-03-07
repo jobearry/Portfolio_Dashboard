@@ -6,7 +6,7 @@ import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { metaReducers, reducers } from './shared/store.provider';
-import { ProjectEffects } from './pages/projects/store/project.effect';
+import { ProjectEffects } from './features/github/store/github.effect';
 import { Github } from 'lucide-angular/src/icons';
 
 export const appConfig: ApplicationConfig = {

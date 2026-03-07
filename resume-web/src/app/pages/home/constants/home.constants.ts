@@ -38,6 +38,6 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
     class: 'md:col-span-2 bg-transparent',
     icon: 'Blocks',
     content: Highlights,
-    inputs: { data: PROJECT_HIGHLIGHT, hasBtn: true },
+    inputs: { data: PROJECT_HIGHLIGHT },
   },
 ];
