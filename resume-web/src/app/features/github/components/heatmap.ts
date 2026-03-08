@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
               border-zinc-600 px-3 py-1 text-xs text-slate-200 shadow-md transition-all duration-300
               hover:transform-[translateY(-.2rem)]"
               (click)="gotoProjects()">
-                View Github projects
+                View projects
             </button>
           </div>
         </div>
@@ -83,7 +83,7 @@ export class Heatmap implements OnInit, AfterViewInit {
         show: false,
         inRange: {
               // Extended GitHub-like green scale — darker variants to blend with dark background
-              color: ['#9fc55f', '#56a14a', '#2f8346', '#1f7a34', '#103e1b']
+              color: ['#1E0800', '#3D1000', '#CA3500', '#DA724C', '#E59A80', '#EFC2B3']
         }
       },
       calendar: {
