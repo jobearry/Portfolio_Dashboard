@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
       <br />
       <p>
         On my free time, I enjoy learning new things, and try new technologies. Right now, I am
-        learning Cloud development using Azure, and doing some LeetCode exercises.
+        learning Cloud development using Azure.
       </p>
     </div>
   `,

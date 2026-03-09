@@ -3,10 +3,10 @@ import { Project } from "../types/project.type";
 export const PROJECT_HIGHLIGHT: Project[] = [
   {
     id: 1,
-    title: 'AWS S3 Microservice API',
+    title: 'AWS S3 Integration API',
     duration: '',
     contribution: [
-      `Provide an alternative to the current flow of file management request tasks. 
+      `Provide an alternative to the current flow of file management request tasks.
        Enabled storage cost mitigation.`
     ],
     tags: ['CSharp', 'Swagger'],
@@ -14,7 +14,7 @@ export const PROJECT_HIGHLIGHT: Project[] = [
   },
 
   {
-    id: 3,
+    id: 2,
     title: 'Project Request Management',
     duration: "",
     contribution: [
@@ -23,9 +23,9 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
     link: ''
   },
-  
+
   {
-    id: 4,
+    id: 3,
     title: 'BOM Management',
     duration: '',
     contribution: [
