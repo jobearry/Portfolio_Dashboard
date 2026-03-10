@@ -6,6 +6,7 @@ import { TIMELINE_EVENTS } from '../components/timeline/timeline.constants';
 import { Highlights } from '../../projects/components/highlights';
 import { PROJECT_HIGHLIGHT } from '../../projects/constants/project.constant';
 import { BlockContent } from '../types/block.type';
+import { Heatmap } from '../../../features/github/components/heatmap';
 
 export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
   {
@@ -39,5 +40,12 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
     icon: 'Blocks',
     content: Highlights,
     inputs: { data: PROJECT_HIGHLIGHT },
+  },
+  {
+    id: 'main_block_2',
+    title: 'Github Heatmap',
+    class: 'md:col-span-2 bg-transparent',
+    icon: 'ChartScatter',
+    content: Heatmap,
   },
 ];

@@ -28,15 +28,12 @@
 
       </app-block>
     }
-    <app-block [id]="'heatmap_block'" [title]="'Github Heatmap'" [class]="' bg-transparent' + ' border-0 border-b'">
-      <!-- @if(){ -->
-        <lucide-icon slot="icon" [name]="'ChartScatter'"></lucide-icon>
-      <!-- } -->
+    <app-block [id]="'heatmap_block'" [title]="'TechStack'" [class]="' bg-transparent' + ' border-0 border-b'">
+      <lucide-icon slot="icon" [name]="'Toolbox'"></lucide-icon>
 
       <ng-container slot="content">
-        <app-heatmap></app-heatmap>
+        <app-maintenance></app-maintenance>
       </ng-container>
-
     </app-block>
   </div>
 </section>

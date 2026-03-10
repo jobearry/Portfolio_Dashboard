@@ -10,13 +10,14 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Spinner } from "../../components/spinner";
 import { GithubAPIActions } from '../../features/github/store/github.action';
+import { Maintenance } from "../../components/maintenance";
 
 @Component({
   selector: 'app-home',
   imports: [
     BlockComponent, LucideAngularModule, CommonModule,
     DynamicHostComponent,
-    Heatmap,
+    Maintenance
 ],
   templateUrl: './home.html',
 })
