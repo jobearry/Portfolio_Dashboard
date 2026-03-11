@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { BlockComponent } from "../../pages/home/components/block-container/block-container";
+import { BlockComponent } from "../../../pages/home/components/block-container/block-container";
 import { LucideAngularModule } from "lucide-angular";
-import { Card } from "../../components/card";
-import { GithubRepo } from './types/github.type';
+import { GithubRepo } from '../types/github.type';
+import { Card } from '../../../components/card';
 
 @Component({
   selector: 'app-github',

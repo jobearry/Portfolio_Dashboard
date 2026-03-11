@@ -13,7 +13,7 @@ import { PROJECT_HIGHLIGHT } from './constants/project.constant';
 import { Project } from './types/project.type';
 import { GithubProjectState } from '../../features/github/store/github.state';
 import { GithubAPIActions } from '../../features/github/store/github.action';
-import { Github } from "../../features/github/github";
+import { Github } from "../../features/github/ui/github";
 
 @Component({
   selector: 'app-projects',

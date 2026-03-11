@@ -11,34 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-heatmap',
   imports: [Chart, Spinner, CommonModule],
-  template: `
-    <div class="m-2 p-2 grid">
-      @if(!(loading$ | async)){
-        <p class="text-xs justify-self-end italic px-3 py-2">
-          <span class="font-black">{{totalCommits}}</span>
-          commits on
-          <span class="font-black">{{monthLabel}}</span>
-        </p>
-        <div class="grid gap-3">
-          <div class="p-1 border rounded-md border-zinc-600">
-            <app-chart [options]="option" [theme]="'dark'" [autoResize]="true" [height]="'100px'"></app-chart>
-          </div>
-          <div class="flex justify-end">
-            <button class="w-fit cursor-pointer items-center justify-center rounded-sm border-[1.58px]
-              border-zinc-600 px-3 py-1 text-xs text-slate-200 shadow-md transition-all duration-300
-              hover:transform-[translateY(-.2rem)]"
-              (click)="gotoProjects()">
-                View projects
-            </button>
-          </div>
-        </div>
-      }@else {
-        <div class="flex justify-center">
-          <app-spinner></app-spinner>
-        </div>
-      }
-    </div>
-  `,
+  templateUrl: `./heatmap.html`,
   styles: ``,
 })
 export class Heatmap implements OnInit, AfterViewInit {
