@@ -36,7 +36,7 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
   {
     id: 'main_block_1',
     title: 'Recent Rrojects',
-    class: 'md:col-span-2 bg-transparent',
+    class: 'md:col-span-2 md:bg-transparent',
     icon: 'Blocks',
     content: Highlights,
     inputs: { data: PROJECT_HIGHLIGHT },
@@ -44,7 +44,7 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
   {
     id: 'main_block_2',
     title: 'Github Heatmap',
-    class: 'md:col-span-2 bg-transparent',
+    class: 'md:col-span-2 md:bg-transparent',
     icon: 'ChartScatter',
     content: Heatmap,
   },
