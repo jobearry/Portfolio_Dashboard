@@ -13,17 +13,10 @@
         <span>Quezon City, Philippines</span>
       </p>
 
-      <p class='text-lg md:text-base font-bold p-3'>Software Developer</p>
+      <p class='text-lg md:text-xl font-bold py-3'>Software Developer</p>
     </div>
     <address class='not-italic'>
       <ul class="flex justify-center md:justify-start gap-4">
-        <li>
-          <app-marquee class="hidden md:block">
-            <ng-template>
-              <app-tech-stack></app-tech-stack>
-            </ng-template>
-          </app-marquee>
-        </li>
         <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
           <a href="https://github.com/jobearry" target="_blank" class="flex gap-1 justify-center">
             <lucide-angular name="github" size="15"></lucide-angular>
@@ -37,10 +30,11 @@
             <span class="text-sm md:text-xs">VIEW CV</span>
           </a>
         </li>
+        <li>
+          <app-tech-stack class="md:block hidden"></app-tech-stack>
+        </li>
       </ul>
-      <app-marquee class="block md:hidden mt-3">
-        <ng-template> <app-tech-stack></app-tech-stack> </ng-template>
-      </app-marquee>
+      <app-tech-stack class="block md:hidden "></app-tech-stack>
     </address>
   </div>
 </section>

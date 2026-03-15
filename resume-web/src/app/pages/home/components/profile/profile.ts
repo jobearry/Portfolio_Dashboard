@@ -6,7 +6,7 @@ import { TechStack } from "../tech-stack/tech-stack";
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, Marquee, TechStack],
+  imports: [LucideAngularModule, TechStack],
   templateUrl: './profile.html',
   styles: ``,
 })
