@@ -9,12 +9,12 @@ import { BlockContent } from '../types/block.type';
 import { Heatmap } from '../../../features/github/components/heatmap';
 
 export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
-  {
-    id: 'side_block_1',
-    class: 'md:col-span-2',
-    icon: '',
-    content: Profile,
-  },
+  // {
+  //   id: 'side_block_1',
+  //   class: 'md:col-span-2',
+  //   icon: '',
+  //   content: Profile,
+  // },
   {
     id: 'side_block_2',
     title: 'About',

@@ -1,37 +1,49 @@
-<section class="grid md:grid-cols-6 scroll-smooth p-4">
-  <div class="w-full col-span-full md:col-span-2">
-    @for(block of sideblock; track $index){
+<section class="grid p-4">
+  <app-profile></app-profile>
+
+  <div class="grid grid-cols-6">
+    <!--side block-->
+    <div class="w-full col-span-full md:col-span-2">
+      @for(block of sideblock; track $index){
       <app-block [id]="block.id" [title]="block.title!" [class]="block.class! + ' rounded-sm'">
         @if(block.icon){
-          <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
+        <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
         }
 
         <ng-container slot="content">
-          <app-host [component]="block.content!" [inputs]="block.inputs">
-          </app-host>
+          <app-host [component]="block.content!" [inputs]="block.inputs"> </app-host>
         </ng-container>
       </app-block>
-    }
-  </div>
-  <div class="w-full col-span-full md:col-span-4">
-    @for(block of mainblock; track $index){
-      <app-block [id]="block.id" [title]="block.title!" [class]="`${block.class} rounded-sm md:rounded-none md:border-0 md:border-b`">
+      }
+    </div>
+    <!--main block-->
+    <div class="w-full col-span-full md:col-span-4">
+      @for(block of mainblock; track $index){
+      <app-block
+        [id]="block.id"
+        [title]="block.title!"
+        [class]="`${block.class} rounded-sm md:rounded-none md:border-0 md:border-b`"
+      >
         @if(block.icon){
-          <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
+        <lucide-icon slot="icon" [name]="block.icon"></lucide-icon>
         }
 
         <ng-container slot="content">
-          <app-host [component]="block.content!" [inputs]="block.inputs">
-          </app-host>
+          <app-host [component]="block.content!" [inputs]="block.inputs"> </app-host>
         </ng-container>
       </app-block>
-    }
-    <app-block [id]="'heatmap_block'" [title]="'TechStack'" [class]="`rounded-sm md:rounded-none md:border-0 md:border-b md:bg-transparent`">
-      <lucide-icon slot="icon" [name]="'Toolbox'"></lucide-icon>
+      }
+      <app-block
+        [id]="'heatmap_block'"
+        [title]="'TechStack'"
+        [class]="`rounded-sm md:rounded-none md:border-0 md:border-b md:bg-transparent`"
+      >
+        <lucide-icon slot="icon" [name]="'Toolbox'"></lucide-icon>
 
-      <ng-container slot="content">
-        <app-maintenance></app-maintenance>
-      </ng-container>
-    </app-block>
+        <ng-container slot="content">
+          <app-maintenance></app-maintenance>
+        </ng-container>
+      </app-block>
+    </div>
   </div>
 </section>

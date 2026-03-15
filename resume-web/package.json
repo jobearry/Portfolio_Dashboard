@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run gen:env && ng serve --configuration=development",
+    "start": "ng serve --configuration=development",
     "start:prod": "npm run gen:env && ng serve --configuration=production",
     "build": "npm run gen:env && ng build --configuration=development",
     "build:prod": "npm run gen:env && ng build --configuration=production",
