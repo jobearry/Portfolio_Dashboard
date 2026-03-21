@@ -22,5 +22,5 @@ export const appConfig: ApplicationConfig = {
         Blocks, ArrowLeft, Github, ExternalLink, ChartScatter, Construction,
         Toolbox, FileDown, MapPin
     })),
-]
+  ]
 };

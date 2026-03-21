@@ -6,8 +6,7 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     title: 'AWS S3 Integration API',
     duration: '',
     contribution: [
-      `Provide an alternative to the current flow of file management request tasks.
-       Enabled storage cost mitigation.`
+      `Integrated S3 into backend applications as an alternative to the current flow of file management request tasks.`
     ],
     tags: ['CSharp', 'Swagger'],
     link: ''
@@ -18,20 +17,21 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     title: 'Project Request Management',
     duration: "",
     contribution: [
-      "Client's one-stop-shop in handling project requests, along with upload and download features.",
+      `Kickstarted the integration of AWS S3 to mitigate storage costs. Implemented Admin, User, and Read-only roles`,
     ],
     tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
     link: ''
   },
 
-  {
-    id: 3,
-    title: 'BOM Management',
-    duration: '',
-    contribution: [
-      `Display bill of materials data across a number of tables with CRUD functionality.`
-    ],
-    tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
-    link: ''
-  },
+  // {
+  //   id: 3,
+  //   title: 'BOM Management',
+  //   duration: '',
+  //   contribution: [
+  //     `Responsible for ensuring data consistency across a number of table
+  //     structure, and provided a simple security approach through JWT implementation`
+  //   ],
+  //   tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
+  //   link: ''
+  // },
 ]

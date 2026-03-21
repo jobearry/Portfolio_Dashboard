@@ -16,7 +16,6 @@ import { Marquee } from "../../components/marquee/marquee";
     LucideAngularModule,
     CommonModule,
     DynamicHostComponent,
-    Maintenance,
   ],
   templateUrl: './home.html',
 })
