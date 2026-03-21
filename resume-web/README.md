@@ -13,9 +13,12 @@ What the app does
 - ✅ Downloadable CV
 - ✅ View public github repo (Github API)
 - ✅ State management (NgRx)
-- 🛠️ Display heatmap (similar to Github) of recent commits per month (or year) - **IN DEVELOPMENT**
+- ✅ Display heatmap (ECharts) of recent commits per month (currently shows previous month)
 
-Planning to add more features to make it more interactive.
+Plan to implement
+- 🛠️ Interactive terminal that visitors can interact with to know more about me.
+- 🛠️ Add Fullstack features like connect with my [Portfolio API](https://github.com/jobearry/Portfolio_API).
+- 🛠️ Download site as PDF.
 
 ---
 **The project was migrated from an earlier React implementation to Angular.**
