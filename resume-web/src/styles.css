@@ -8,8 +8,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #000000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -119,4 +117,82 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Lightweight explicit light theme for toggling */
+[data-theme="light"] {
+  color: #111827; /* dark text */
+  background-color: #ffffff;
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(0.985 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(0.985 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+}
+
+/* Typography that follows the theme tokens */
+:root {
+  --type-color: var(--color-foreground);
+  --type-muted: var(--color-muted-foreground);
+  --type-link: var(--color-primary);
+  --type-link-foreground: var(--color-primary-foreground);
+}
+
+html, body {
+  background: var(--color-background);
+  color: var(--type-color);
+}
+
+/* Ensure the root html element's computed color/background follow tokens */
+html {
+  color: var(--type-color);
+  background-color: var(--color-background);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use the main foreground but can be tuned separately if needed */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--type-color);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p, li, span, input, textarea, button {
+  color: var(--type-color);
+}
+
+small, .muted, .muted-text {
+  color: var(--type-muted);
+}
+
+a {
+  color: var(--type-link);
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: var(--type-link-foreground);
+  text-decoration: underline;
+}
+
+/* Utility for theme-aware subtle text */
+.text-muted {
+  color: var(--type-muted) !important;
 }

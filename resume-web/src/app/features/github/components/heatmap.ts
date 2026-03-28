@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from "../../../components/chart";
 import { Store } from '@ngrx/store';
 import { State } from '../../../shared/store.provider';
@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
   styles: ``,
 })
 export class Heatmap implements OnInit, AfterViewInit {
+  chartTheme?: string;
+  private themeObserver?: MutationObserver;
   @Input() data: any[] = []
   option: any;
   monthLabel: string = ""
@@ -24,11 +26,24 @@ export class Heatmap implements OnInit, AfterViewInit {
   loading$: Observable<boolean>
   constructor(
     private store: Store<State>,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ){
     this.loading$ = this.store.select(state => state.project.loading)
   }
   ngOnInit(): void {
+    this.chartTheme = this.readDocumentTheme();
+    try {
+      this.themeObserver = new MutationObserver(() => {
+        const t = this.readDocumentTheme();
+        if (t !== this.chartTheme) {
+          this.chartTheme = t;
+          try { this.cdr.detectChanges(); } catch (e) {}
+        }
+      });
+      this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+    } catch (e) {}
+
     const now = new Date();
     // use previous month
     const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
@@ -120,6 +135,10 @@ export class Heatmap implements OnInit, AfterViewInit {
 
   }
 
+  ngOnDestroy(): void {
+    try { this.themeObserver?.disconnect(); } catch (e) {}
+  }
+
   gotoProjects(){
     this.router.navigate(['/projects'])
   }
@@ -174,5 +193,14 @@ export class Heatmap implements OnInit, AfterViewInit {
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${day}`;
+  }
+
+  private readDocumentTheme(): string | undefined {
+    try {
+      const el = document.documentElement;
+      const ds = (el as any).dataset?.theme;
+      if (ds) return String(ds).trim();
+      return el.classList.contains('dark') ? 'dark' : 'light';
+    } catch (e) { return undefined; }
   }
 }
