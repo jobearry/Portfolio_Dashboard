@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <!-- From Uiverse.io by Fresnel11 -->
-    <div
-      class="w-5 h-5 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin">
-    </div>
+    <div class="w-5 h-5 rounded-full animate-spin" style="border:4px solid var(--border); border-top-color:var(--ring)"></div>
   `,
   styles: ``,
 })

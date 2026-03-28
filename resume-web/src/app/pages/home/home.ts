@@ -4,9 +4,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { DynamicHostComponent } from './components/host';
 import { BlockComponent } from './components/block-container/block-container';
 import { CommonModule } from '@angular/common';
-import { Maintenance } from '../../components/maintenance';
 import { Profile } from './components/profile/profile';
-import { Marquee } from "../../components/marquee/marquee";
 
 @Component({
   selector: 'app-home',
@@ -16,7 +14,7 @@ import { Marquee } from "../../components/marquee/marquee";
     LucideAngularModule,
     CommonModule,
     DynamicHostComponent,
-  ],
+],
   templateUrl: './home.html',
 })
 export class Home implements OnInit {

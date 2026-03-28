@@ -1,40 +1,44 @@
-<section class='p-6 sm:p-8 flex flex-col md:flex-row md:justify-start gap-4 items-center md:items-start' aria-labelledby='profile-heading'>
+<article class='p-6 sm:p-8 flex flex-col md:flex-row md:justify-start gap-4 items-center md:items-start' aria-labelledby='profile-heading'>
   <figure class='m-2 shrink-0'>
-    <img class='rounded-full m-auto border border-gray-500 w-28 sm:w-32 md:w-40' src="/profile_dark.png" alt='Jonathan Golimlim profile photo' />
+    <img class='rounded-full m-auto w-28 sm:w-32 md:w-40' src="/profile_dark.png" alt='Photo of Jonathan Golimlim' style="border:2px solid var(--border)" />
     <figcaption class='sr-only'>Photo of Jonathan Golimlim</figcaption>
   </figure>
 
   <div class="flex flex-col justify-evenly items-center md:items-start text-center md:text-left">
-    <div class='flex flex-col justify-center'>
+    <header class='flex flex-col justify-center'>
       <h2 id='profile-heading' class='text-3xl md:text-[1.7rem] font-bold'>Jonathan Golimlim</h2>
 
       <p class='flex items-center text-base gap-2 justify-center md:justify-start'>
-        <lucide-angular name="map-pin" size="15"></lucide-angular>
+        <lucide-angular name="map-pin" size="15" aria-hidden="true"></lucide-angular>
         <span>Quezon City, Philippines</span>
       </p>
 
-      <p class='text-lg md:text-xl font-bold py-3'>Software Developer</p>
-    </div>
-    <address class='not-italic'>
-      <ul class="flex justify-center md:justify-start gap-4">
-        <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
-          <a href="https://github.com/jobearry" target="_blank" class="flex gap-1 justify-center">
-            <lucide-angular name="github" size="15"></lucide-angular>
-            <span class="text-sm md:text-xs">VIEW GITHUB</span>
-          </a>
-        </li>
-        <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
-          <a href="https://drive.google.com/uc?export=download&id=1sFtQ9a3WqsnCewFJVvEzLVKMTRiOGkwl"
-            class="flex gap-1 justify-center">
-            <lucide-angular name="file-down" size="15"></lucide-angular>
-            <span class="text-sm md:text-xs">VIEW CV</span>
-          </a>
-        </li>
-        <li>
-          <app-tech-stack class="md:block hidden"></app-tech-stack>
-        </li>
-      </ul>
-      <app-tech-stack class="block md:hidden "></app-tech-stack>
-    </address>
+      <p class='text-lg md:text-xl font-bold py-3'>Fullstack Developer</p>
+    </header>
+
+    <aside aria-label="Profile actions">
+      <address class='not-italic'>
+        <nav aria-label="Social and resume links">
+          <ul class="flex justify-center md:justify-start gap-4">
+            <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
+              <a href="https://github.com/jobearry" target="_blank" rel="noopener noreferrer" class="flex gap-1 justify-center" aria-label="View GitHub profile">
+                <lucide-angular name="github" size="15" aria-hidden="true"></lucide-angular>
+                <span class="text-sm md:text-xs">VIEW GITHUB</span>
+              </a>
+            </li>
+            <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
+              <a href="https://drive.google.com/uc?export=download&id=1sFtQ9a3WqsnCewFJVvEzLVKMTRiOGkwl" target="_blank" rel="noopener noreferrer" class="flex gap-1 justify-center" aria-label="Download CV">
+                <lucide-angular name="file-down" size="15" aria-hidden="true"></lucide-angular>
+                <span class="text-sm md:text-xs">VIEW CV</span>
+              </a>
+            </li>
+            <li>
+              <app-tech-stack class="md:block hidden" aria-hidden="true"></app-tech-stack>
+            </li>
+          </ul>
+        </nav>
+        <app-tech-stack class="block md:hidden "></app-tech-stack>
+      </address>
+    </aside>
   </div>
-</section>
+</article>

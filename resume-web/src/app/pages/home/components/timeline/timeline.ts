@@ -11,15 +11,15 @@ import { TimelineEvent } from './timeline.constants';
       @for (content of data; track $index) {
         <li class="mb-8 ml-[1.95rem] relative group cursor-pointer">
           <span class="absolute -left-10 w-4 h-4 rounded-full border-2 
-            transition-all duration-300 border-orange-700 bg-[#141414] group-hover:bg-orange-700">
+            transition-all duration-300 border-orange-700 bg-[var(--sidebar)] group-hover:bg-orange-700">
           </span>
 
           <div class="rounded mr-5 text-start">
             <time class="font-bold text-sm">{{content.title}}</time>
 
-            <h3 class="text-xs text-gray-500">{{content.date}}</h3>
+            <h3 class="text-xs" style="color:var(--muted-foreground)">{{content.date}}</h3>
 
-            <p class="text-xs text-gray-500">
+            <p class="text-xs" style="color:var(--muted-foreground)">
               {{content.description}}
             </p>
           </div>

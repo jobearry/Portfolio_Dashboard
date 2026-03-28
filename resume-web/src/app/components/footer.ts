@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { ThemeToggler } from './theme-toggler';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [ThemeToggler],
   template: `
     <footer class="h-16 grid place-items-center text-sm">
-      <span>
-        Jonathan Golimlim | {{ year }}
-        @if(env){
-          | <span class="text-red-600 font-bold">{{ env }}</span>
-        }
-      </span>
+      <div class="flex items-center gap-4">
+        <span>
+          Jonathan Golimlim | {{ year }}
+          @if(env){
+            | <span class="text-red-600 font-bold">{{ env }}</span>
+          }
+        </span>
+        <app-theme-toggler></app-theme-toggler>
+      </div>
     </footer>
   `,
   styles: ``,
