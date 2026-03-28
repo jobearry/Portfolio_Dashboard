@@ -4,7 +4,7 @@ import { ThemeToggler } from './theme-toggler';
 
 @Component({
   selector: 'app-footer',
-  imports: [ThemeToggler],
+  imports: [],
   template: `
     <footer class="h-16 grid place-items-center text-sm">
       <div class="flex items-center gap-4">
@@ -14,7 +14,6 @@ import { ThemeToggler } from './theme-toggler';
             | <span class="text-red-600 font-bold">{{ env }}</span>
           }
         </span>
-        <app-theme-toggler></app-theme-toggler>
       </div>
     </footer>
   `,

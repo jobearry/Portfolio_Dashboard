@@ -1,71 +1,49 @@
 import { Component } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-theme-toggler',
-  imports: [],
+  imports: [LucideAngularModule],
   template: `
     <button aria-label="Toggle theme" class="theme-toggle" (click)="toggle()">
-      <span class="toggle-track">
-        <span class="toggle-thumb" [attr.data-theme]="isDark ? 'dark' : 'light'"></span>
-      </span>
+      <lucide-angular strokeWidth="1" name="lightbulb" size="18" class="bulb" [attr.data-theme]="isDark ? 'dark' : 'light'"></lucide-angular>
       <span class="sr-only">Toggle theme</span>
     </button>
   `,
   styles: `
     :host { display: inline-block; }
     .theme-toggle {
-      --size: 40px;
-      width: var(--size);
-      height: calc(var(--size) / 2);
-      padding: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      width: 36px;
+      height: 36px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255,255,255,0.06);
+      padding: 6px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid transparent;
       cursor: pointer;
-      transition: background-color .4s ease, transform .25s ease;
     }
 
-    /* Track */
-    .toggle-track {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, #f3f4f6, #e5e7eb);
-      transition: background-color .4s ease;
+    .bulb {
+      transition: color .25s ease, transform .18s ease;
+      color: var(--type-color);
       display: block;
     }
 
-    /* Thumb */
-    .toggle-thumb {
-      --thumb-size: calc(var(--size) / 2 - 6px);
-      position: absolute;
-      top: 50%;
-      left: 4px;
-      width: var(--thumb-size);
-      height: var(--thumb-size);
-      background: #fff;
-      border-radius: 50%;
-      transform: translateY(-50%);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      transition: left .35s cubic-bezier(.2,.9,.2,1), background-color .35s ease, transform .35s ease;
+    /* Light mode: bulb shows a darkish yellow */
+    html[data-theme="light"] .theme-toggle .bulb {
+      color: #b58900;
+      transform: scale(1.05);
     }
 
-    /* dark state — move thumb to right and change colours (html is the source-of-truth) */
-    html.dark .theme-toggle { background: linear-gradient(90deg,#0f172a,#020617); border-color: rgba(255,255,255,0.06); }
-    html.dark .toggle-track { background: linear-gradient(90deg,#0b1220,#08101a); }
-    html.dark .toggle-thumb { left: calc(100% - var(--thumb-size) - 4px); background: #0b1220; }
+    /* Dark mode: bulb is neutral (matches foreground) */
+    html.dark .theme-toggle .bulb {
+      color: var(--type-color);
+      transform: scale(1);
+    }
 
-    /* Smooth page color transition */
-    html { transition: background-color .45s ease, color .45s ease; }
-
-    /* small focus styles */
-    .theme-toggle:focus { outline: 2px solid rgba(59,130,246,0.35); outline-offset: 2px; }
-
-    /* Accessibility helper */
+    .theme-toggle:focus { outline: 2px solid rgba(59,130,246,0.25); outline-offset: 2px; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   `,
 })

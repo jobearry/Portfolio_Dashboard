@@ -1,6 +1,9 @@
-<article class='p-6 sm:p-8 flex flex-col md:flex-row md:justify-start gap-4 items-center md:items-start' aria-labelledby='profile-heading'>
+<article class='p-6 sm:p-8 flex relative flex-col md:flex-row md:justify-start gap-4 items-center md:items-start' aria-labelledby='profile-heading'>
+
+  <app-theme-toggler class="absolute right-10"></app-theme-toggler>
   <figure class='m-2 shrink-0'>
-    <img class='rounded-full m-auto w-28 sm:w-32 md:w-40' src="/profile_dark.png" alt='Photo of Jonathan Golimlim' style="border:2px solid var(--border)" />
+    <!-- Single img with data attributes for dark/light variants. JS swaps src on theme changes and falls back if a variant 404s. -->
+    <img id="profile-img" class='rounded-full m-auto w-28 sm:w-32 md:w-40' [src]="imgSrc" [attr.data-dark]="darkSrc" [attr.data-light]="lightSrc" (error)="onImgError()" [class.profile-filter-light]="useFilter" alt='Photo of Jonathan Golimlim' style="border:2px solid var(--border)" />
     <figcaption class='sr-only'>Photo of Jonathan Golimlim</figcaption>
   </figure>
 
@@ -20,15 +23,15 @@
       <address class='not-italic'>
         <nav aria-label="Social and resume links">
           <ul class="flex justify-center md:justify-start gap-4">
-            <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
-              <a href="https://github.com/jobearry" target="_blank" rel="noopener noreferrer" class="flex gap-1 justify-center" aria-label="View GitHub profile">
-                <lucide-angular name="github" size="15" aria-hidden="true"></lucide-angular>
+            <li [class]="`p-2 rounded-md flex gap-1 justify-center items-center ${TRANSITION_MOVE_UP}`">
+              <lucide-angular name="github" size="15" aria-hidden="true"></lucide-angular>
+              <a href="https://github.com/jobearry" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile">
                 <span class="text-sm md:text-xs">VIEW GITHUB</span>
               </a>
             </li>
-            <li [class]="`p-2 grid place-items-center ${TRANSITION_MOVE_UP}`">
-              <a href="https://drive.google.com/uc?export=download&id=1sFtQ9a3WqsnCewFJVvEzLVKMTRiOGkwl" target="_blank" rel="noopener noreferrer" class="flex gap-1 justify-center" aria-label="Download CV">
-                <lucide-angular name="file-down" size="15" aria-hidden="true"></lucide-angular>
+            <li [class]="`p-2 rounded-md flex gap-1 justify-center items-center ${TRANSITION_MOVE_UP}`">
+              <lucide-angular name="file-down" size="15" aria-hidden="true"></lucide-angular>
+              <a href="https://drive.google.com/uc?export=download&id=1sFtQ9a3WqsnCewFJVvEzLVKMTRiOGkwl" target="_blank" rel="noopener noreferrer" aria-label="Download CV">
                 <span class="text-sm md:text-xs">VIEW CV</span>
               </a>
             </li>

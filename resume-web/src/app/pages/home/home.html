@@ -18,7 +18,7 @@
     </div>
 
     <!--main block-->
-    <div class="w-full col-span-full md:col-span-4">
+    <div class="w-full col-span-full md:col-span-4 md:[--card:var(--color-background)] md:[--card-foreground:var(--type-color)]">
       @for(block of mainblock; track $index){
       <app-block
         [id]="block.id"

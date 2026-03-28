@@ -10,7 +10,7 @@ import { TimelineEvent } from './timeline.constants';
       class="relative border-l-2 border-orange-700 ml-5">
       @for (content of data; track $index) {
         <li class="mb-8 ml-[1.95rem] relative group cursor-pointer">
-          <span class="absolute -left-10 w-4 h-4 rounded-full border-2 
+          <span class="absolute -left-10 w-4 h-4 rounded-full border-2
             transition-all duration-300 border-orange-700 bg-[var(--sidebar)] group-hover:bg-orange-700">
           </span>
 
