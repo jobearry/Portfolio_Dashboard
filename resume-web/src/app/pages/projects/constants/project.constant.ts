@@ -1,37 +1,40 @@
-import { Project } from "../types/project.type";
+import { Project } from '../types/project.type';
 
 export const PROJECT_HIGHLIGHT: Project[] = [
   {
     id: 1,
-    title: 'AWS S3 Integration API',
+    title: 'AWS S3 Microservice',
     duration: '',
     contribution: [
-      `Integrated S3 into backend applications as an alternative to the current flow of file management request tasks.`
+      `A microservice on top of AWS S3 with upload, download, and list endpoints. By creating a JWT based
+       auth scoped to specific directories, it grants the user to only use their assigned folder instead of the whole
+       bucket.`,
     ],
     tags: ['CSharp', 'Swagger'],
-    link: ''
+    link: '',
   },
 
   {
     id: 2,
     title: 'Project Request Management',
-    duration: "",
+    duration: '',
     contribution: [
-      `Kickstarted the integration of AWS S3 to mitigate storage costs. Implemented Admin, User, and Read-only roles`,
+      `Migrated a legacy full stack web app for modernization. Identified EC2 as expensive file storage as per
+       client complaint, that lead to creating a microservice on top of S3 enabling mitigation of cost.`,
+    ],
+    tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
+    link: '',
+  },
+
+  {
+    id: 3,
+    title: 'Construction Dashboard',
+    duration: '',
+    contribution: [
+      `Responsible for setting up as a greenfield project and built a QR scanner component as proof-of-concept
+       and deliver the features with workarounds on real infrastructure constraints. `
     ],
     tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
     link: ''
   },
-
-  // {
-  //   id: 3,
-  //   title: 'BOM Management',
-  //   duration: '',
-  //   contribution: [
-  //     `Responsible for ensuring data consistency across a number of table
-  //     structure, and provided a simple security approach through JWT implementation`
-  //   ],
-  //   tags: ['CSharp', 'Swagger', 'Angular', 'TypeScript'],
-  //   link: ''
-  // },
-]
+];

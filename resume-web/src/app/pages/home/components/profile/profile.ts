@@ -7,7 +7,7 @@ import { ThemeToggler } from "../../../../components/theme-toggler";
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, TechStack, ThemeToggler],
+  imports: [LucideAngularModule, ThemeToggler],
   templateUrl: './profile.html',
   styles: [`.profile-filter-light { filter: brightness(1.06) saturate(1.05) contrast(1.02); }`],
 })
