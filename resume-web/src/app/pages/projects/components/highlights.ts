@@ -1,20 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { Project } from '../types/project.type';
 import { Router } from '@angular/router';
+import { Card } from "../../../components/card";
 
 @Component({
   selector: 'app-highlights',
-  imports: [],
+  imports: [Card],
   template: `
     <section class="m-6 text-start flex flex-col gap-2 ">
-      <ul class="grid md:grid-cols-2 gap-2">
+      <ul [class]="'grid gap-2 '+ style">
         @for (item of data; track $index) {
           <li class="cursor-pointer transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
-            <article class="h-full rounded-sm p-2" style="border:1px solid var(--border); background:var(--card); color:var(--card-foreground)">
-              <h3 class="font-bold text-sm">{{item.title}}</h3>
-              <p class="text-xs" style="color:var(--muted-foreground)">{{item.duration}}</p>
-              <p class="my-1 text-sm">{{item.contribution}}</p>
-            </article>
+            <app-card app-card [title]="item.title" [description]="item.contribution"
+              [hasIcon]="false" [subtitle]="item.tags.join(', ')">
+            </app-card>
           </li>
         }
       </ul>
@@ -24,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class Highlights {
   @Input() data: Project[] = [];
-
+  @Input() style: string = ""
   constructor(private router: Router){}
 
 
