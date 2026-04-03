@@ -6,9 +6,8 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     title: 'AWS S3 Microservice',
     duration: '',
     contribution: [
-      `A microservice on top of AWS S3 with upload, download, and list endpoints. By creating a JWT based
-       auth scoped to specific directories, it grants the user to only use their assigned folder instead of the whole
-       bucket.`,
+      `A microservice on top of AWS S3 with upload, download, and list endpoints, with a JWT based
+       auth scoped to specific directories.`,
     ],
     tags: ['CSharp', 'Swagger'],
     link: '',
