@@ -200,7 +200,7 @@ export class Heatmap implements OnInit, AfterViewInit {
       const el = document.documentElement;
       const ds = (el as any).dataset?.theme;
       if (ds) return String(ds).trim();
-      return el.classList.contains('dark') ? 'dark' : 'light';
+      return el.classList.contains('dark') ? 'customDark' : 'light';
     } catch (e) { return undefined; }
   }
 }
