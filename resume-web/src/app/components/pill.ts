@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-pill',
   imports: [],
   template: `
-    <span role="status" [attr.aria-label]="label" [class]="classes" [style]="style">{{label}}</span>
+    <span [class]="classes" [style]="style">{{label}}</span>
   `,
   styles: ``,
 })

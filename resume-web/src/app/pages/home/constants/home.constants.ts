@@ -36,7 +36,7 @@ export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
 export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
   {
     id: 'main_block_1',
-    title: 'Recent Rrojects',
+    title: 'Recent Projects',
     class: 'md:col-span-2 md:bg-transparent ',
     icon: 'Blocks',
     content: Highlights,

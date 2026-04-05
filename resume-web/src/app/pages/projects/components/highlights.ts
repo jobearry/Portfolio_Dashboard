@@ -9,10 +9,10 @@ import { TRANSITION_MOVE_UP } from '../../../shared/constants/styles.constants';
   imports: [Card],
   template: `
     <section class="m-6 text-start flex flex-col gap-2 ">
-      <ul [class]="'grid gap-2 ' + style">
+      <ul [class]="'grid gap-2 ' + gridStyle">
         @for (item of data; track $index) {
           <li [class]="'cursor-pointer ' + transition_up">
-            <app-card app-card [title]="item.title" [description]="item.contribution"
+            <app-card [title]="item.title" [description]="item.contribution"
               [hasIcon]="false" [subtitle]="item.tags.join(', ')">
             </app-card>
           </li>
@@ -24,7 +24,7 @@ import { TRANSITION_MOVE_UP } from '../../../shared/constants/styles.constants';
 })
 export class Highlights {
   @Input() data: Project[] = [];
-  @Input() style: string = ""
+  @Input() gridStyle: string = ""
   transition_up = TRANSITION_MOVE_UP
   constructor(private router: Router){}
 

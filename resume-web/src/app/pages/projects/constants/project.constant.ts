@@ -18,7 +18,7 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     duration: '',
     contribution:
       `Migrated a legacy full stack web app for modernization. Identified EC2 as expensive file storage as per
-       client complaint, that lead to creating an AWS S3 Microservice enabling mitigation of cost.`,
+       client complaint, that led to creating an AWS S3 Microservice enabling mitigation of cost.`,
     tags: ['C#', 'ASP.NET', "Swagger", 'Angular', 'TypeScript'],
     link: '',
   },
@@ -29,7 +29,7 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     duration: '',
     contribution:
       `Responsible for setting up as a greenfield project and built a QR scanner component as POC
-       and deliver the features with workarounds on real infrastructure constraints. `,
+       and delivered the features with workarounds on real infrastructure constraints. `,
     tags: ['C#', 'ASP.NET', "Swagger", 'Angular', 'TypeScript'],
     link: ''
   },
