@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MAIN_BLOCK_CONTENT, SIDE_BLOCK_CONTENT } from './constants/home.constants';
+import { MAIN_BLOCK_CONTENT, SIDE_BLOCK_CONTENT } from '../constants/home.constants';
 import { LucideAngularModule } from 'lucide-angular';
-import { DynamicHostComponent } from './components/host';
-import { BlockComponent } from './components/block-container/block-container';
+import { DynamicHostComponent } from '../components/host';
+import { BlockComponent } from '../components/block-container/block-container';
 import { CommonModule } from '@angular/common';
-import { Profile } from './components/profile/profile';
+import { Profile } from '../components/profile/profile';
 
 @Component({
   selector: 'app-home',
