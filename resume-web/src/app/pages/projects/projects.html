@@ -1,10 +1,13 @@
-<div class="m-6 text-start flex flex-col">
-  <button (click)="goHome()"
-    class="flex items-center gap-4 h-8 m-2 cursor-pointer w-fit
-      transition-all duration-300 hover:transform-[translateY(-.2rem)]">
-    <lucide-icon name="arrow-left"></lucide-icon>
-    Go back
-  </button>
+<section class="m-6 text-start flex flex-col">
+  <div class="flex items-center justify-between">
+    <button (click)="goHome()"
+      class="flex items-center gap-4 h-8 m-2 cursor-pointer w-fit
+        transition-all duration-300 hover:transform-[translateY(-.2rem)]">
+      <lucide-icon name="arrow-left"></lucide-icon>
+      Go back
+    </button>
+    <app-pill label="Projects" size="md"></app-pill>
+  </div>
 
   @if(projectState$ | async; as projectState){
     <app-block [id]="'pj_block_1'" [loading]="projectState.loading"
@@ -22,4 +25,4 @@
     </app-github>
   }
 
-</div>
+</section>

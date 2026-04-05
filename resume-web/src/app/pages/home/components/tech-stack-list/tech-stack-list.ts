@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { Pill } from '../../../../components/pill';
 
 @Component({
   selector: 'app-tech-stack-list',
-  imports: [],
+  imports: [Pill],
   templateUrl: './tech-stack-list.html',
-  styles: ``,
+  styles: `
+  `,
 })
 export class TechStackList {
 

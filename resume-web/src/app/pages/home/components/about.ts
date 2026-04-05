@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     <div class="m-3 mb-5 text-left text-sm">
       <p>
         I am a full-stack developer that focuses on developing web applications through Angular and
-        .NET. Professionally, I primarily manage backend and minimal frontend work.
+        .NET.
       </p>
       <br />
       <p>

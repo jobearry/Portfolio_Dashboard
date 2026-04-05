@@ -2,15 +2,16 @@ import { Component, Input } from '@angular/core';
 import { Project } from '../types/project.type';
 import { Router } from '@angular/router';
 import { Card } from "../../../components/card";
+import { TRANSITION_MOVE_UP } from '../../../shared/constants/styles.constants';
 
 @Component({
   selector: 'app-highlights',
   imports: [Card],
   template: `
     <section class="m-6 text-start flex flex-col gap-2 ">
-      <ul [class]="'grid gap-2 '+ style">
+      <ul [class]="'grid gap-2 ' + style">
         @for (item of data; track $index) {
-          <li class="cursor-pointer transition-all duration-300 hover:transform-[translateY(-.2rem)] hover:shadow-xl">
+          <li [class]="'cursor-pointer ' + transition_up">
             <app-card app-card [title]="item.title" [description]="item.contribution"
               [hasIcon]="false" [subtitle]="item.tags.join(', ')">
             </app-card>
@@ -19,11 +20,12 @@ import { Card } from "../../../components/card";
       </ul>
     </section>
   `,
-  styles: ``,
+  styles: [],
 })
 export class Highlights {
   @Input() data: Project[] = [];
   @Input() style: string = ""
+  transition_up = TRANSITION_MOVE_UP
   constructor(private router: Router){}
 
 

@@ -1,1 +1,25 @@
-<p>tech-stack-list works!</p>
+<section class="tech-stack m-6 flex flex-col gap-2" aria-labelledby="tech-stack-heading">
+	<section class="tech-stack__group" aria-labelledby="frontend-heading">
+		<h3 id="frontend-heading">Frontend</h3>
+		<ul class="flex flex-wrap gap-2 items-center m-2">
+			<li><app-pill label="HTML" size="sm"></app-pill></li>
+			<li><app-pill label="CSS" size="sm"></app-pill></li>
+			<li><app-pill label="JavaScript" size="sm"></app-pill></li>
+			<li><app-pill label="TypeScript" size="sm"></app-pill></li>
+			<li><app-pill label="Angular" size="sm"></app-pill></li>
+			<li><app-pill label="React" size="sm"></app-pill></li>
+			<li><app-pill label="Vite" size="sm"></app-pill></li>
+			<li><app-pill label="Tailwind" size="sm"></app-pill></li>
+		</ul>
+	</section>
+
+	<section class="tech-stack__group" aria-labelledby="backend-heading">
+		<h3 id="backend-heading">Backend</h3>
+		<ul class="flex flex-wrap gap-2 items-center m-2">
+			<li><app-pill label="Node.js" size="sm"></app-pill></li>
+			<li><app-pill label="PostgreSQL" size="sm"></app-pill></li>
+			<li><app-pill label="ASP.NET" size="sm"></app-pill></li>
+			<li><app-pill label="Entity Framework Core" size="sm"></app-pill></li>
+		</ul>
+	</section>
+</section>
