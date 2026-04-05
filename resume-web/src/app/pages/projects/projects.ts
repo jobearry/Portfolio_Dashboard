@@ -12,12 +12,14 @@ import { Project } from './types/project.type';
 import { GithubProjectState } from '../../features/github/store/github.state';
 import { GithubAPIActions } from '../../features/github/store/github.action';
 import { Github } from "../../features/github/ui/github";
+import { Pill } from "../../components/pill";
 
 @Component({
   selector: 'app-projects',
   imports: [
     Highlights, LucideAngularModule, BlockComponent, CommonModule,
     Github,
+    Pill
 ],
   templateUrl: './projects.html',
   styles: ``,
@@ -30,6 +32,24 @@ export class Projects implements OnInit {
     private store: Store<State>
   ){
     this.projectState$ = store.select(state => state.project)
+
+    try {
+      const saved = localStorage.getItem('theme');
+
+      // apply initial theme attribute and class on `html` (primary source-of-truth)
+      const html = document.documentElement;
+      if (html) {
+        if (saved === 'dark') {
+          html.classList.add('dark');
+          html.setAttribute('data-theme', 'dark');
+        } else {
+          html.classList.remove('dark');
+          html.setAttribute('data-theme', 'light');
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 
   ngOnInit(): void {

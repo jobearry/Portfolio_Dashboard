@@ -6,6 +6,7 @@ import { PROJECT_HIGHLIGHT } from '../../projects/constants/project.constant';
 import { BlockContent } from '../types/block.type';
 import { Heatmap } from '../../../features/github/components/heatmap';
 import { Maintenance } from '../../../components/maintenance';
+import { TechStackList } from '../components/tech-stack-list/tech-stack-list';
 
 export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
   {
@@ -36,16 +37,23 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
   {
     id: 'main_block_1',
     title: 'Recent Rrojects',
-    class: 'md:col-span-2 md:bg-transparent',
+    class: 'md:col-span-2 md:bg-transparent ',
     icon: 'Blocks',
     content: Highlights,
-    inputs: { data: PROJECT_HIGHLIGHT },
+    inputs: { data: PROJECT_HIGHLIGHT, style: "" },
   },
   {
     id: 'main_block_2',
+    title: 'Technical Stack',
+    class: 'md:col-span-2 md:bg-transparent',
+    icon: 'Toolbox',
+    content: TechStackList,
+  },
+  {
+    id: 'main_block_3',
     title: '',
     class: 'md:col-span-2 md:bg-transparent',
-    icon: 'Blocks',
+    icon: '',
     content: Maintenance,
     inputs: { subtitle: "making more features" },
   },
