@@ -7,6 +7,7 @@ import { BlockContent } from '../types/block.type';
 import { Heatmap } from '../../../features/github/components/heatmap';
 import { Maintenance } from '../../../components/maintenance';
 import { TechStackList } from '../components/tech-stack-list/tech-stack-list';
+import { Certifications } from '../components/certifications/certifications';
 
 export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
   {
@@ -24,8 +25,15 @@ export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
     content: Timeline,
     inputs: { data: TIMELINE_EVENTS },
   },
-  {
+    {
     id: 'side_block_3',
+    title: 'Certifications',
+    class: 'md:col-span-2',
+    icon: 'Award',
+    content: Certifications,
+  },
+  {
+    id: 'side_block_4',
     title: 'Github Heatmap',
     class: 'md:col-span-2',
     icon: 'ChartScatter',
