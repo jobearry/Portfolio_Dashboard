@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<app-sidebar [title]="title()" [subtitle]="subtitle()" [sidebarContent]="sidebarSections()">
+  <main class="p-2">
+    <button hlmSidebarTrigger><span class="sr-only"></span></button>
+    <router-outlet></router-outlet>
+  </main>
+</app-sidebar>
