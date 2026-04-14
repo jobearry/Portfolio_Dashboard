@@ -1,6 +1,6 @@
 <app-sidebar [title]="title()" [subtitle]="subtitle()" [sidebarContent]="sidebarSections()">
-  <main class="p-2">
-    <button hlmSidebarTrigger><span class="sr-only"></span></button>
+  <main class="p-2 w-full">
+    <app-navbar></app-navbar>
     <router-outlet></router-outlet>
   </main>
 </app-sidebar>
