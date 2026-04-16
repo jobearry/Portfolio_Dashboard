@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideBlocks, lucideLayoutDashboard } from '@ng-icons/lucide';
-import { HlmSidebar, HlmSidebarImports } from '@spartan-ng/helm/sidebar';
+import { lucideLayoutDashboard } from '@ng-icons/lucide';
+import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import { HlmIcon } from "@spartan-ng/helm/icon";
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
   imports: [HlmSidebarImports, HlmIcon, NgIcon],
   providers: [provideIcons({lucideLayoutDashboard})],
   template: `
