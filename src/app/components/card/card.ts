@@ -18,7 +18,7 @@ import { HlmCardImports } from '@spartan-ng/helm/card';
         </p>
       </div>
       <hlm-card-footer>
-        <p></p>
+        <pre></pre>
         @if(hasCta()){
           <button hlmBtn variant="outline" size="sm" class="w-full">Action</button>
         }
