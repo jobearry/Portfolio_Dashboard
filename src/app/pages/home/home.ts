@@ -11,5 +11,4 @@ import { Profile } from './components/profile/profile';
   styles: ``,
 })
 export class Home {
-
 }

@@ -9,18 +9,16 @@ import { HlmCardImports } from '@spartan-ng/helm/card';
   template: `
     <hlm-card size="sm" class="mx-auto w-full max-w-sm">
       <hlm-card-header>
-        <h3 hlmCardTitle>Jonathan Rodel Golimlim</h3>
-        <p hlmCardDescription>Metro Manila, PH</p>
+        <h3 hlmCardTitle>{{title()}}</h3>
+        <p hlmCardDescription>{{description()}}</p>
       </hlm-card-header>
       <div hlmCardContent>
-        <p>
-          Full-stack developer that focuses on developing web applications through Angular and .NET.
-        </p>
+        <p> {{content()}} </p>
       </div>
       <hlm-card-footer>
         <pre></pre>
         @if(hasCta()){
-          <button hlmBtn variant="outline" size="sm" class="w-full">Action</button>
+          <button hlmBtn variant="outline" size="sm" class="w-full">{{ctaName()}}</button>
         }
       </hlm-card-footer>
     </hlm-card>
@@ -28,5 +26,11 @@ import { HlmCardImports } from '@spartan-ng/helm/card';
   styles: '',
 })
 export class Card {
-  hasCta = input<boolean>(false)
+  hasCta = input<boolean>(false);
+  ctaName = input<string>("Action");
+  title = input<string>("");
+  description = input<string>("");
+  content = input<string>("");
+
+
 }

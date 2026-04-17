@@ -6,9 +6,20 @@ import { Card } from '../../../../components/card/card';
   imports: [Card],
   template: `
     <section class="p-2 flex flex-col md:flex-row gap-3">
-      <app-card></app-card>
+      <app-card
+        [title]="title"
+        [description]="description"
+        [content]="content"
+        [hasCta]="hasCta">
+      </app-card>
     </section>
   `,
   styles: ``,
 })
-export class Profile {}
+export class Profile
+{
+  title = "Jonathan Golimlim";
+  description = "Metro Manila | PH";
+  content = "Full-stack developer that focuses on developing web applications through Angular and .NET.";
+  hasCta = false;
+}
