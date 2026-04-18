@@ -9,8 +9,7 @@ import { Card } from '../../../../components/card/card';
       <app-card
         [title]="title"
         [description]="description"
-        [content]="content"
-        [hasCta]="hasCta">
+        [content]="content">
       </app-card>
     </section>
   `,
