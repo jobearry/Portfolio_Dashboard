@@ -6,31 +6,29 @@ import { HlmCardImports } from '@spartan-ng/helm/card';
   selector: 'app-card',
   imports: [HlmButtonImports, HlmCardImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
+	host: {
+		class: "mx-auto w-full max-w-sm flex flex-col justify-between"
+	},
   template: `
     <hlm-card size="sm" class="mx-auto w-full max-w-sm flex flex-col justify-between">
       <hlm-card-header>
-        <h3 hlmCardTitle>{{title()}}</h3>
+        <h3 hlmCardTitle class="truncate">{{title()}}</h3>
         <p hlmCardDescription>{{description()}}</p>
       </hlm-card-header>
-      <div hlmCardContent>
+      <div hlmCardContent class="aspect-video w-full">
         <p> {{content()}} </p>
       </div>
       <hlm-card-footer>
-        <pre></pre>
-        @if(hasCta()){
-          <button hlmBtn variant="outline" size="sm" class="w-full">{{ctaName()}}</button>
-        }
+        <ng-content select="[slot=footer]"></ng-content>
       </hlm-card-footer>
     </hlm-card>
   `,
   styles: '',
 })
 export class Card {
-  hasCta = input<boolean>(false);
-  ctaName = input<string>("Action");
   title = input<string>("");
   description = input<string>("");
   content = input<string>("");
-
+  loading = input<boolean>(false);
 
 }

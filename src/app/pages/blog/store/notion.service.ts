@@ -1,7 +1,5 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { NotionPageInitialState, NotionPageState } from "./notion.state";
-import { environment } from "../../../../environments/environment";
-import { HttpClient } from "@angular/common/http";
 import { PortfolioApi } from "../../../../api/portfolio-api";
 import { NotionPageCard } from "../core/notion-page.model";
 
@@ -17,6 +15,13 @@ export class NotionSignalService{
   }
   async getPage(pageId: string){
     const endpoint = `v2/Notion/query/${pageId}`
+
+    this.pageMarkdown.set({
+      content: null,
+      loading: true,
+      message: null
+    })
+
     const response = await this.api.get<NotionPageCard[]>(endpoint);
 
     this.pageMarkdown.set({
