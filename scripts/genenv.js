@@ -18,20 +18,24 @@ function writeEnv(filePath, obj) {
 
 const githubToken = process.env.GITHUB_TOKEN || '';
 const githubURL = process.env.GITHUB_BASE_URL || '';
+const portfolioApiHost = process.env.PORTFOLIO_API_HOST || '';
 
 const prod = {
   production: true,
+  portfolioApi: portfolioApiHost,
   title: '',
 };
 
 const dev = {
   production: false,
+  portfolioApi: portfolioApiHost,
   title: "DEV"
 };
 
 const example = {
   production: false,
-  title: "SAMPLE"
+  portfolioApi: "localhost",
+  title: "SAMPLE",
 };
 
 const outProd = path.join('src', 'environments', 'environment.ts');
