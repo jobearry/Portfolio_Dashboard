@@ -1,11 +1,13 @@
-<section>
-  <div class="p-2 flex flex-col md:flex-row gap-3">
-    <app-card
-        [title]="'title'"
-        [description]="'description'"
-        [content]="'content'"
-        [hasCta]="true">
-      </app-card>
+<section class="p-3">
+  <div class="p-3 flex grow gap-3">
+    @for (item of notionService.state().content; track $index) {
+      <app-card class="flex"
+          [title]="item.title"
+          [description]="item.date"
+          [hasCta]="true"
+          [ctaName]="'View Notion page'">
+        </app-card>
+    }
   </div>
   <hr>
 </section>

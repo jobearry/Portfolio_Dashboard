@@ -7,7 +7,7 @@ import { HlmCardImports } from '@spartan-ng/helm/card';
   imports: [HlmButtonImports, HlmCardImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <hlm-card size="sm" class="mx-auto w-full max-w-sm">
+    <hlm-card size="sm" class="mx-auto w-full max-w-sm flex flex-col justify-between">
       <hlm-card-header>
         <h3 hlmCardTitle>{{title()}}</h3>
         <p hlmCardDescription>{{description()}}</p>
