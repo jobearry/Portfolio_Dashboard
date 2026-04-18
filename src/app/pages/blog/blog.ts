@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Profile } from "../home/components/profile/profile";
 import { Card } from "../../components/card/card";
 import { NotionSignalService } from './store/notion.service';
-import { SkeletonCard } from "../../components/skeletons/skeletoncard/skeleton-card";
+import { SkeletonCard } from "../../components/skeletons/card/skeleton-card";
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
