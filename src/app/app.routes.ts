@@ -8,6 +8,7 @@ export const routes: Routes = [
   {
     path: "dashboard",
     component: Dashboard,
+    title: "Dashboard - Jonathan Golimlim",
     children: [
       {
         path: "home",
@@ -21,11 +22,12 @@ export const routes: Routes = [
   },
   {
     path: "profile",
-    component: Profile
+    component: Profile,
+    title: "Jonathan Golimlim | Fullstack Developer"
   },
   {
     path: "**",
-    redirectTo: "dashboard",
+    redirectTo: "profile",
     pathMatch: "full"
   }
 ];
