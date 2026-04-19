@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Card } from "../../components/card/card";
-import { NotionSignalService } from './store/notion.service';
-import { SkeletonCard } from "../../components/skeletons/card/skeleton-card";
+import { Card } from "../../../../../components/card/card";
+import { NotionSignalService } from '../store/notion.service';
+import { SkeletonCard } from "../../../../../components/skeletons/card/skeleton-card";
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
-import { convertNotionUrl } from './core/notion-parse.util';
-import { NOTION_PUBLIC_DOMAIN } from './core/notion.constants';
+import { convertNotionUrl } from '../core/notion-parse.util';
+import { NOTION_PUBLIC_DOMAIN } from '../core/notion.constants';
 
 @Component({
   selector: 'app-blog',

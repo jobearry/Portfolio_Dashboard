@@ -1,0 +1,8 @@
+<app-sidebar [title]="title()" [subtitle]="subtitle()" [sidebarContent]="sidebarSections()">
+  <main class="w-full">
+    <section class="p-2 border-b">
+      <app-navbar></app-navbar>
+    </section>
+    <router-outlet></router-outlet>
+  </main>
+</app-sidebar>

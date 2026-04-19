@@ -1,0 +1,16 @@
+<section class="p-2 gap-3 flex flex-col justify-center items-center h-screen">
+  <div class="flex flex-col justify-center items-center gap-2 relative">
+    <img class="h-70 absolute bottom-5 right-0 z-0" src="jg-profile.png" alt="jg-profile">
+    <div class="z-1">
+      <p hlmP class="self-start">Hi, I am</p>
+      <h1 hlmH1>Jonathan Golimlim
+      </h1>
+      <p hlmMuted class="text-start">Full-stack Developer</p>
+    </div>
+    <button hlmBtn variant="secondary" [routerLink]="['/dashboard']"
+      class="self-end z-1">
+      Discover
+      <ng-icon hlm [name]="'lucideMoveRight'" />
+    </button>
+  </div>
+</section>

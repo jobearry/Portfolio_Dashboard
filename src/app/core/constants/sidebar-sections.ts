@@ -17,7 +17,7 @@ export const sidebarContent: SidebarGroup[] = [
     groupContent: [
       {
         title: 'Home',
-        url: 'home',
+        url: '/dashboard/home',
         icon: 'lucideHouse',
         group: 'Main',
       },
@@ -28,7 +28,7 @@ export const sidebarContent: SidebarGroup[] = [
     groupContent: [
       {
         title: 'Journal',
-        url: 'blog',
+        url: '/dashboard/blog',
         icon: 'lucideNotebookPen',
         group: 'Main',
       },

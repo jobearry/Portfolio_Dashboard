@@ -27,7 +27,7 @@ import { RouterLink, RouterModule } from "@angular/router";
                 @for (content of item.groupContent; track $index) {
                   <ul hlmSidebarMenu>
                     <li hlmSidebarMenuItem>
-                      <a hlmSidebarMenuButton [routerLink]="['/' + content.url]">
+                      <a hlmSidebarMenuButton [routerLink]="[content.url]">
                         <ng-icon hlm [name]="content.icon" />
                         <span>{{ content.title }}</span>
                       </a>
