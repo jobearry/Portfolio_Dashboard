@@ -42,6 +42,9 @@
       ],
       "@spartan-ng/helm/card": [
         "./libs/ui/card/src/index.ts"
+      ],
+      "@spartan-ng/helm/typography": [
+        "./libs/ui/typography/src/index.ts"
       ]
     }
   },

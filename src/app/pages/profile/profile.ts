@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Card } from "../../components/card/card";
+import {HlmH1, HlmMuted, HlmP} from '@spartan-ng/helm/typography';
 
 @Component({
   selector: 'app-profile',
-  imports: [Card],
+  imports: [HlmH1, HlmMuted, HlmP],
   templateUrl: './profile.html',
   styles: ``,
 })

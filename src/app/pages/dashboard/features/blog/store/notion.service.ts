@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { NotionPageInitialState, NotionPageState } from "./notion.state";
-import { PortfolioApi } from "../../../../api/portfolio-api";
+import { PortfolioApi } from "../../../../../../api/portfolio-api";
 import { NotionPageCard } from "../core/notion-page.model";
 
 @Injectable({providedIn: 'root'})
