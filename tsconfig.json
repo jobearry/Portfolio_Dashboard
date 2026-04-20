@@ -45,6 +45,9 @@
       ],
       "@spartan-ng/helm/typography": [
         "./libs/ui/typography/src/index.ts"
+      ],
+      "@spartan-ng/helm/item": [
+        "./libs/ui/item/src/index.ts"
       ]
     }
   },

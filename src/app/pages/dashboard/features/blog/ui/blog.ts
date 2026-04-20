@@ -7,10 +7,12 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { convertNotionUrl } from '../core/notion-parse.util';
 import { NOTION_PUBLIC_DOMAIN } from '../core/notion.constants';
+import { Item } from '../../../../../components/item/item';
+import { SkeletonItem } from "../../../../../components/skeletons/item/skeleton-item";
 
 @Component({
   selector: 'app-blog',
-  imports: [Card, SkeletonCard, HlmIcon, NgIcon],
+  imports: [Item, SkeletonItem],
   templateUrl: './blog.html',
   providers: [provideIcons({ lucideExternalLink })],
   styles: ``,
