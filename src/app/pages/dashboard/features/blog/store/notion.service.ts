@@ -6,9 +6,7 @@ import { NotionPageCard } from "../core/notion-page.model";
 @Injectable({providedIn: 'root'})
 export class NotionSignalService{
   private readonly pageMarkdown = signal<NotionPageState>(NotionPageInitialState)
-
-  //for improvement
-  api = inject(PortfolioApi);
+  private readonly api = inject(PortfolioApi);
 
   state(){
     return this.pageMarkdown();

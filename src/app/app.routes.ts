@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { Home } from './pages/dashboard/features/home/home';
+import { Home } from './pages/dashboard/features/home/ui/home';
 import { Blog } from './pages/dashboard/features/blog/ui/blog';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Profile } from './pages/profile/profile';
 
 export const routes: Routes = [
   {
-    path: "dashboard",
+    path: "",
     component: Dashboard,
-    title: "Dashboard - Jonathan Golimlim",
+    title: "Dashboard | Jonathan Golimlim",
     children: [
       {
-        path: "home",
+        path: "dashboard",
         component: Home,
       },
       {
@@ -20,14 +20,14 @@ export const routes: Routes = [
       },
     ]
   },
-  {
-    path: "profile",
-    component: Profile,
-    title: "Jonathan Golimlim | Fullstack Developer"
-  },
+  // {
+  //   path: "profile",
+  //   component: Profile,
+  //   title: "Jonathan Golimlim | Fullstack Developer"
+  // },
   {
     path: "**",
-    redirectTo: "profile",
+    redirectTo: "dashboard",
     pathMatch: "full"
   }
 ];

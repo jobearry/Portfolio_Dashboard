@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/pages/dashboard/features/home/core/.model.ts"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

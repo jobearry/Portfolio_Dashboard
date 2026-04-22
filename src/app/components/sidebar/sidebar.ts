@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideLayoutDashboard } from '@ng-icons/lucide';
+import { lucideLayoutDashboard, lucideUserCircle } from '@ng-icons/lucide';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { SidebarGroup } from '../../core/constants/sidebar-sections';
@@ -13,7 +13,7 @@ import { RouterLink, RouterModule } from "@angular/router";
     <div hlmSidebarWrapper>
       <hlm-sidebar>
         <div hlmSidebarHeader>
-          <ng-icon hlm name="lucideLayoutDashboard" size="lg"></ng-icon>
+          <ng-icon hlm name="lucideUserCircle" size="lg"></ng-icon>
           <div class="flex flex-col items-start">
             <h1 class="font-bold text-sm">{{ title() }}</h1>
             <p class="text-[.65rem]">{{ subtitle() }}</p>
@@ -40,10 +40,11 @@ import { RouterLink, RouterModule } from "@angular/router";
         </div>
         <div hlmSidebarFooter></div>
       </hlm-sidebar>
+
       <ng-content />
     </div>
   `,
-  providers: [provideIcons({ lucideLayoutDashboard })],
+  providers: [provideIcons({ lucideUserCircle })],
   styles: ``,
 })
 export class Sidebar {
