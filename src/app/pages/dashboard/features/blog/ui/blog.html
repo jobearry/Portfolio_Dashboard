@@ -4,11 +4,12 @@
       <app-skeleton-item></app-skeleton-item>
     }@else {
       @for (item of notionService.state().content; track $index) {
-        <app-item
-          [title]="item.title"
-          [description]="item.date"
-          [url]="parseUrl(item.url)">
-        </app-item>
+        <a [href]="parseUrl(item.url)" target="_blank" rel="noopener noreferrer">
+          <app-item
+            [title]="item.title"
+            [description]="item.date">
+          </app-item>
+        </a>
       }
     }
   </div>

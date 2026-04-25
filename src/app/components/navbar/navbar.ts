@@ -8,5 +8,5 @@ import { HlmSidebarTrigger } from '../../../../libs/ui/sidebar/src/lib/hlm-sideb
   styles: [],
 })
 export class Navbar {
-  title = input<string>("Dashboard")
+  title = input<string>("")
 }
