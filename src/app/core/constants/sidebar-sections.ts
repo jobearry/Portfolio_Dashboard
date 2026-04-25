@@ -1,4 +1,4 @@
-import { lucideHouse, lucideLayoutDashboard, lucideNotebookPen, lucideRss } from "@ng-icons/lucide";
+import { lucideBriefcaseBusiness, lucideHouse, lucideLayoutDashboard, lucideNotebookPen, lucideRss } from "@ng-icons/lucide";
 
 export interface SidebarGroupMenu {
   title: string;
@@ -9,7 +9,7 @@ export interface SidebarGroup {
   groupLabel: string;
   groupContent: SidebarGroupMenu[];
 }
-export const sidebarIcons: Record<string, string> = {lucideRss, lucideNotebookPen, lucideLayoutDashboard}
+export const sidebarIcons: Record<string, string> = {lucideRss, lucideNotebookPen, lucideLayoutDashboard, lucideBriefcaseBusiness}
 export const sidebarContent: SidebarGroup[] = [
   {
     groupLabel: 'Main',
@@ -18,6 +18,11 @@ export const sidebarContent: SidebarGroup[] = [
         title: 'Dashboard',
         url: '/dashboard',
         icon: 'lucideLayoutDashboard',
+      },
+      {
+        title: 'Portfolio',
+        url: '/portfolio',
+        icon: 'lucideBriefcaseBusiness',
       },
     ],
   },

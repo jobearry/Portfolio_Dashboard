@@ -1,9 +1,9 @@
-<a hlmItem variant="muted" [href]="url()" target="_blank" rel="noopener noreferrer">
+<a hlmItem variant="muted">
   <div hlmItemContent class="truncate">
     <div hlmItemTitle>{{title()}}</div>
     <p hlmItemDescription>{{description()}}</p>
   </div>
   <div hlmItemActions>
-    <ng-icon hlm name="lucideExternalLink" size="sm" />
+    <ng-icon hlm [name]="icon()" size="sm" />
   </div>
 </a>

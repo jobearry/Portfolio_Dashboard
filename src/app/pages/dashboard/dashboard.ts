@@ -12,6 +12,6 @@ import { sidebarContent } from '../../core/constants/sidebar-sections';
 })
 export class Dashboard {
   protected readonly title = signal('Jonathan Golimlim');
-  protected readonly subtitle = signal('Portfolio Dashboard');
+  protected readonly subtitle = signal('@jobearry');
   protected readonly sidebarSections = signal(sidebarContent)
 }

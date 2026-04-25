@@ -10,13 +10,13 @@ import { NgIcon } from '@ng-icons/core';
   imports: [HlmButtonImports, HlmCardImports, HlmH3],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <hlm-card size="sm" class="w-full max-w-sm">
+    <hlm-card size="sm">
       <hlm-card-header>
-        <h3 hlmH3 class="truncate">{{title()}}</h3>
+        <h3 hlmH3>{{title()}}</h3>
         <p hlmCardDescription>{{description()}}</p>
       </hlm-card-header>
-      <div hlmCardContent class="h-20 w-full">
-        <p> {{content()}} </p>
+      <div hlmCardContent>
+        <ng-content select="[slot=content]"></ng-content>
       </div>
       <hlm-card-footer>
         <ng-content select="[slot=footer]"></ng-content>
@@ -28,7 +28,6 @@ import { NgIcon } from '@ng-icons/core';
 export class Card {
   title = input<string>("");
   description = input<string>("");
-  content = input<string>("");
   loading = input<boolean>(false);
 
 }

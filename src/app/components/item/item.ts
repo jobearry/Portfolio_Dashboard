@@ -10,15 +10,13 @@ import { lucideChevronRight, lucideExternalLink } from '@ng-icons/lucide';
   imports: [HlmItemImports, HlmButtonImports, HlmIcon, NgIcon],
   templateUrl: './item.html',	providers: [
 		provideIcons({
-			lucideChevronRight,
 			lucideExternalLink,
 		}),
 	],
   styles: ``,
 })
-export class Item {
+export class BlogItem {
   title = input<string>("")
   description = input<string>("")
-  url = input<string>("")
-  loading = input<boolean>(false)
+  icon = input<string>('lucideExternalLink')
 }
