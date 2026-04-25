@@ -11,32 +11,59 @@
       </span>
     </ng-container>
   </app-card>
-
+</section>
+<section class="p-4 border-b flex flex-col md:flex-row gap-2 overflow-x-auto">
   <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-2">
-    <app-card
-      [title]="'Experiences'"
-      [description]="'Timeline'"
-      class="">
-      <ng-container slot="content">
-        <div class="flex flex-col gap-2">
-          @if(_expService.getState().loading){
-            <app-skeleton-item></app-skeleton-item>
-          }@else {
-            @for (item of _expService.getState().content; track $index) {
-              <app-item
-                [title]="item.companyName"
-                [description]="item.description"
-                [icon]="''">
-              </app-item>
+      <app-card
+        [title]="'Experiences'"
+        [description]="'Timeline'"
+        class="">
+        <ng-container slot="content">
+          <div class="flex flex-col gap-2 h-60 overflow-y-scroll no-scrollbar">
+            @if(_expService.getState().loading){
+              <app-skeleton-item></app-skeleton-item>
+            }@else {
+              @for (item of _expService.getState().content; track $index) {
+                <app-item
+                  [title]="item.companyName"
+                  [description]="item.description"
+                  [icon]="''">
+                </app-item>
+              }
             }
-          }
-        </div>
-      </ng-container>
-      <ng-container slot="footer">
-        <!-- <span [class]="portfolioCardFooterStyle">
-          Journey into where I am now
-        </span> -->
-      </ng-container>
-    </app-card>
+          </div>
+        </ng-container>
+        <ng-container slot="footer">
+          <span [class]="portfolioCardFooterStyle">
+            - still ongoing -
+          </span>
+        </ng-container>
+      </app-card>
+      <app-card
+        [title]="'Projects'"
+        [description]="'Corporate Projects'"
+        class="">
+        <ng-container slot="content">
+          <div class="flex flex-col gap-2 h-60 overflow-y-scroll no-scrollbar">
+            @if(_projectService.getState().loading){
+              <app-skeleton-item></app-skeleton-item>
+            }@else {
+              @for (item of _projectService.getState().content; track $index) {
+                <app-item
+                  [title]="item.projectName"
+                  [description]="item.description"
+                  [icon]="''">
+                </app-item>
+              }
+            }
+          </div>
+        </ng-container>
+        <ng-container slot="footer">
+          <span [class]="portfolioCardFooterStyle">
+            - still ongoing -
+          </span>
+        </ng-container>
+      </app-card>
   </div>
+
 </section>

@@ -4,6 +4,7 @@ import { HlmItemImports } from '@spartan-ng/helm/item';
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideChevronRight, lucideExternalLink } from '@ng-icons/lucide';
+import { TRANSITION_MOVE_UP } from '../../core/styles/transitions';
 
 @Component({
   selector: 'app-item',
@@ -16,7 +17,8 @@ import { lucideChevronRight, lucideExternalLink } from '@ng-icons/lucide';
   styles: ``,
 })
 export class BlogItem {
-  title = input<string>("")
-  description = input<string>("")
-  icon = input<string>('lucideExternalLink')
+  title = input<string>("");
+  description = input<string>("");
+  icon = input<string>('lucideExternalLink');
+
 }
