@@ -32,13 +32,13 @@ export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
     icon: 'Award',
     content: Certifications,
   },
-  // {
-  //   id: 'side_block_4',
-  //   title: 'Github Heatmap',
-  //   class: 'md:col-span-2',
-  //   icon: 'ChartScatter',
-  //   content: Heatmap,
-  // },
+  {
+    id: 'side_block_4',
+    title: 'Github Heatmap',
+    class: 'md:col-span-2',
+    icon: 'ChartScatter',
+    content: Heatmap,
+  },
 ];
 
 export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [

@@ -7,10 +7,11 @@ import { Spinner } from "../../../components/spinner";
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Maintenance } from "../../../components/maintenance";
 
 @Component({
   selector: 'app-heatmap',
-  imports: [Chart, Spinner, CommonModule],
+  imports: [Chart, Spinner, CommonModule, Maintenance],
   templateUrl: `./heatmap.html`,
   styles: ``,
 })
