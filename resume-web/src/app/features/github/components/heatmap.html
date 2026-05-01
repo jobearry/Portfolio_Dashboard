@@ -1,27 +1,15 @@
 <div class="m-2 p-2 grid">
-      @if(!(loading$ | async)){
-        <p class="text-xs justify-self-end italic px-3 py-2">
-          <span class="font-black">{{totalCommits}}</span>
-          commits on
-          <span class="font-black">{{monthLabel}}</span>
-        </p>
-        <div class="grid gap-3">
-          <div class="p-1 rounded-md border border-zinc-600">
-            <app-maintenance [subtitle]="'fixing bugs'"></app-maintenance>
-            <!-- <app-chart [options]="option" [theme]="chartTheme" [autoResize]="true" [height]="'100px'"></app-chart> -->
-          </div>
-          <div class="flex justify-end">
-            <button class="w-fit cursor-pointer items-center justify-center rounded-sm underline
-              px-3 py-1 text-xs text-slate-200 transition-all duration-300
-              hover:transform-[translateY(-.2rem)]"
-              (click)="gotoProjects()">
-                View projects
-            </button>
-          </div>
-        </div>
-      }@else {
-        <div class="flex justify-center">
-          <app-spinner></app-spinner>
-        </div>
-      }
+  <div class="grid gap-3">
+    <div class="p-1 rounded-md border border-zinc-600">
+      <app-maintenance [subtitle]="'fixing bugs'"></app-maintenance>
+      <!-- <app-chart [options]="option" [theme]="chartTheme" [autoResize]="true" [height]="'100px'"></app-chart> -->
     </div>
+    <div class="flex justify-end">
+      <button class="w-fit cursor-pointer items-center justify-center rounded-sm underline
+              px-3 py-1 text-xs text-slate-200 transition-all duration-300
+              hover:transform-[translateY(-.2rem)]" (click)="gotoProjects()">
+        View projects
+      </button>
+    </div>
+  </div>
+</div>
