@@ -30,8 +30,8 @@ export const sidebarContent: SidebarGroupMenu[] = [
     icon: 'lucideBriefcaseBusiness',
   },
   {
-    title: 'Journal',
+    title: 'Blog',
     url: '/blog',
-    icon: 'lucideNotebookPen',
+    icon: 'lucideRss',
   },
 ];

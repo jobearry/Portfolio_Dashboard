@@ -22,7 +22,7 @@ export class Portfolio implements OnInit {
   ngOnInit(): void {
 
     this.getContent<JGExperience>('v1/Experiences', this._expService)
-    this.getContent<JGProject>('v1/Projects', this._projectService)
+    // this.getContent<JGProject>('v1/Projects', this._projectService)
   }
 
 
