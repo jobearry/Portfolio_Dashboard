@@ -12,21 +12,26 @@
     </ng-container>
   </app-card>
 </section>
-<section class="p-4 border-b flex flex-col md:flex-row gap-2 overflow-x-auto">
-  <div class="max-w-full h-full grid">
+<section class="p-4 border-b flex flex-col md:flex-row gap-2">
+  <div class="h-full flex-1">
       <app-card
         [title]="'Experiences'"
         [description]="'Timeline'"
         class="">
         <ng-container slot="content">
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col lg:flex-row gap-2">
             @if(_expService.getState().loading){
               <app-skeleton-item></app-skeleton-item>
             }@else {
-              @for (item of _expService.getState().content; track $index) {
-                <button [class]="`text-start bg-muted/50 p-2 rounded-sm ${transitionMoveUp}`">
-                  <h3>{{item.companyName}}</h3>
-                  <p class="text-zinc-500">{{item.description}}</p>
+              @for (item of _expService.getState().content; track item.experienceId ) {
+                <button [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
+                  flex items-center gap-3 w-full`">
+                  <span hlmH3>{{item.experienceId}}</span>
+                  <div class="flex-1">
+                    <h3>{{item.companyName}}</h3>
+                    <p class="text-zinc-500">{{item.description}}</p>
+                  </div>
+                  <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
                 </button>
               }
             }

@@ -7,12 +7,16 @@ import { JGExperience } from './core/models/experience';
 import { ExperienceSignalService, ProjectSignalService } from './store/portfolio.service';
 import { SkeletonItem } from "../../../../components/skeletons/item/skeleton-item";
 import { BlogItem } from "../../../../components/item/item";
-import { HlmMuted } from "@spartan-ng/helm/typography";
+import { HlmMuted, HlmH3 } from "@spartan-ng/helm/typography";
+import { HlmIcon } from "@spartan-ng/helm/icon";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import { lucideInfo } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-resume',
-  imports: [Card, SkeletonItem, BlogItem, HlmMuted],
+  imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3],
   templateUrl: './portfolio.html',
+  providers: [provideIcons({ lucideInfo })],
   styles: ``,
 })
 export class Portfolio implements OnInit {
