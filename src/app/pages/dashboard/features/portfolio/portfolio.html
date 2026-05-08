@@ -21,12 +21,14 @@
         <ng-container slot="content">
           <div class="flex flex-col lg:flex-row gap-2">
             @if(_expService.getState().loading){
-              <app-skeleton-item></app-skeleton-item>
+              <app-skeleton-item class="w-full"></app-skeleton-item>
             }@else {
               @for (item of _expService.getState().content; track item.experienceId ) {
-                <button [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
+                <button
+                  (click)="openDialog()"
+                  [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
                   flex items-center gap-3 w-full`">
-                  <span hlmH3>{{item.experienceId}}</span>
+                  <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>
                   <div class="flex-1">
                     <h3>{{item.companyName}}</h3>
                     <p class="text-zinc-500">{{item.description}}</p>
