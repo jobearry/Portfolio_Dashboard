@@ -1,4 +1,4 @@
-<section class="p-4 border-b flex flex-col md:flex-row gap-2 overflow-x-auto">
+<section class="p-4 flex border-b flex-col md:flex-row gap-2 overflow-x-auto">
   <app-card
     [title]="'Jonathan Golimlim'"
     [description]="'@jobearry'"
@@ -12,32 +12,53 @@
     </ng-container>
   </app-card>
 </section>
-<section class="p-4 border-b flex flex-col md:flex-row gap-2 overflow-x-auto">
-  <div class="max-w-full h-full grid">
-      <app-card
-        [title]="'Experiences'"
-        [description]="'Timeline'"
-        class="">
-        <ng-container slot="content">
-          <div class="flex flex-col gap-2">
-            @if(_expService.getState().loading){
-              <app-skeleton-item></app-skeleton-item>
-            }@else {
-              @for (item of _expService.getState().content; track $index) {
-                <button [class]="`text-start bg-muted/50 p-2 rounded-sm ${transitionMoveUp}`">
-                  <h3>{{item.companyName}}</h3>
-                  <p class="text-zinc-500">{{item.description}}</p>
-                </button>
-              }
-            }
-          </div>
-        </ng-container>
-        <ng-container slot="footer">
-          <span [class]="portfolioCardFooterStyle">
-            - still ongoing -
-          </span>
-        </ng-container>
-      </app-card>
-  </div>
-
+<section class="p-4 flex flex-col md:flex-row gap-2">
+  <app-card
+    [title]="'Experiences'"
+    [description]="'Timeline'"
+    class="">
+    <ng-container slot="content">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+        @if(_expService.getState().loading){
+          <app-skeleton-item class="w-full"></app-skeleton-item>
+        }@else {
+          @for (item of _expService.getState().content; track item.experienceId ) {
+            <button
+              (click)="openDialog(item)"
+              [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
+              flex items-center gap-3 w-full`">
+              <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>
+              <div class="flex-1">
+                <h3>{{item.companyName}}</h3>
+                <p class="text-zinc-500">{{item.description}}</p>
+              </div>
+              <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
+            </button>
+          }
+        }
+      </div>
+    </ng-container>
+    <ng-container slot="footer">
+      <span [class]="portfolioCardFooterStyle">
+        - still ongoing -
+      </span>
+    </ng-container>
+  </app-card>
+</section>
+<section class="p-4 flex flex-col md:flex-row gap-2">
+  <app-card
+    [title]="'Skills'"
+    [description]="'Technical stack and tools that I have experience with'"
+    class="">
+    <ng-container slot="content">
+      <div class="flex flex-col lg:flex-row gap-2">
+        <app-maintenance subtitle="ongoing development"></app-maintenance>
+      </div>
+    </ng-container>
+    <ng-container slot="footer">
+      <span [class]="portfolioCardFooterStyle">
+        <!-- - still ongoing - -->
+      </span>
+    </ng-container>
+  </app-card>
 </section>

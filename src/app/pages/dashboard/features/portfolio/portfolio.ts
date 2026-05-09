@@ -2,20 +2,28 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Card } from '../../../../components/card/card';
 import { PortfolioSignalService } from './store/portfolio-base.service';
 import { PORTFOLIO_CARD_FOOTER_STYLES, TRANSITION_MOVE_UP } from './core/styles/portfolio.styles';
-import { JGProject } from './core/models/project';
 import { JGExperience } from './core/models/experience';
 import { ExperienceSignalService, ProjectSignalService } from './store/portfolio.service';
 import { SkeletonItem } from "../../../../components/skeletons/item/skeleton-item";
-import { BlogItem } from "../../../../components/item/item";
-import { HlmMuted } from "@spartan-ng/helm/typography";
+import { HlmH3 } from "@spartan-ng/helm/typography";
+import { HlmIcon } from "@spartan-ng/helm/icon";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import { lucideInfo } from '@ng-icons/lucide';
+import { HlmDialogService } from '../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
+import { getContent } from './core/portfolio.util';
+import { ProjectDialog } from './components/dialog/project-dialog';
+import { JGProject } from './core/models/project';
+import { Maintenance } from "../../../../components/maintenance.ts/maintenance";
 
 @Component({
   selector: 'app-resume',
-  imports: [Card, SkeletonItem, BlogItem, HlmMuted],
+  imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3, Maintenance],
   templateUrl: './portfolio.html',
+  providers: [provideIcons({ lucideInfo })],
   styles: ``,
 })
 export class Portfolio implements OnInit {
+  _hlmDialogService = inject(HlmDialogService);
   _projectService = inject(ProjectSignalService)
   _expService = inject(ExperienceSignalService)
   portfolioCardFooterStyle = PORTFOLIO_CARD_FOOTER_STYLES
@@ -23,13 +31,20 @@ export class Portfolio implements OnInit {
 
   ngOnInit(): void {
 
-    this.getContent<JGExperience>('v1/Experiences', this._expService)
-    // this.getContent<JGProject>('v1/Projects', this._projectService)
+    getContent<JGExperience>('v1/Experiences', this._expService)
   }
 
+  async openDialog(experience: JGExperience){
+    await getContent<JGProject>(`v1/Experiences/${experience.experienceId}/projects`, this._projectService)
+    const dialogRef = this._hlmDialogService.open(ProjectDialog, {
+      context: {
+        experience: experience,
+        projects: this._projectService.getState().content
+      }
+    });
 
-  async getContent<T>(endpoint:string, signalState: PortfolioSignalService<T>){
-    signalState.setLoading();
-    await(signalState.getPortfolioResource(endpoint));
+    dialogRef.closed$.subscribe(() => {
+      console.log('Dialog closed');
+    });
   }
 }
