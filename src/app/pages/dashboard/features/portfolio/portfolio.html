@@ -25,7 +25,7 @@
             }@else {
               @for (item of _expService.getState().content; track item.experienceId ) {
                 <button
-                  (click)="openDialog()"
+                  (click)="openDialog(item)"
                   [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
                   flex items-center gap-3 w-full`">
                   <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideLayoutDashboard, lucideUserCircle } from '@ng-icons/lucide';
+import { lucideUserCircle } from '@ng-icons/lucide';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { RouterModule } from "@angular/router";

@@ -10,7 +10,9 @@ import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { lucideInfo } from '@ng-icons/lucide';
 import { HlmDialogService } from '../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
-import { Dialog } from '@angular/cdk/dialog';
+import { getContent } from './core/portfolio.util';
+import { ProjectDialog } from './components/dialog/project-dialog';
+import { JGProject } from './core/models/project';
 
 @Component({
   selector: 'app-resume',
@@ -28,17 +30,20 @@ export class Portfolio implements OnInit {
 
   ngOnInit(): void {
 
-    this.getContent<JGExperience>('v1/Experiences', this._expService)
-    // this.getContent<JGProject>('v1/Projects', this._projectService)
+    getContent<JGExperience>('v1/Experiences', this._expService)
   }
 
+  async openDialog(experience: JGExperience){
+    await getContent<JGProject>(`v1/Experiences/${experience.experienceId}/projects`, this._projectService)
+    const dialogRef = this._hlmDialogService.open(ProjectDialog, {
+      context: {
+        experience: experience,
+        projects: this._projectService.getState().content
+      }
+    });
 
-  async getContent<T>(endpoint:string, signalState: PortfolioSignalService<T>){
-    signalState.setLoading();
-    await(signalState.getPortfolioResource(endpoint));
-  }
-
-  openDialog(){
-    this._hlmDialogService.open(Dialog);
+    dialogRef.closed$.subscribe(() => {
+      console.log('Dialog closed');
+    });
   }
 }

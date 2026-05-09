@@ -1,3 +1,5 @@
+import { TechStackSpec } from "./techstack";
+
 export interface JGProject {
   projectId: number;
   projectName: string;
@@ -5,6 +7,6 @@ export interface JGProject {
   coverImg: string;
   duration: number;
   contribution: string;
-  createdAt: string;
-  updatedAt: string;
+
+  techStackSpecs: TechStackSpec[];
 }

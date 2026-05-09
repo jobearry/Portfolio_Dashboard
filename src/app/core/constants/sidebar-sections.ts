@@ -1,6 +1,5 @@
 import {
   lucideBriefcaseBusiness,
-  lucideHouse,
   lucideLayoutDashboard,
   lucideNotebookPen,
   lucideRss,
