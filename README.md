@@ -8,5 +8,8 @@
 A dashboard page for updating my resume website easier.  
 Made with Angular, and SpartanUI
 
+Features
 ---
-**NOTE:** Nothing special here yet, just a sidebar. Just kind of playing with local AI with Ollama using Qwen2.5:7b (it's slow on my pc) and decided to create a dashboard. 
+- Dashboard - This is still a blank page, planning to add things here after a decent progress with other pages.
+- Portfolio - This page currently display a basic profile, and an experiences section. Planning to add more here soon, but currently this is where CRUD functionality should be added for streamlining updates for my resume.
+- Blog - This page uses the Notion API and exposes my blog/journal page.

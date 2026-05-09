@@ -1,12 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { Sidebar } from "./components/sidebar/sidebar";
-import { HlmSidebarTrigger } from "@spartan-ng/helm/sidebar";
-import { Navbar } from "./components/navbar/navbar";
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
-import { lucideHouse, lucideRss } from '@ng-icons/lucide';
-import { sidebarContent, sidebarIcons } from './core/constants/sidebar-sections';
-import { Profile } from "./pages/profile/profile";
+import { sidebarIcons } from './core/constants/sidebar-sections';
 
 @Component({
   selector: 'app-root',
