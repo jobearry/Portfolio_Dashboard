@@ -8,3 +8,6 @@ export class ProjectSignalService extends PortfolioSignalService<JGProject> {}
 
 @Injectable({ providedIn: 'root' })
 export class ExperienceSignalService extends PortfolioSignalService<JGExperience> {}
+
+@Injectable({ providedIn: 'root' })
+export class SkillsService extends PortfolioSignalService<JGExperience> {}

@@ -13,4 +13,9 @@ export interface TechStackSpec {
   stack: string;
 }
 
-export interface TechStackDTO {}
+export interface TechStackDTO {
+  stackId: number;
+  stackName: string;
+  createdAt: string;
+  techStackSpecs: TechStackSpec[];
+}

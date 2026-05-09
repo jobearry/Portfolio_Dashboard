@@ -13,10 +13,11 @@ import { HlmDialogService } from '../../../../../../libs/ui/dialog/src/lib/hlm-d
 import { getContent } from './core/portfolio.util';
 import { ProjectDialog } from './components/dialog/project-dialog';
 import { JGProject } from './core/models/project';
+import { Maintenance } from "../../../../components/maintenance.ts/maintenance";
 
 @Component({
   selector: 'app-resume',
-  imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3],
+  imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3, Maintenance],
   templateUrl: './portfolio.html',
   providers: [provideIcons({ lucideInfo })],
   styles: ``,
