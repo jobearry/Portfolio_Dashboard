@@ -1,8 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { HlmCardImports } from '@spartan-ng/helm/card';
-import { Card } from "../../../../components/card/card";
-import { PortfolioSignalService } from '../portfolio/store/portfolio-base.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',

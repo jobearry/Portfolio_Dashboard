@@ -18,10 +18,12 @@
     [description]="'Timeline'"
     class="">
     <ng-container slot="content">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-        @if(_expService.getState().loading){
-          <app-skeleton-item class="w-full"></app-skeleton-item>
-        }@else {
+      @if(_expService.getState().loading){
+        <div class="w-92">
+          <app-skeleton-item></app-skeleton-item>
+        </div>
+      }@else {
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
           @for (item of _expService.getState().content; track item.experienceId ) {
             <button
               (click)="openDialog(item)"
@@ -35,8 +37,8 @@
               <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
             </button>
           }
-        }
-      </div>
+        </div>
+      }
     </ng-container>
     <ng-container slot="footer">
       <span [class]="portfolioCardFooterStyle">

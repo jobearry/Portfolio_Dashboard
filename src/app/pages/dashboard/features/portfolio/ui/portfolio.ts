@@ -1,19 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Card } from '../../../../components/card/card';
-import { PortfolioSignalService } from './store/portfolio-base.service';
-import { PORTFOLIO_CARD_FOOTER_STYLES, TRANSITION_MOVE_UP } from './core/styles/portfolio.styles';
-import { JGExperience } from './core/models/experience';
-import { ExperienceSignalService, ProjectSignalService } from './store/portfolio.service';
-import { SkeletonItem } from "../../../../components/skeletons/item/skeleton-item";
+import { Card } from '../../../../../components/card/card';
+import { PORTFOLIO_CARD_FOOTER_STYLES, TRANSITION_MOVE_UP } from '../core/styles/portfolio.styles';
+import { JGExperience } from '../core/models/experience';
+import { ExperienceSignalService, ProjectSignalService } from '../store/portfolio.service';
+import { SkeletonItem } from "../../../../../components/skeletons/item/skeleton-item";
 import { HlmH3 } from "@spartan-ng/helm/typography";
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { lucideInfo } from '@ng-icons/lucide';
-import { HlmDialogService } from '../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
-import { getContent } from './core/portfolio.util';
-import { ProjectDialog } from './components/dialog/project-dialog';
-import { JGProject } from './core/models/project';
-import { Maintenance } from "../../../../components/maintenance.ts/maintenance";
+import { HlmDialogService } from '../../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
+import { getContent } from '../core/portfolio.util';
+import { ProjectDialog } from '../components/dialog/project-dialog';
+import { JGProject } from '../core/models/project';
+import { Maintenance } from "../../../../../components/maintenance.ts/maintenance";
 
 @Component({
   selector: 'app-resume',
