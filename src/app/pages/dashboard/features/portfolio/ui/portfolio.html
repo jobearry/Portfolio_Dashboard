@@ -12,10 +12,10 @@
     </ng-container>
   </app-card>
 </section>
-<section class="p-4 flex flex-col md:flex-row gap-2">
+<section class="p-4">
   <app-card
     [title]="'Experiences'"
-    [description]="'Timeline'"
+    [description]="'Career journey and work history'"
     class="">
     <ng-container slot="content">
       @if(_expService.getState().loading){
@@ -23,7 +23,7 @@
           <app-skeleton-item></app-skeleton-item>
         </div>
       }@else {
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
           @for (item of _expService.getState().content; track item.experienceId ) {
             <button
               (click)="openDialog(item)"
@@ -40,27 +40,34 @@
         </div>
       }
     </ng-container>
-    <ng-container slot="footer">
-      <span [class]="portfolioCardFooterStyle">
-        - still ongoing -
-      </span>
-    </ng-container>
   </app-card>
 </section>
-<section class="p-4 flex flex-col md:flex-row gap-2">
+<section class="p-4">
   <app-card
     [title]="'Skills'"
-    [description]="'Technical stack and tools that I have experience with'"
+    [description]="'Technical stack and tools'"
     class="">
     <ng-container slot="content">
-      <div class="flex flex-col lg:flex-row gap-2">
-        <app-maintenance subtitle="ongoing development"></app-maintenance>
-      </div>
-    </ng-container>
-    <ng-container slot="footer">
-      <span [class]="portfolioCardFooterStyle">
-        <!-- - still ongoing - -->
-      </span>
+      @if(_skillsService.getState().loading){
+        <div class="w-92">
+          <app-skeleton-item></app-skeleton-item>
+        </div>
+      }@else {
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
+          @for (stack of _skillsService.getState().content; track stack.stackId) {
+            @if(stack.techStackSpecs.length > 0){
+              <div class="p-2 rounded-sm">
+                <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
+                <div class="flex flex-wrap gap-2 px-5">
+                  @for (spec of stack.techStackSpecs; track spec.specId) {
+                    <p class="py-1 bg-zinc-800 text-xs rounded-full border px-2">{{spec.toolName}}</p>
+                  }
+                </div>
+              </div>
+              }
+          }
+        </div>
+      }
     </ng-container>
   </app-card>
 </section>
