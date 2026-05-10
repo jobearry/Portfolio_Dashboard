@@ -12,7 +12,7 @@
     </ng-container>
   </app-card>
 </section>
-<section class="p-4">
+<section class="p-4 ">
   <app-card
     [title]="'Experiences'"
     [description]="'Career journey and work history'"
@@ -23,7 +23,7 @@
           <app-skeleton-item></app-skeleton-item>
         </div>
       }@else {
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
           @for (item of _expService.getState().content; track item.experienceId ) {
             <button
               (click)="openDialog(item)"
@@ -53,18 +53,18 @@
           <app-skeleton-item></app-skeleton-item>
         </div>
       }@else {
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
+        <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
           @for (stack of _skillsService.getState().content; track stack.stackId) {
             @if(stack.techStackSpecs.length > 0){
-              <div class="p-2 rounded-sm">
+              <div [class]="`p-1 rounded-sm flex flex-col gap-1 bg-muted/50 ${transitionMoveUp}`">
                 <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
-                <div class="flex flex-wrap gap-2 px-5">
+                <button class="flex flex-wrap gap-2 px-5 pb-2">
                   @for (spec of stack.techStackSpecs; track spec.specId) {
-                    <p class="py-1 bg-zinc-800 text-xs rounded-full border px-2">{{spec.toolName}}</p>
+                    <p class="py-1 bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
                   }
-                </div>
+                </button>
               </div>
-              }
+            }
           }
         </div>
       }

@@ -15,9 +15,13 @@ import { JGExperience } from '../../core/models/experience';
         <div class="p-2">
           <h3 hlmDialogTitle class="text-start">{{_experience.companyName}}</h3>
           <p hlmDialogDescription class="text-start">{{_experience.description}}</p>
+          <p class="flex flex-col text-start text-xs font-bold pt-2">
+            <span>Responsibility: </span>
+            <span hlmDialogDescription class="text-xs">{{_experience.responsibility}}</span>
+          </p>
         </div>
         <div class="flex flex-wrap gap-2 max-h-56 overflow-y-auto
-          [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
+        [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
           @for (item of _projects; track item.projectId) {
             <div class="flex flex-col gap-2 rounded-sm p-3 bg-zinc-900/50 text-start">
               <h4 class="font-semibold">{{item.projectName}}</h4>

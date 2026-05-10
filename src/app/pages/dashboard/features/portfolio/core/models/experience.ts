@@ -4,4 +4,6 @@ export interface JGExperience {
   finishedAt: string;
   description: string;
   role: string;
+  responsibility: string;
+  type: string;
 }

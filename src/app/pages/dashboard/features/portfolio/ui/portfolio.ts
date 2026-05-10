@@ -7,7 +7,7 @@ import { SkeletonItem } from "../../../../../components/skeletons/item/skeleton-
 import { HlmH3 } from "@spartan-ng/helm/typography";
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from "@ng-icons/core";
-import { lucideInfo } from '@ng-icons/lucide';
+import { lucideInfo, lucideToolCase } from '@ng-icons/lucide';
 import { HlmDialogService } from '../../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
 import { getContent } from '../core/portfolio.util';
 import { ProjectDialog } from '../components/dialog/project-dialog';
@@ -19,7 +19,7 @@ import { JGTechStackDTO } from '../core/models/techstack';
   selector: 'app-resume',
   imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3],
   templateUrl: './portfolio.html',
-  providers: [provideIcons({ lucideInfo })],
+  providers: [provideIcons({ lucideInfo, lucideToolCase })],
   styles: ``,
 })
 export class Portfolio implements OnInit {
