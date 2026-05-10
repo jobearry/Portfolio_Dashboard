@@ -1,73 +1,67 @@
 <section class="p-4 flex border-b flex-col md:flex-row gap-2 overflow-x-auto">
-  <app-card
-    [title]="'Jonathan Golimlim'"
-    [description]="'@jobearry'"
-    class="">
-    <ng-container slot="content">
-    </ng-container>
-    <ng-container slot="footer">
-      <span [class]="portfolioCardFooterStyle">
-        A full-stack developer who focuses on developing web applications through Angular and .NET
-      </span>
-    </ng-container>
-  </app-card>
+  <div class="bg-zinc-900/50 p-2 border rounded-sm flex flex-col gap-2">
+    <span>
+      <h3 hlmH3>Jonathan Golimlim</h3>
+      <p class="text-muted-foreground">@jobearry</p>
+    </span>
+    <p [class]="`${portfolioCardFooterStyle} text-end w-full`">
+      A full-stack developer who focuses on developing web applications through Angular and .NET
+    </p>
+  </div>
 </section>
-<section class="p-4 ">
-  <app-card
-    [title]="'Experiences'"
-    [description]="'Career journey and work history'"
-    class="">
-    <ng-container slot="content">
-      @if(_expService.getState().loading){
-        <div class="w">
-          <app-skeleton-item></app-skeleton-item>
-        </div>
-      }@else {
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-          @for (item of _expService.getState().content; track item.experienceId ) {
-            <button
-              (click)="openDialog(item)"
-              [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
-              flex items-center gap-3 w-full`">
-              <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>
-              <div class="flex-1">
-                <h3>{{item.companyName}}</h3>
-                <p class="text-zinc-500">{{item.description}}</p>
-              </div>
-              <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
+<section class="p-4 flex flex-col gap-4">
+  @if(_expService.getState().loading){
+    <div class="w">
+      <app-skeleton-item></app-skeleton-item>
+    </div>
+  }@else {
+    <span>
+      <h3 hlmH3>Experiences</h3>
+      <p class="text-muted-foreground">Career journey and work history</p>
+    </span>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 ">
+      @for (item of _expService.getState().content; track item.experienceId ) {
+        <button
+          (click)="openDialog(item)"
+          [class]="`bg-zinc-900/50 text-start border p-3.5 rounded-sm ${transitionMoveUp}
+          flex items-center gap-3 w-full`">
+          <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>
+          <div class="flex-1">
+            <h3>{{item.companyName === "Eulogio 'Amang' Rodriguez Institute of Science and Technology"?
+                  "E.A.R.I.S.T." : item.companyName}}
+            </h3>
+            <p class="text-zinc-500">{{item.description}}</p>
+          </div>
+          <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
+        </button>
+      }
+    </div>
+  }
+</section>
+<section class="p-4 flex flex-col gap-4">
+  @if(_skillsService.getState().loading){
+    <div class="w-full">
+      <app-skeleton-item></app-skeleton-item>
+    </div>
+  }@else {
+    <span>
+      <h3 hlmH3>Skills</h3>
+      <p class="text-muted-foreground">Technical stack and tools</p>
+    </span>
+    <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
+      @for (stack of _skillsService.getState().content; track stack.stackId) {
+        @if(stack.techStackSpecs.length > 0){
+          <div [class]="`bg-zinc-900/50 text-start border px-2 py-1 rounded-sm ${transitionMoveUp}
+            gap-1 w-full flex flex-col items-start`">
+            <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
+            <button class="flex flex-wrap gap-1 px-3 pb-2">
+              @for (spec of stack.techStackSpecs; track spec.specId) {
+                <p class="py-1 bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
+              }
             </button>
-          }
-        </div>
+          </div>
+        }
       }
-    </ng-container>
-  </app-card>
-</section>
-<section class="p-4">
-  <app-card
-    [title]="'Skills'"
-    [description]="'Technical stack and tools'"
-    class="">
-    <ng-container slot="content">
-      @if(_skillsService.getState().loading){
-        <div class="w-full">
-          <app-skeleton-item></app-skeleton-item>
-        </div>
-      }@else {
-        <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
-          @for (stack of _skillsService.getState().content; track stack.stackId) {
-            @if(stack.techStackSpecs.length > 0){
-              <div [class]="`p-1 rounded-sm flex flex-col gap-1 bg-muted/50 ${transitionMoveUp}`">
-                <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
-                <button class="flex flex-wrap gap-2 px-5 pb-2">
-                  @for (spec of stack.techStackSpecs; track spec.specId) {
-                    <p class="py-1 bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
-                  }
-                </button>
-              </div>
-            }
-          }
-        </div>
-      }
-    </ng-container>
-  </app-card>
+    </div>
+  }
 </section>

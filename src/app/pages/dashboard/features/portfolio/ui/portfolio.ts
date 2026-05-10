@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Card } from '../../../../../components/card/card';
 import { PORTFOLIO_CARD_FOOTER_STYLES, TRANSITION_MOVE_UP } from '../core/styles/portfolio.styles';
 import { JGExperience } from '../core/models/experience';
 import { ExperienceSignalService, ProjectSignalService, SkillsService } from '../store/portfolio.service';
@@ -12,12 +11,11 @@ import { HlmDialogService } from '../../../../../../../libs/ui/dialog/src/lib/hl
 import { getContent } from '../core/portfolio.util';
 import { ProjectDialog } from '../components/dialog/project-dialog';
 import { JGProject } from '../core/models/project';
-import { Maintenance } from "../../../../../components/maintenance.ts/maintenance";
 import { JGTechStackDTO } from '../core/models/techstack';
 
 @Component({
   selector: 'app-resume',
-  imports: [Card, SkeletonItem, HlmIcon, NgIcon, HlmH3],
+  imports: [SkeletonItem, HlmIcon, NgIcon, HlmH3],
   templateUrl: './portfolio.html',
   providers: [provideIcons({ lucideInfo, lucideToolCase })],
   styles: ``,
