@@ -7,14 +7,15 @@ import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
   selector: 'app-skeleton-item',
   imports: [HlmSkeleton, HlmItemImports, HlmButtonImports],
   template: `
-    <a hlmItem variant="muted">
-      <div hlmItemContent>
-        <div class="flex w-full max-w-xs flex-col gap-2">
+    <a hlmItem variant="muted" class="h-full">
+      <div hlmItemContent class="h-full">
+        <div class="flex w-full flex-col gap-2 h-full">
           <hlm-skeleton class="h-4 w-full" />
           <hlm-skeleton class="h-4 w-3/4" />
         </div>
       </div>
     </a>
+
   `,
   styles: ``,
 })

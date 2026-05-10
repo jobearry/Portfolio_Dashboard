@@ -12,16 +12,18 @@
     </ng-container>
   </app-card>
 </section>
-<section class="p-4 flex flex-col md:flex-row gap-2">
+<section class="p-4 ">
   <app-card
     [title]="'Experiences'"
-    [description]="'Timeline'"
+    [description]="'Career journey and work history'"
     class="">
     <ng-container slot="content">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-        @if(_expService.getState().loading){
-          <app-skeleton-item class="w-full"></app-skeleton-item>
-        }@else {
+      @if(_expService.getState().loading){
+        <div class="w-92">
+          <app-skeleton-item></app-skeleton-item>
+        </div>
+      }@else {
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
           @for (item of _expService.getState().content; track item.experienceId ) {
             <button
               (click)="openDialog(item)"
@@ -35,30 +37,37 @@
               <ng-icon hlm name="lucideInfo" size="sm" class="font-bold" />
             </button>
           }
-        }
-      </div>
-    </ng-container>
-    <ng-container slot="footer">
-      <span [class]="portfolioCardFooterStyle">
-        - still ongoing -
-      </span>
+        </div>
+      }
     </ng-container>
   </app-card>
 </section>
-<section class="p-4 flex flex-col md:flex-row gap-2">
+<section class="p-4">
   <app-card
     [title]="'Skills'"
-    [description]="'Technical stack and tools that I have experience with'"
+    [description]="'Technical stack and tools'"
     class="">
     <ng-container slot="content">
-      <div class="flex flex-col lg:flex-row gap-2">
-        <app-maintenance subtitle="ongoing development"></app-maintenance>
-      </div>
-    </ng-container>
-    <ng-container slot="footer">
-      <span [class]="portfolioCardFooterStyle">
-        <!-- - still ongoing - -->
-      </span>
+      @if(_skillsService.getState().loading){
+        <div class="w-92">
+          <app-skeleton-item></app-skeleton-item>
+        </div>
+      }@else {
+        <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
+          @for (stack of _skillsService.getState().content; track stack.stackId) {
+            @if(stack.techStackSpecs.length > 0){
+              <div [class]="`p-1 rounded-sm flex flex-col gap-1 bg-muted/50 ${transitionMoveUp}`">
+                <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
+                <button class="flex flex-wrap gap-2 px-5 pb-2">
+                  @for (spec of stack.techStackSpecs; track spec.specId) {
+                    <p class="py-1 bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
+                  }
+                </button>
+              </div>
+            }
+          }
+        </div>
+      }
     </ng-container>
   </app-card>
 </section>

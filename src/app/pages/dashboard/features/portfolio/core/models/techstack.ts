@@ -13,7 +13,7 @@ export interface TechStackSpec {
   stack: string;
 }
 
-export interface TechStackDTO {
+export interface JGTechStackDTO {
   stackId: number;
   stackName: string;
   createdAt: string;

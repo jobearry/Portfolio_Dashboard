@@ -10,12 +10,12 @@ import { NgIcon } from '@ng-icons/core';
   imports: [HlmButtonImports, HlmCardImports, HlmH3],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <hlm-card size="sm">
+    <hlm-card size="sm" class="h-full">
       <hlm-card-header>
         <h3 hlmH3>{{title()}}</h3>
         <p hlmCardDescription>{{description()}}</p>
       </hlm-card-header>
-      <div hlmCardContent>
+      <div hlmCardContent class="h-full w-full">
         <ng-content select="[slot=content]"></ng-content>
       </div>
       <hlm-card-footer>
