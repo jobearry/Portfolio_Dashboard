@@ -1,16 +1,24 @@
 <section class="p-3">
-  <div class="p-2 grid grid-cols-1 md:grid-cols-5 gap-4">
-    @if(notionService.state().loading){
+  @if(notionService.state().loading){
+    <div class="p-2">
       <app-skeleton-item></app-skeleton-item>
-    }@else {
+    </div>
+  }@else {
+    <div class="p-2 flex flex-col md:flex-row flex-wrap gap-2">
       @for (item of notionService.state().content; track $index) {
-        <a [href]="parseUrl(item.url)" target="_blank" rel="noopener noreferrer">
-          <app-item
-            [title]="item.title"
-            [description]="item.date">
-          </app-item>
-        </a>
+        <div>
+          <a [href]="parseUrl(item.url)" target="_blank" rel="noopener noreferrer"
+            [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
+              flex items-center gap-3 w-full`">
+              <span class="text-lg font-bold">{{$index < 9? `0${$index + 1}` : $index + 1}}</span>
+              <div class="flex-1">
+                <h3>{{item.title}}</h3>
+                <p class="text-zinc-500">{{item.date}}</p>
+              </div>
+              <ng-icon hlm name="lucideExternalLink" size="sm" class="font-bold" />
+            </a>
+        </div>
       }
-    }
-  </div>
+    </div>
+  }
 </section>

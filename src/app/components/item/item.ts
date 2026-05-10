@@ -25,7 +25,7 @@ import { lucideExternalLink } from '@ng-icons/lucide';
   ],
   styles: ``,
 })
-export class BlogItem {
+export class Item {
   title = input<string>('');
   description = input<string>('');
   icon = input<string>('lucideExternalLink');

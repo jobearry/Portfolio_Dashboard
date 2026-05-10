@@ -3,8 +3,10 @@
     <section class="p-2 border-b">
       <app-navbar [title]="''"></app-navbar>
     </section>
-    <section class="w-full">
-      <router-outlet></router-outlet>
+    <section class="grid place-items-center">
+      <div class="max-w-[1200px] w-full">
+        <router-outlet></router-outlet>
+      </div>
     </section>
   </main>
 </app-sidebar>
