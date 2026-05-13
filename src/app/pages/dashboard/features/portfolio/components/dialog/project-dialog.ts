@@ -24,14 +24,15 @@ import { JGExperience } from '../../core/models/experience';
         [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
           @for (item of _projects; track item.projectId) {
             <div class="flex flex-col gap-2 rounded-sm p-3 bg-zinc-900/50 text-start">
-              <h4 class="font-semibold">{{item.projectName}}</h4>
-              <p class="text-muted-foreground">{{item.description}}</p>
+              <h4 class="font-semibold text-xs">{{item.projectName}}</h4>
+              <p class="text-muted-foreground text-xs">{{item.description}}</p>
 
-              <p class="text-muted-foreground font-bold">Built with:</p>
+              <p class="text-muted-foreground font-bold text-xs">Built with:</p>
               <div class="flex flex-wrap gap-1">
-                @for (specs of item.techStackSpecs; track specs.specId) {
-                  <img class="rounded-sm hover:ring-1 focus:ring-1 ring-primary transition-all"
-                    [src]="getShieldsIOUrl(specs.toolName)" [alt]="specs.toolName">
+                @for (spec of item.techStackSpecs; track spec.specId) {
+                  <p class=" bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
+                  <!-- <img class="rounded-sm hover:ring-1 focus:ring-1 ring-primary transition-all text-xs"
+                    [src]="getShieldsIOUrl(specs.toolName)" [alt]="specs.toolName"> -->
                 }
               </div>
             </div>
