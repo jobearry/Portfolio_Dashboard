@@ -18,6 +18,7 @@ export class PortfolioSignalService<T>{
   setLoading(){
     this._state.update((state) => ({...state, loading: true, content: [], message: ""}))
   }
+
   async getPortfolioResource(endpoint: string){
     const response = await this.api.get<T[]>(endpoint);
     this._state.update((state) => ({

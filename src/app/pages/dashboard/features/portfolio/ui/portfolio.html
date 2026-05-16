@@ -8,8 +8,25 @@
       A full-stack developer who focuses on developing web applications through Angular and .NET
     </p>
   </div>
+
+  <div class="flex gap-2 flex-col">
+    <button
+      class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex flex-col px-3.5 py-1 rounded-md items-center justify-center
+      gap-0.5 bg-muted/50 relative">
+      <div class="w-4 h-4 border absolute -top-1.5 -right-1.5 flex justify-center items-center bg-red-600 rounded-full text-[11px]">1</div>
+      <ng-icon name="lucideToolCase" size="20"></ng-icon>
+      <p class="text-xs">Skills</p>
+    </button>
+    <button
+      class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex flex-col px-3.5 py-1 rounded-md items-center justify-center
+      gap-0.5 bg-muted/50 max-w-14 relative">
+      <div class="w-4 h-4 border absolute -top-1.5 -right-1.5 flex justify-center items-center bg-red-600 rounded-full text-[11px]">1</div>
+      <ng-icon name="lucideLibraryBig" size="20"></ng-icon>
+      <p class="text-xs">Exps</p>
+    </button>
+  </div>
 </section>
-<section class="p-4 flex flex-col gap-4">
+<!-- <section class="p-4 flex flex-col gap-4">
   @if(_expService.getState().loading){
     <div class="w">
       <app-skeleton-item></app-skeleton-item>
@@ -64,4 +81,4 @@
       }
     </div>
   }
-</section>
+</section> -->

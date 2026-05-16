@@ -25,7 +25,7 @@ export const routes: Routes = [
       {
         path: "**",
         redirectTo: "portfolio",
-        pathMatch: "full"
+        pathMatch: "full",
       }
     ]
   },

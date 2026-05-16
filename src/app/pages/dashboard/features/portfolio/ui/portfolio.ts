@@ -2,11 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { PORTFOLIO_CARD_FOOTER_STYLES, TRANSITION_MOVE_UP } from '../core/styles/portfolio.styles';
 import { JGExperience } from '../core/models/experience';
 import { ExperienceSignalService, ProjectSignalService, SkillsService } from '../store/portfolio.service';
-import { SkeletonItem } from "../../../../../components/skeletons/item/skeleton-item";
 import { HlmH3 } from "@spartan-ng/helm/typography";
 import { HlmIcon } from "@spartan-ng/helm/icon";
 import { NgIcon, provideIcons } from "@ng-icons/core";
-import { lucideInfo, lucideToolCase } from '@ng-icons/lucide';
+import { lucideInfo, lucideLibraryBig, lucideToolCase } from '@ng-icons/lucide';
 import { HlmDialogService } from '../../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
 import { getContent } from '../core/portfolio.util';
 import { ProjectDialog } from '../components/dialog/project-dialog';
@@ -15,9 +14,9 @@ import { JGTechStackDTO } from '../core/models/techstack';
 
 @Component({
   selector: 'app-resume',
-  imports: [SkeletonItem, HlmIcon, NgIcon, HlmH3],
+  imports: [HlmH3, NgIcon],
   templateUrl: './portfolio.html',
-  providers: [provideIcons({ lucideInfo, lucideToolCase })],
+  providers: [provideIcons({ lucideInfo, lucideToolCase, lucideLibraryBig })],
   styles: ``,
 })
 export class Portfolio implements OnInit {
@@ -29,13 +28,12 @@ export class Portfolio implements OnInit {
   transitionMoveUp = TRANSITION_MOVE_UP
 
   ngOnInit(): void {
-
-    getContent<JGExperience>('v1/Experiences', this._expService)
-    getContent<JGTechStackDTO>('v1/TechStack', this._skillsService)
+    getContent<JGExperience>('v1/portfolio/Experiences', this._expService)
+    getContent<JGTechStackDTO>('v1/portfolio/TechStack', this._skillsService)
   }
 
   async openDialog(experience: JGExperience){
-    await getContent<JGProject>(`v1/Experiences/${experience.experienceId}/projects`, this._projectService)
+    await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
     const dialogRef = this._hlmDialogService.open(ProjectDialog, {
       context: {
         experience: experience,
