@@ -1,4 +1,4 @@
-<section class="p-4 flex border-b flex-col md:flex-row gap-2 overflow-x-auto">
+<section class="p-4 flex border-b flex-col md:flex-row gap-2">
   <div class="bg-zinc-900/50 p-2 border rounded-sm flex flex-col gap-2">
     <span>
       <h3 hlmH3>Jonathan Golimlim</h3>
@@ -10,20 +10,19 @@
   </div>
 
   <div class="flex gap-2 flex-col">
-    <button
-      class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex flex-col px-3.5 py-1 rounded-md items-center justify-center
-      gap-0.5 bg-muted/50 relative">
-      <div class="w-4 h-4 border absolute -top-1.5 -right-1.5 flex justify-center items-center bg-red-600 rounded-full text-[11px]">1</div>
-      <ng-icon name="lucideToolCase" size="20"></ng-icon>
-      <p class="text-xs">Skills</p>
-    </button>
-    <button
-      class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex flex-col px-3.5 py-1 rounded-md items-center justify-center
-      gap-0.5 bg-muted/50 max-w-14 relative">
-      <div class="w-4 h-4 border absolute -top-1.5 -right-1.5 flex justify-center items-center bg-red-600 rounded-full text-[11px]">1</div>
-      <ng-icon name="lucideLibraryBig" size="20"></ng-icon>
-      <p class="text-xs">Exps</p>
-    </button>
+    @for (item of controls; track $index) {
+      <button
+        class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex flex-col px-3.5 py-1 rounded-md items-center justify-center
+        gap-0.5 bg-muted/50">
+        <div class="flex justify-between items-center w-full gap-2">
+          <ng-icon [name]="item['iconName']" size="15"></ng-icon>
+          <p class="flex justify-between items-center w-full gap-2">
+            <span class="text-sm">{{item["sectionName"]}}</span>
+            <span class="w-4 h-4 bg-muted flex justify-center items-center rounded-full text-[10px] truncate">1</span>
+          </p>
+        </div>
+      </button>
+    }
   </div>
 </section>
 <!-- <section class="p-4 flex flex-col gap-4">
