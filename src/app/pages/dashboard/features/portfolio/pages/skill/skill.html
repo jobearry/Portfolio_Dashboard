@@ -1,0 +1,28 @@
+<!--
+<section class="p-4 flex flex-col gap-4">
+  @if(_skillsService.getState().loading){
+    <div class="w-full">
+      <app-skeleton-item></app-skeleton-item>
+    </div>
+  }@else {
+    <span>
+      <h3 hlmH3>Skills</h3>
+      <p class="text-muted-foreground">Technical stack and tools</p>
+    </span>
+    <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
+      @for (stack of _skillsService.getState().content; track stack.stackId) {
+        @if(stack.techStackSpecs.length > 0){
+          <div [class]="`bg-zinc-900/50 text-start border px-2 py-1 rounded-sm ${transitionMoveUp}
+            gap-1 w-full flex flex-col items-start`">
+            <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
+            <button class="flex flex-wrap gap-1 px-3 pb-2">
+              @for (spec of stack.techStackSpecs; track spec.specId) {
+                <p class="bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
+              }
+            </button>
+          </div>
+        }
+      }
+    </div>
+  }
+</section> -->

@@ -1,14 +1,16 @@
-import { lucideDrill, lucideInfo, lucideLibraryBig, lucideToolCase } from "@ng-icons/lucide";
+import { lucideCircle, lucideDrill, lucideInfo, lucideLibraryBig, lucideToolCase, lucideUserCircle } from "@ng-icons/lucide";
 
 export const PORTFOLIO_ICONS: Record<string, string> = {
   lucideInfo,
   lucideToolCase,
   lucideLibraryBig,
-  lucideDrill
+  lucideDrill,
+  lucideUserCircle
 };
 
 export const PORTFOLIO_CONTROLS: Record<string, string>[] = [
-  {"sectionName": "Projects", "iconName": "lucideDrill"},
-  {"sectionName": "Skills", "iconName": "lucideToolCase"},
-  {"sectionName": "Experiences", "iconName": "lucideLibraryBig"},
+  {"sectionName": "Profile", "iconName": "lucideUserCircle", "sectionCounter": "pofile"},
+  {"sectionName": "Projects", "iconName": "lucideDrill", "sectionCounter": "pjCount"},
+  {"sectionName": "Skills", "iconName": "lucideToolCase", "sectionCounter": "expCount"},
+  {"sectionName": "Experiences", "iconName": "lucideLibraryBig", "sectionCounter":"techCount"},
 ]
