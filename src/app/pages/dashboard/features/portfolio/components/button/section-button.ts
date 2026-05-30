@@ -1,11 +1,13 @@
+import { NgClass } from "@angular/common";
 import { Component, input, output } from "@angular/core";
 import { NgIcon } from "@ng-icons/core";
 
 @Component({
   selector: "app-section-button",
-  imports: [NgIcon],
+  imports: [NgIcon, NgClass],
   template: `
     <button
+      [title]="item()!['sectionName']"
       class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex px-3.5 py-1 rounded-md items-center justify-center
       gap-1 bg-muted/50 w-full"
       (click)=btnClick.emit($event)>
@@ -16,7 +18,8 @@ import { NgIcon } from "@ng-icons/core";
         <p class="flex justify-between items-center w-full gap-2">
           <span class="text-sm">{{item()!["sectionName"]}}</span>
           @if(item()!['sectionName'] !== 'Profile'){
-            <span class="w-4 h-4 bg-muted flex justify-center items-center rounded-full text-[10px] truncate">{{itemCount()}}</span>
+            <span class="w-4 h-4 bg-muted flex justify-center items-center rounded-full text-[10px] truncate"
+              [ngClass]="{'flex-1':item()!['sectionName'] === 'Profile'}">{{itemCount()}}</span>
           }
         </p>
       </div>

@@ -1,11 +1,12 @@
-import { lucideCircle, lucideDrill, lucideInfo, lucideLibraryBig, lucideToolCase, lucideUserCircle } from "@ng-icons/lucide";
+import { lucideCircle, lucideDrill, lucideFileDown, lucideInfo, lucideLibraryBig, lucideToolCase, lucideUserCircle } from "@ng-icons/lucide";
 
 export const PORTFOLIO_ICONS: Record<string, string> = {
   lucideInfo,
   lucideToolCase,
   lucideLibraryBig,
   lucideDrill,
-  lucideUserCircle
+  lucideUserCircle,
+  lucideFileDown
 };
 
 export const PORTFOLIO_CONTROLS: Record<string, string>[] = [
