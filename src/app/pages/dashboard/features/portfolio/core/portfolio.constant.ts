@@ -10,7 +10,7 @@ export const PORTFOLIO_ICONS: Record<string, string> = {
 
 export const PORTFOLIO_CONTROLS: Record<string, string>[] = [
   {"sectionName": "Profile", "iconName": "lucideUserCircle", "sectionCounter": "pofile"},
+  {"sectionName": "Experience", "iconName": "lucideLibraryBig", "sectionCounter":"expCount"},
   {"sectionName": "Project", "iconName": "lucideDrill", "sectionCounter": "pjCount"},
-  {"sectionName": "Skill", "iconName": "lucideToolCase", "sectionCounter": "expCount"},
-  {"sectionName": "Experience", "iconName": "lucideLibraryBig", "sectionCounter":"techCount"},
+  {"sectionName": "Skill", "iconName": "lucideToolCase", "sectionCounter": "techCount"},
 ]
