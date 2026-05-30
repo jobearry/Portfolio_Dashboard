@@ -2,7 +2,9 @@
   <div class="flex justify-end gap-2 w-full">
     @for (item of controls; track $index) {
       <app-section-button
-        [item]="item" [itemCount]="itemCountFor(item['sectionCounter'])!"></app-section-button>
+        [item]="item"
+        [itemCount]="itemCountFor(item['sectionCounter'])!"
+        (btnClick)="onButtonClicked(item['sectionName'])"></app-section-button>
     }
   </div>
 </section>

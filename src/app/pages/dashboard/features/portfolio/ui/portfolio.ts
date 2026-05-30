@@ -10,7 +10,7 @@ import { JGProject } from '../core/models/project';
 import { JGTechStackDTO } from '../core/models/techstack';
 import { SectionButton } from "../components/button/section-button";
 import { PortfolioApi } from '../../../../../../api/portfolio-api';
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { NgClass } from "../../../../../../../node_modules/@angular/common/types/_common_module-chunk";
 import { PORTFOLIO_CONTROLS } from '../core/portfolio.constant';
 import { CommonModule } from '@angular/common';
@@ -25,8 +25,8 @@ import { PortfolioItems } from '../core/models/portfolio';
 export class Portfolio implements OnInit {
   _hlmDialogService = inject(HlmDialogService);
   _portfolioApi = inject(PortfolioApi);
-
-  transitionMoveUp = TRANSITION_MOVE_UP
+  _router = inject(Router);
+  _route = inject(ActivatedRoute);
   controls = PORTFOLIO_CONTROLS
 
   pageLoading = signal(false);
@@ -38,7 +38,11 @@ export class Portfolio implements OnInit {
       this.pageLoading.set(false);
     }
   })
-
+  ngOnInit(): void {
+    this.pageLoading.set(true)
+    // getContent<JGExperience>('v1/portfolio/Experiences', this._expService)
+    // getContent<JGTechStackDTO>('v1/portfolio/TechStack', this._skillsService)
+  }
   async getItemCounter(){
     try{
       const itemCount = await this._portfolioApi.get<PortfolioItems>('v1/portfolio/count');
@@ -48,18 +52,16 @@ export class Portfolio implements OnInit {
 
     }
   }
-
   itemCountFor(item: string){
     const counters = this.itemCounter();
     if(!counters) return 0;
     return counters[item as keyof PortfolioItems];
   }
 
-  ngOnInit(): void {
-    this.pageLoading.set(true)
-    // getContent<JGExperience>('v1/portfolio/Experiences', this._expService)
-    // getContent<JGTechStackDTO>('v1/portfolio/TechStack', this._skillsService)
+  onButtonClicked(sectionName: string){
+    this._router.navigate([sectionName.toLowerCase()], {relativeTo: this._route})
   }
+
 
   // async openDialog(experience: JGExperience){
   //   await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)

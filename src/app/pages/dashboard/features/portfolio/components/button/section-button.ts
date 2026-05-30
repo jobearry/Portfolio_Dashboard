@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { NgIcon } from "@ng-icons/core";
 
 @Component({
@@ -7,7 +7,8 @@ import { NgIcon } from "@ng-icons/core";
   template: `
     <button
       class="cursor-pointer hover:ring-1 hover:ring-zinc-500/50 focus:ring-1 border border-muted flex px-3.5 py-1 rounded-md items-center justify-center
-      gap-1 bg-muted/50 w-full">
+      gap-1 bg-muted/50 w-full"
+      (click)=btnClick.emit($event)>
       <div class="flex justify-center items-center">
         <ng-icon [name]="item()!['iconName']" size="17"></ng-icon>
       </div>
@@ -26,4 +27,5 @@ import { NgIcon } from "@ng-icons/core";
 export class SectionButton {
   item = input<Record<string,string>>();
   itemCount = input(0);
+  btnClick = output<MouseEvent>();
 }

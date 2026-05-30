@@ -19,6 +19,6 @@ import { PORTFOLIO_CARD_FOOTER_STYLES } from '../../core/styles/portfolio.styles
   styles: ``,
 })
 export class Profile {
-
   portfolioCardFooterStyle = PORTFOLIO_CARD_FOOTER_STYLES
+
 }

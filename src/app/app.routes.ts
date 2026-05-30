@@ -4,6 +4,7 @@ import { Blog } from './pages/dashboard/features/blog/ui/blog';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
 import { Profile } from './pages/dashboard/features/portfolio/pages/profile/profile';
+import { Experience } from './pages/dashboard/features/portfolio/pages/experience/experience';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,8 @@ export const routes: Routes = [
             redirectTo: "profile",
             pathMatch: "full"
           },
-          { path: "profile", component: Profile }
+          { path: "profile", component: Profile },
+          { path: "experience", component: Experience }
         ]
       },
       {
