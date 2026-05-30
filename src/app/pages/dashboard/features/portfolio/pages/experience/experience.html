@@ -1,0 +1,29 @@
+<section class="p-4 flex flex-col gap-4">
+  @if(_expService.getState().loading){
+    <div class="w">
+      <app-skeleton-item></app-skeleton-item>
+    </div>
+  }@else {
+    <span>
+      <h3 hlmH3>Experiences</h3>
+      <p class="text-muted-foreground">Career journey and work history</p>
+    </span>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 ">
+      @for (item of _expService.getState().content; track item.experienceId ) {
+        <button
+          (click)="openDialog(item)"
+          [class]="`bg-zinc-900/50 text-start border p-3.5 rounded-sm ${transitionMoveUp}
+          flex items-center gap-3 w-full`">
+          <span hlmH3>{{item.experienceId < 10? `0${item.experienceId}` : item.experienceId}}</span>
+          <div class="flex-1">
+            <h3>{{item.companyName === "Eulogio 'Amang' Rodriguez Institute of Science and Technology"?
+                  "E.A.R.I.S.T." : item.companyName}}
+            </h3>
+            <p class="text-zinc-500">{{item.description}}</p>
+          </div>
+          <ng-icon name="lucideInfo" size="sm" class="font-bold" />
+        </button>
+      }
+    </div>
+  }
+</section>

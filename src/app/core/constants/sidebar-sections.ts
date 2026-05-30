@@ -11,7 +11,7 @@ export interface SidebarGroupMenu {
   icon: string;
 }
 
-export const sidebarIcons: Record<string, string> = {
+export const SIDEBAR_ICONS: Record<string, string> = {
   lucideRss,
   lucideNotebookPen,
   lucideLayoutDashboard,

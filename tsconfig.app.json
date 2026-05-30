@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-, "src/app/pages/dashboard/features/home/core/.model.ts"  ],
+, "src/app/pages/dashboard/features/home/core/.model.ts", "src/app/pages/dashboard/features/portfolio/components/button"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]
