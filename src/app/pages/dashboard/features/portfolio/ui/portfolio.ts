@@ -45,7 +45,7 @@ export class Portfolio implements OnInit {
   }
   async getItemCounter(){
     try{
-      const itemCount = await this._portfolioApi.get<PortfolioItems>('v1/portfolio/count');
+      const itemCount = await this._portfolioApi.get<PortfolioItems>('portfolio/count');
       console.log("🚀 ~ Portfolio ~ getItemCounter ~ itemCount:", itemCount)
       this.itemCounter.set(itemCount);
     }catch (err){

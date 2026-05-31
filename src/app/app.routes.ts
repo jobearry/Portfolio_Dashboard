@@ -5,6 +5,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
 import { Profile } from './pages/dashboard/features/portfolio/pages/profile/profile';
 import { Experience } from './pages/dashboard/features/portfolio/pages/experience/experience';
+import { Skill } from './pages/dashboard/features/portfolio/pages/skill/skill';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,8 @@ export const routes: Routes = [
             pathMatch: "full"
           },
           { path: "profile", component: Profile },
-          { path: "experience", component: Experience }
+          { path: "experience", component: Experience },
+          { path: "skill", component: Skill },
         ]
       },
       {

@@ -31,8 +31,6 @@ import { JGExperience } from '../../core/models/experience';
               <div class="flex flex-wrap gap-1">
                 @for (spec of item.techStackSpecs; track spec.specId) {
                   <p class=" bg-zinc-800 text-xs rounded-full border px-3">{{spec.toolName}}</p>
-                  <!-- <img class="rounded-sm hover:ring-1 focus:ring-1 ring-primary transition-all text-xs"
-                    [src]="getShieldsIOUrl(specs.toolName)" [alt]="specs.toolName"> -->
                 }
               </div>
             </div>

@@ -1,8 +1,6 @@
 <section class="p-4 flex flex-col gap-4">
   @if(_expService.getState().loading){
-    <div class="w">
-      <app-skeleton-item></app-skeleton-item>
-    </div>
+    <app-skeleton-item></app-skeleton-item>
   }@else {
     <span>
       <h3 hlmH3>Experiences</h3>

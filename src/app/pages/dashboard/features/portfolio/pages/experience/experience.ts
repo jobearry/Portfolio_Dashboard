@@ -25,12 +25,12 @@ export class Experience implements OnInit {
 
   transitionMoveUp = TRANSITION_MOVE_UP;
   ngOnInit(){
-    getContent<JGExperience>('v1/portfolio/Experiences', this._expService)
+    getContent<JGExperience>('portfolio/Experiences', this._expService)
 
   }
 
   async openDialog(experience: JGExperience){
-    await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
+    await getContent<JGProject>(`portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
     const dialogRef = this._hlmDialogService.open(ProjectDialog, {
       context: {
         experience: experience,

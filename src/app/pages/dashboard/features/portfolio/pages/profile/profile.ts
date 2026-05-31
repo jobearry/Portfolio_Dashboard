@@ -7,7 +7,7 @@ import { NgIcon } from "@ng-icons/core";
   selector: 'app-profile',
   imports: [HlmH3],
   template: `
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 w-full md:w-[45%]">
       <div class="bg-zinc-900/50 p-2 border rounded-sm flex flex-col gap-2">
         <span>
           <h3 hlmH3>Jonathan Golimlim</h3>
@@ -25,31 +25,25 @@ import { NgIcon } from "@ng-icons/core";
               <li
                 title="View Github"
                 class="border flex gap-1 justify-center items-center">
-                <!-- <lucide-angular name="github" size="15" aria-hidden="true"></lucide-angular> -->
                 <a
                   href="https://github.com/jobearry"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="View GitHub profile">
                   <img
-                    src="https://img.shields.io/badge/view_github-101012?style=for-the-badge&logo=github&logoColor=white"
-                    alt=""
-                    srcset=""/>
+                    src="https://img.shields.io/badge/view_github-101012?style=for-the-badge&logo=github&logoColor=white"/>
                 </a>
               </li>
               <li
                 title="Download CV"
                 class="border flex gap-1 justify-center items-center">
-                <!-- <lucide-angular name="file-down" size="15" aria-hidden="true"></lucide-angular> -->
                 <a
                   href="https://drive.google.com/uc?export=download&id=1FpztsStY7V_zDvG7eFdnDUVWaRZoWcBc"
                   rel="noopener noreferrer"
                   target="_blank"
                   aria-label="Download CV">
                   <img
-                    src="https://img.shields.io/badge/download_cv-101012?style=for-the-badge"
-                    alt=""
-                    srcset=""/>
+                    src="https://img.shields.io/badge/download_cv-101012?style=for-the-badge"/>
                 </a>
               </li>
             </ul>
