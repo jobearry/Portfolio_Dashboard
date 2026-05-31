@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HlmH3 } from '@spartan-ng/helm/typography';
 import { PORTFOLIO_CARD_FOOTER_STYLES } from '../../core/styles/portfolio.styles';
-import { NgIcon } from "@ng-icons/core";
 
 @Component({
   selector: 'app-profile',

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SkeletonItem } from "../../../../../../components/skeletons/item/skeleton-item";
 import { TRANSITION_MOVE_UP } from '../../core/styles/portfolio.styles';
-import { SkillsService } from '../../store/portfolio.service';
+import { SkillsSignalService } from '../../store/portfolio.service';
 import { JGTechStackDTO } from '../../core/models/techstack';
 import { getContent } from '../../core/portfolio.util';
 import { HlmH3 } from '@spartan-ng/helm/typography';
@@ -12,8 +12,8 @@ import { HlmH3 } from '@spartan-ng/helm/typography';
   templateUrl: './skill.html',
   styles: ``,
 })
-export class Skill implements OnInit {
-  protected readonly _skillsService = inject(SkillsService);
+export class SkillComponent implements OnInit {
+  protected readonly _skillsService = inject(SkillsSignalService);
   transitionMoveUp = TRANSITION_MOVE_UP;
 
   ngOnInit(){

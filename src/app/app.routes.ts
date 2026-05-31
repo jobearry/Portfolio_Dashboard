@@ -4,8 +4,9 @@ import { Blog } from './pages/dashboard/features/blog/ui/blog';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
 import { Profile } from './pages/dashboard/features/portfolio/pages/profile/profile';
-import { Experience } from './pages/dashboard/features/portfolio/pages/experience/experience';
-import { Skill } from './pages/dashboard/features/portfolio/pages/skill/skill';
+import { ExperienceComponent } from './pages/dashboard/features/portfolio/pages/experience/experience';
+import { SkillComponent } from './pages/dashboard/features/portfolio/pages/skill/skill';
+import { ProjectComponent } from './pages/dashboard/features/portfolio/pages/project/project';
 
 export const routes: Routes = [
   {
@@ -28,8 +29,9 @@ export const routes: Routes = [
             pathMatch: "full"
           },
           { path: "profile", component: Profile },
-          { path: "experience", component: Experience },
-          { path: "skill", component: Skill },
+          { path: "experience", component: ExperienceComponent },
+          { path: "skill", component: SkillComponent },
+          { path: "project", component: ProjectComponent },
         ]
       },
       {

@@ -9,7 +9,7 @@
     </span>
     <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
       @for (stack of _skillsService.getState().content; track stack.stackId) {
-        @if(stack.techStackSpecs.length > 0){
+        <!-- @if(stack.techStackSpecs.length > 0){ -->
           <div [class]="`bg-zinc-900/50 text-start border px-2 py-1 rounded-sm ${transitionMoveUp}
             gap-1 w-full flex flex-col items-start`">
             <span class="px-3 py-1 font-bold text-md">{{stack.stackName}}</span>
@@ -19,7 +19,7 @@
               }
             </button>
           </div>
-        }
+        <!-- } -->
       }
     </div>
   }

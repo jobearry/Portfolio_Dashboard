@@ -16,7 +16,7 @@ import { HlmH3 } from '@spartan-ng/helm/typography';
   templateUrl: './experience.html',
   styles: ``,
 })
-export class Experience implements OnInit {
+export class ExperienceComponent implements OnInit {
   _expService = inject(ExperienceSignalService);
   _hlmDialogService = inject(HlmDialogService);
   _projectService = inject(ProjectSignalService);
@@ -25,7 +25,7 @@ export class Experience implements OnInit {
 
   transitionMoveUp = TRANSITION_MOVE_UP;
   ngOnInit(){
-    getContent<JGExperience>('portfolio/Experiences', this._expService)
+    getContent<JGExperience>('portfolio/experiences', this._expService)
 
   }
 

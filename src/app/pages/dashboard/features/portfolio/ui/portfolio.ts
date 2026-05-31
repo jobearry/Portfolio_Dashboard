@@ -1,17 +1,8 @@
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { TRANSITION_MOVE_UP } from '../core/styles/portfolio.styles';
-import { JGExperience } from '../core/models/experience';
-import { ExperienceSignalService, ProjectSignalService, SkillsService } from '../store/portfolio.service';
-import { NgIcon } from "@ng-icons/core";
 import { HlmDialogService } from '../../../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
-import { getContent } from '../core/portfolio.util';
-import { ProjectDialog } from '../components/dialog/project-dialog';
-import { JGProject } from '../core/models/project';
-import { JGTechStackDTO } from '../core/models/techstack';
 import { SectionButton } from "../components/button/section-button";
 import { PortfolioApi } from '../../../../../../api/portfolio-api';
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { NgClass } from "../../../../../../../node_modules/@angular/common/types/_common_module-chunk";
 import { PORTFOLIO_CONTROLS } from '../core/portfolio.constant';
 import { CommonModule } from '@angular/common';
 import { PortfolioItems } from '../core/models/portfolio';

@@ -1,0 +1,27 @@
+
+<section class="p-4 flex flex-col gap-4">
+  @if(_projectService.getState().loading){
+    <app-skeleton-item></app-skeleton-item>
+  }@else {
+    <span>
+      <h3 hlmH3>Projects</h3>
+      <p class="text-muted-foreground">Professional, and personal contributions</p>
+    </span>
+    <div [class]="`grid md:grid-cols-2 lg:grid-cols-3 gap-2`">
+      @for (project of _projectService.getState().content; track project.projectId) {
+          <div [class]="`bg-zinc-900/50 text-start border px-2 py-1 rounded-sm ${transitionMoveUp}
+            gap-1 w-full flex flex-col items-start`">
+            <span class="px-3 py-1 font-bold text-sm">{{project.projectName}}</span>
+            <span class="px-3 py-1 font-bold text-xs">
+              Description <br/>
+              <span class="font-light px-3 py-1 text-xs">{{project.description}}</span>
+            </span>
+            <span class="px-3 py-1 font-bold text-xs">
+              Contribution <br/>
+              <span class="font-light px-3 py-1 text-xs">{{project.contribution}}</span>
+            </span>
+          </div>
+      }
+    </div>
+  }
+</section>

@@ -11,4 +11,4 @@ export class ProjectSignalService extends PortfolioSignalService<JGProject> {}
 export class ExperienceSignalService extends PortfolioSignalService<JGExperience> {}
 
 @Injectable({ providedIn: 'root' })
-export class SkillsService extends PortfolioSignalService<JGTechStackDTO> {}
+export class SkillsSignalService extends PortfolioSignalService<JGTechStackDTO> {}
