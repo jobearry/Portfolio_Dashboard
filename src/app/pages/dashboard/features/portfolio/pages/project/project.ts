@@ -17,7 +17,7 @@ export class ProjectComponent implements OnInit {
   transitionMoveUp = TRANSITION_MOVE_UP;
 
   ngOnInit(){
-    getContent<JGProject>('portfolio/projects', this._projectService)
+    getContent<JGProject>('v1/portfolio/projects', this._projectService)
 
   }
 }

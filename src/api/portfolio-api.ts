@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioApi {
-  private readonly baseUrl_v1 = `${environment.portfolioApi}/v1`;
+  private readonly baseUrl = `${environment.portfolioApi}`;
   //for improvement
   private readonly headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ export class PortfolioApi {
   private readonly portfolioApi = inject(HttpClient);
 
   async get<T>(endpoint: string) {
-    const url = `${this.baseUrl_v1}/${endpoint}`;
+    const url = `${this.baseUrl}/${endpoint}`;
     return await firstValueFrom(this.portfolioApi.get<T>(url, { headers: this.headers }));
   }
 }

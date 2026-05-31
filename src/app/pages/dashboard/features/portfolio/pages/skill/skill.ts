@@ -17,7 +17,7 @@ export class SkillComponent implements OnInit {
   transitionMoveUp = TRANSITION_MOVE_UP;
 
   ngOnInit(){
-    getContent<JGTechStackDTO>('portfolio/techStack', this._skillsService)
+    getContent<JGTechStackDTO>('v1/portfolio/techStack', this._skillsService)
 
   }
 }

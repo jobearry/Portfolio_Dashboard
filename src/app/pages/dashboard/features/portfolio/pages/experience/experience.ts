@@ -25,7 +25,7 @@ export class ExperienceComponent implements OnInit {
 
   transitionMoveUp = TRANSITION_MOVE_UP;
   ngOnInit(){
-    getContent<JGExperience>('portfolio/experiences', this._expService)
+    getContent<JGExperience>('v1/portfolio/experiences', this._expService)
 
   }
 
