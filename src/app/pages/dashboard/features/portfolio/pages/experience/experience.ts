@@ -30,7 +30,7 @@ export class ExperienceComponent implements OnInit {
   }
 
   async openDialog(experience: JGExperience){
-    await getContent<JGProject>(`portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
+    await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
     const dialogRef = this._hlmDialogService.open(ProjectDialog, {
       context: {
         experience: experience,
