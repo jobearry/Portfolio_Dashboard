@@ -23,7 +23,7 @@ import { JGExperience } from '../../core/models/experience';
         <div class="flex flex-wrap gap-2 max-h-56 overflow-y-auto
         [scrollbar-width:thin] [scrollbar-color:#888_transparent]">
           @for (item of _projects; track item.projectId) {
-            <div class="flex flex-col gap-2 rounded-sm p-3 bg-zinc-900/50 text-start">
+            <div class="flex flex-col gap-2 rounded-sm p-3 bg-zinc-900/50 text-start w-full">
               <h4 class="font-semibold text-xs">{{item.projectName}}</h4>
               <p class="text-muted-foreground text-xs">{{item.description}}</p>
 
