@@ -11,14 +11,14 @@
       @for (project of _projectService.getState().content; track project.projectId) {
           <div [class]="`bg-zinc-900/50 text-start border px-2 py-1 rounded-sm ${transitionMoveUp}
             gap-1 w-full flex flex-col items-start`">
-            <span class="px-3 py-1 font-bold text-sm">{{project.projectName}}</span>
-            <span class="px-3 py-1 font-bold text-xs">
+            <span class="py-1 font-bold text-sm">{{project.projectName}}</span>
+            <span class="py-1 font-bold text-xs">
               Description <br/>
-              <span class="font-light px-3 py-1 text-xs">{{project.description}}</span>
+              <span class="font-light py-1 text-xs">{{project.description}}</span>
             </span>
-            <span class="px-3 py-1 font-bold text-xs">
+            <span class="py-1 font-bold text-xs">
               Contribution <br/>
-              <span class="font-light px-3 py-1 text-xs">{{project.contribution}}</span>
+              <span class="font-light py-1 text-xs">{{project.contribution}}</span>
             </span>
           </div>
       }
