@@ -5,9 +5,14 @@ export type TimelineEvent = {
 };
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
-    title: 'SHI Design and Manufacturing Inc.',
+    title: 'Applied ICT Inc.',
+    date: '2026',
+    description: 'Software Engineer',
+  },
+  {
+    title: 'SHI Designing and Manufacturing Inc.',
     date: '2023',
-    description: 'Fullstack web developer',
+    description: 'Junior Programmer | Fullstack Developer',
   },
   {
     title: 'Eulogio "Amang" Rodriguez Insitute of Science and Technology',

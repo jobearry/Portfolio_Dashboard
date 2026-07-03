@@ -7,18 +7,16 @@ import { TimelineEvent } from './timeline.constants';
   imports: [CommonModule],
   template: `
     <ol
-      class="relative border-l-2 border-orange-700 ml-5">
+      class="relative overflow-y-scroll scroll-smooth
+        [scrollbar-width:thin] [scrollbar-color:#888_transparent] h-60">
       @for (content of data; track $index) {
-        <li class="mb-8 ml-[1.95rem] relative group cursor-pointer">
-          <span class="absolute -left-10 w-4 h-4 rounded-full border-2
-            transition-all duration-300 border-orange-700 bg-[var(--sidebar)] group-hover:bg-orange-700">
-          </span>
+        <li class="mb-8 ml-15 relative group border-l-1 border-orange-900 pl-5">
+          <h3 class="absolute -left-12 top-0 text-orange-700 text-sm bg-orange-700 p-1 rounded-sm
+            transition-all duration-300">{{content.date}}
+          </h3>
 
-          <div class="rounded mr-5 text-start">
+          <div class="rounded mr-5 text-start cursor-pointer">
             <time class="font-bold text-sm">{{content.title}}</time>
-
-            <h3 class="text-xs" style="color:var(--muted-foreground)">{{content.date}}</h3>
-
             <p class="text-xs" style="color:var(--muted-foreground)">
               {{content.description}}
             </p>
