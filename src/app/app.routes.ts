@@ -31,7 +31,7 @@ export const routes: Routes = [
           { path: "profile", component: Profile },
           { path: "experience", component: ExperienceComponent },
           { path: "skill", component: SkillComponent },
-          { path: "project", component: ProjectComponent },
+          // { path: "project", component: ProjectComponent },
         ]
       },
       {

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Maintenance } from "../../../../components/maintenance.ts/maintenance";
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [Maintenance],
   templateUrl: './home.html',
   styles: ``,
 })
