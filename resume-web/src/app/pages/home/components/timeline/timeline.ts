@@ -10,8 +10,8 @@ import { TimelineEvent } from './timeline.constants';
       class="relative overflow-y-scroll scroll-smooth
         [scrollbar-width:thin] [scrollbar-color:#888_transparent] h-60">
       @for (content of data; track $index) {
-        <li class="mb-8 ml-15 relative group border-l-1 border-orange-900 pl-5">
-          <h3 class="absolute -left-12 top-0 text-orange-700 text-sm bg-orange-700 p-1 rounded-sm
+        <li class="mb-8 ml-15 relative group border-l-1 border-orange-700 pl-5">
+          <h3 class="absolute -left-12 top-0 text-orange-700 border border-orange-700 text-sm p-1 rounded-sm
             transition-all duration-300">{{content.date}}
           </h3>
 
