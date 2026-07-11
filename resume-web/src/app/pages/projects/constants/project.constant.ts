@@ -6,20 +6,18 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     title: 'AWS S3 Microservice',
     duration: '',
     contribution:
-      `A microservice on top of AWS S3 with upload, download, and list endpoints, with a JWT based
-       auth scoped to specific directories.`,
-    tags: ['C#', 'ASP.NET', "Swagger"],
+      `A microservice on top of AWS S3 with a JWT based auth scoped to specific directories.`,
+    tags: ['C#', 'ASP.NET', "Swagger", 'AWS'],
     link: '',
   },
 
   {
     id: 2,
-    title: 'Project Request Management',
+    title: 'BOM Management System',
     duration: '',
     contribution:
-      `Migrated a legacy full stack web app for modernization. Identified EC2 as expensive file storage as per
-       client complaint, that led to creating an AWS S3 Microservice enabling mitigation of cost.`,
-    tags: ['C#', 'ASP.NET', "Swagger", 'Angular', 'TypeScript'],
+      `An internal dashboard for bill of materials across a number of projects.`,
+    tags: ['C#', 'ASP.NET', 'Angular', 'TypeScript', 'Entity Framework', 'TailwindCSS', 'IgniteUI', 'JWT', 'AWS', 'NgRx'],
     link: '',
   },
 
@@ -28,9 +26,26 @@ export const PROJECT_HIGHLIGHT: Project[] = [
     title: 'Construction Dashboard',
     duration: '',
     contribution:
-      `Responsible for setting up as a greenfield project and built a QR scanner component as POC
-       and delivered the features with workarounds on real infrastructure constraints. `,
-    tags: ['C#', 'ASP.NET', "Swagger", 'Angular', 'TypeScript'],
+      `A public dashboard for keeping track of construction site data.`,
+    tags: ['C#', 'ASP.NET', "AWS", 'Angular', 'TypeScript', 'Angular Signals', 'Entity Framework'],
+    link: ''
+  },
+  {
+    id: 4,
+    title: 'Project Management System',
+    duration: '',
+    contribution:
+      `An internal dashboard for managing client requests.`,
+    tags: ['C#', 'ASP.NET', 'Angular', 'TypeScript', 'Entity Framework', 'TailwindCSS', 'IgniteUI', 'JWT', 'AWS'],
+    link: ''
+  },
+  {
+    id: 5,
+    title: 'Thermal Camera Viewer',
+    duration: '',
+    contribution:
+      `A public thermal camera viewer that uses html canvas for displaying thermal image data.`,
+    tags: ['Angular', 'MongoDB', "C#", 'ASP.NET', 'TypeScript'],
     link: ''
   },
 ];

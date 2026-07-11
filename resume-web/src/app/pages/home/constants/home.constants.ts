@@ -32,13 +32,6 @@ export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
     icon: 'Award',
     content: Certifications,
   },
-  {
-    id: 'side_block_4',
-    title: 'Github Heatmap',
-    class: 'md:col-span-2',
-    icon: 'ChartScatter',
-    content: Heatmap,
-  },
 ];
 
 export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
@@ -48,7 +41,7 @@ export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
     class: 'md:col-span-2 md:bg-transparent ',
     icon: 'Blocks',
     content: Highlights,
-    inputs: { data: PROJECT_HIGHLIGHT, style: "" },
+    inputs: { data: PROJECT_HIGHLIGHT.slice(0, 2), style: "" },
   },
   {
     id: 'main_block_2',

@@ -17,6 +17,15 @@ import { TRANSITION_MOVE_UP } from '../../../shared/constants/styles.constants';
             </app-card>
           </li>
         }
+        @if(getCurrentRoute() !== '/projects') {
+          <div class="flex justify-end">
+            <button class="w-fit cursor-pointer items-center justify-center rounded-sm underline
+                    px-3 py-1 text-xs text-slate-200 transition-all duration-300
+                    hover:transform-[translateY(-.2rem)]" (click)="gotoProjects()">
+              View more
+            </button>
+          </div>
+        }
       </ul>
     </section>
   `,
@@ -28,5 +37,10 @@ export class Highlights {
   transition_up = TRANSITION_MOVE_UP
   constructor(private router: Router){}
 
-
+  gotoProjects() {
+    this.router.navigate(['/projects']);
+  }
+  getCurrentRoute() {
+    return this.router.serializeUrl(this.router.createUrlTree(this.router.url.split('?')[0].split('#')[0].split('/')));
+  }
 }
