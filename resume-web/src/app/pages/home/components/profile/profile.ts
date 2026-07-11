@@ -4,10 +4,11 @@ import { LucideAngularModule } from 'lucide-angular';
 import { Marquee } from "../../../../components/marquee/marquee";
 import { TechStack } from "../tech-stack/tech-stack";
 import { ThemeToggler } from "../../../../components/theme-toggler";
+import { Pill } from "../../../../components/pill";
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, ThemeToggler],
+  imports: [LucideAngularModule, ThemeToggler, Pill],
   templateUrl: './profile.html',
   styles: [`.profile-filter-light { filter: brightness(1.06) saturate(1.05) contrast(1.02); }`],
 })

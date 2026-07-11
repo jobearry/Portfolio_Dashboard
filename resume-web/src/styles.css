@@ -182,6 +182,20 @@ small, .muted, .muted-text {
   color: var(--type-muted);
 }
 
+.profile-action-link,
+.profile-action-link:hover,
+.profile-action-link:focus {
+  color: var(--type-color) !important;
+  text-decoration: none !important;
+}
+
+.profile-action-icon,
+.profile-action-link:hover .profile-action-icon,
+.profile-action-link:focus .profile-action-icon {
+  color: var(--type-color) !important;
+  stroke: var(--type-color) !important;
+}
+
 a {
   color: var(--type-link);
   text-decoration: none;
