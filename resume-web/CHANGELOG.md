@@ -1,40 +1,29 @@
 # Changelog
 
-## 2026-03-28 — Theme & Typography Updates
+## 2026-07-11 — Profile, project, and layout refinements
 
 Summary
-- Added light theme support and made the theme toggler drive site-wide styling via `html` (`data-theme` + `class`).
-- Introduced theme-aware typography tokens and global rules so text colors follow the active theme.
-- Replaced hardcoded dark-only colors in multiple components with CSS variables (work completed across several UI components).
+- Refined the home page profile experience with updated social/resume link styling, pill-based role labels, and a cleaner action layout.
+- Reworked the projects experience with refreshed highlight content and a navigation button to view more projects.
+- Added and integrated a certifications section and updated the timeline, tech-stack, and home page layout to better match the current resume content.
 
 Files Changed (high-level)
-- `src/styles.css` — added CSS variables for typography, added `[data-theme="light"]` overrides, and set `html` to use theme tokens for `color` and `background-color`.
-- `src/app/components/theme-toggler.ts` — (previous edits) toggles `document.documentElement` (`html`) and persists `theme` in `localStorage`; removed `#root` syncing.
-- UI components updated to use theme tokens (examples):
-  - `src/app/pages/home/components/block-container/block-container.html`
-  - `src/app/pages/home/components/timeline/timeline.ts`
-  - `src/app/components/card.ts`
-  - `src/app/pages/projects/components/highlights.ts`
-  - `src/app/components/spinner.ts`
-  - `src/app/components/marquee/marquee.html`
-  - `src/app/pages/home/components/profile/profile.html`
+- `src/app/pages/home/components/profile/profile.html` and `src/app/pages/home/components/profile/profile.ts` — updated profile actions, role pills, and link presentation.
+- `src/app/pages/home/components/certifications/certifications.html` and `src/app/pages/home/components/certifications/certifications.ts` — added a new certifications block to the home page.
+- `src/app/pages/home/components/timeline/timeline.ts` and `src/app/pages/home/components/timeline/timeline.constants.ts` — adjusted timeline styling and expanded work history content.
+- `src/app/pages/home/components/tech-stack-list/tech-stack-list.html` and `src/app/pages/home/components/tech-stack-list/tech-stack-list.ts` — refreshed the technology stack list presentation.
+- `src/app/pages/projects/components/highlights.ts`, `src/app/pages/projects/constants/project.constant.ts`, and `src/app/pages/projects/ui/projects.html` — updated project highlight content and added a button to view more projects.
+- `src/app/components/pill.ts`, `src/app/components/card.ts`, and `src/styles.css` — introduced or refined reusable UI pieces and styling around the updated layout.
+- `package.json` — adjusted the start script and related project startup behavior.
 
 Details
-- The site now uses CSS custom properties as single source-of-truth for colors:
-  - Base tokens defined on `:root`, dark overrides under `.dark`, and explicit light values under `[data-theme="light"]`.
-  - Typography tokens added: `--type-color`, `--type-muted`, `--type-link`, `--type-link-foreground`.
-  - Global rules added to `src/styles.css` so `html` and `body` inherit `--color-background` and `--type-color`.
-- Components were migrated to reference variables like `var(--color-card)`, `var(--color-border)`, and `var(--type-muted)` instead of hardcoded Tailwind color utilities or hex values.
+- The profile area now uses a more polished action-link layout and dedicated pill badges for job titles.
+- The home page now includes a certifications section and a more compact, content-driven timeline and tech-stack presentation.
+- The projects section received updated copy and a direct path to browse additional projects.
+- The GitHub heatmap area was simplified by removing it from the side block and relying on the maintenance fallback experience.
 
 Verification
-- Verified in dev server: toggling theme updates `html.classList` and `html.dataset.theme`, and computed `--foreground` / `--background` variables switch between dark and light values.
-
-Next steps (optional)
-- Replace remaining hardcoded text color classes across any files not yet updated.
-- Implement theme-aware asset switching (e.g., profile images) if desired.
-- Commit changes and open PR for review.
-
-If you want, I can create the git commit now and/or finish replacing remaining color classes across the repo—which should I do next?
+- Reviewed the current source tree and recent commit history from the April through July 2026 updates; the files above reflect the latest implemented UI and content changes.
 
 ## 2026-03-29 — Component sweep & token migration
 
@@ -81,4 +70,40 @@ Notes
 
 Verification
 - Toggling the site theme updates `<html>` dataset/class and the `chartTheme` value, which flows into `<app-chart>` via Angular inputs and causes ECharts to re-initialize with the selected theme.
+
+## 2026-03-28 — Theme & Typography Updates
+
+Summary
+- Added light theme support and made the theme toggler drive site-wide styling via `html` (`data-theme` + `class`).
+- Introduced theme-aware typography tokens and global rules so text colors follow the active theme.
+- Replaced hardcoded dark-only colors in multiple components with CSS variables (work completed across several UI components).
+
+Files Changed (high-level)
+- `src/styles.css` — added CSS variables for typography, added `[data-theme="light"]` overrides, and set `html` to use theme tokens for `color` and `background-color`.
+- `src/app/components/theme-toggler.ts` — (previous edits) toggles `document.documentElement` (`html`) and persists `theme` in `localStorage`; removed `#root` syncing.
+- UI components updated to use theme tokens (examples):
+  - `src/app/pages/home/components/block-container/block-container.html`
+  - `src/app/pages/home/components/timeline/timeline.ts`
+  - `src/app/components/card.ts`
+  - `src/app/pages/projects/components/highlights.ts`
+  - `src/app/components/spinner.ts`
+  - `src/app/components/marquee/marquee.html`
+  - `src/app/pages/home/components/profile/profile.html`
+
+Details
+- The site now uses CSS custom properties as single source-of-truth for colors:
+  - Base tokens defined on `:root`, dark overrides under `.dark`, and explicit light values under `[data-theme="light"]`.
+  - Typography tokens added: `--type-color`, `--type-muted`, `--type-link`, `--type-link-foreground`.
+  - Global rules added to `src/styles.css` so `html` and `body` inherit `--color-background` and `--type-color`.
+- Components were migrated to reference variables like `var(--color-card)`, `var(--color-border)`, and `var(--type-muted)` instead of hardcoded Tailwind color utilities or hex values.
+
+Verification
+- Verified in dev server: toggling theme updates `html.classList` and `html.dataset.theme`, and computed `--foreground` / `--background` variables switch between dark and light values.
+
+Next steps (optional)
+- Replace remaining hardcoded text color classes across any files not yet updated.
+- Implement theme-aware asset switching (e.g., profile images) if desired.
+- Commit changes and open PR for review.
+
+If you want, I can create the git commit now and/or finish replacing remaining color classes across the repo—which should I do next?
 
