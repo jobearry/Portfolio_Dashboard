@@ -23,11 +23,11 @@ export const sidebarContent: SidebarGroupMenu[] = [
     url: '/dashboard',
     icon: 'lucideLayoutDashboard',
   },
-  {
-    title: 'Portfolio',
-    url: '/portfolio',
-    icon: 'lucideBriefcaseBusiness',
-  },
+  // {
+  //   title: 'Portfolio',
+  //   url: '/portfolio',
+  //   icon: 'lucideBriefcaseBusiness',
+  // },
   {
     title: 'Blog',
     url: '/blog',

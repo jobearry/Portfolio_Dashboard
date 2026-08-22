@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NotionSignalService } from '../store/notion.service';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
-import { convertNotionUrl } from '../core/notion-parse.util';
-import { NOTION_PUBLIC_DOMAIN } from '../core/notion.constants';
-import { SkeletonItem } from "../../../../../components/skeletons/item/skeleton-item";
 import { HlmIcon } from '@spartan-ng/helm/icon';
-import { TRANSITION_MOVE_UP } from '../../portfolio/core/styles/portfolio.styles';
+import { SkeletonItem } from '../../components/skeletons/item/skeleton-item';
+import { convertNotionUrl } from './core/notion-parse.util';
+import { TRANSITION_MOVE_UP } from '../dashboard/features/portfolio/core/styles/portfolio.styles';
+import { NotionSignalService } from './store/notion.service';
+import { NOTION_PUBLIC_DOMAIN } from './core/notion.constants';
 
 @Component({
   selector: 'app-blog',

@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/dashboard/features/home/home';
-import { Blog } from './pages/dashboard/features/blog/ui/blog';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
-import { Profile } from './pages/dashboard/features/portfolio/pages/profile/profile';
+import { Profile } from './pages/profile/profile';
 import { ExperienceComponent } from './pages/dashboard/features/portfolio/pages/experience/experience';
 import { SkillComponent } from './pages/dashboard/features/portfolio/pages/skill/skill';
 import { ProjectComponent } from './pages/dashboard/features/portfolio/pages/project/project';
+import { Blog } from './pages/blog/blog';
 
 export const routes: Routes = [
   {
@@ -19,21 +19,24 @@ export const routes: Routes = [
         component: Home,
       },
       {
-        path: "portfolio",
-        component: Portfolio,
-        title: "Portfolio | Jonathan Golimlim",
-        children:[
-          {
-            path: "",
-            redirectTo: "profile",
-            pathMatch: "full"
-          },
-          { path: "profile", component: Profile },
-          { path: "experience", component: ExperienceComponent },
-          { path: "skill", component: SkillComponent },
-          // { path: "project", component: ProjectComponent },
-        ]
+        path: "profile",
+        component: Profile
       },
+      // {
+      //   path: "portfolio",
+      //   component: Portfolio,
+      //   title: "Portfolio | Jonathan Golimlim",
+      //   children:[
+      //     {
+      //       path: "",
+      //       redirectTo: "profile",
+      //       pathMatch: "full"
+      //     },
+      //     { path: "experience", component: ExperienceComponent },
+      //     { path: "skill", component: SkillComponent },
+      //     // { path: "project", component: ProjectComponent },
+      //   ]
+      // },
       {
         path: "blog",
         component: Blog,
@@ -41,7 +44,7 @@ export const routes: Routes = [
       },
       {
         path: "**",
-        redirectTo: "portfolio",
+        redirectTo: "dashboard",
         pathMatch: "full",
       }
     ]

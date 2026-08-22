@@ -21,6 +21,7 @@ export class PortfolioSignalService<T>{
 
   async getPortfolioResource(endpoint: string){
     const response = await this.api.get<T[]>(endpoint);
+    console.log("🚀 ~ PortfolioSignalService ~ getPortfolioResource ~ response:", response)
     this._state.update((state) => ({
       ...state,
       content: response,

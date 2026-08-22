@@ -1,14 +1,17 @@
 import { Component, input } from '@angular/core';
 import { HlmSidebarTrigger } from '../../../../libs/ui/sidebar/src/lib/hlm-sidebar-trigger';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [HlmSidebarTrigger],
+  imports: [HlmSidebarTrigger, RouterModule],
   template: `
     <nav class="w-full flex justify-between items-center">
       <button hlmSidebarTrigger><span class="sr-only"></span></button>
       <h1>{{ title() }}</h1>
-      <img class="h-10 w-10 p-1 rounded-full" src="grad_1.jpeg" alt="person-holding-diploma" />
+      <a [routerLink]="['/profile']" title="View Profile">
+        <img class="h-10 w-10 p-1 rounded-full" src="grad_1.jpeg" alt="person-holding-diploma" />
+      </a>
     </nav>
   `,
   styles: [],
