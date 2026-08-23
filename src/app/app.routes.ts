@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { Home } from './pages/dashboard/features/home/home';
-import { Dashboard } from './pages/dashboard/dashboard';
 import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
 import { Profile } from './pages/profile/profile';
 import { ExperienceComponent } from './pages/dashboard/features/portfolio/pages/experience/experience';
 import { SkillComponent } from './pages/dashboard/features/portfolio/pages/skill/skill';
 import { ProjectComponent } from './pages/dashboard/features/portfolio/pages/project/project';
 import { Blog } from './pages/blog/blog';
+import { Dashboard } from './pages/dashboard/features/templates/dashboard';
+import { DashboardHome } from './pages/dashboard/features/templates/dashboard-home';
 
 export const routes: Routes = [
   {
@@ -16,7 +16,7 @@ export const routes: Routes = [
     children: [
       {
         path: "dashboard",
-        component: Home,
+        component: DashboardHome,
       },
       {
         path: "profile",

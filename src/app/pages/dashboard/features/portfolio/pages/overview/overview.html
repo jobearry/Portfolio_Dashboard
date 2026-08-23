@@ -1,0 +1,22 @@
+@if(_overviewService.getState().loading){
+  <div class="p-3">
+    <app-skeleton-item></app-skeleton-item>
+  </div>
+}@else {
+  <div class="flex p-3 w-full gap-2 border-b">
+    @for(item of _overviewService.getState().content; track item.title){
+      <button class="border rounded-sm w-full h-32
+        flex flex-col justify-between p-2 items-start">
+        <span class="text-xs text-gray-300/70 tracking-widest">
+          {{item.title.toUpperCase()}}
+        </span>
+        <span class="text-3xl font-semibold">
+          {{item.count}}
+        </span>
+        <span class="text-sm text-orange-400">
+          {{item.subtitle}}
+        </span>
+      </button>
+    }
+  </div>
+}
