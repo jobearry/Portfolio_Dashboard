@@ -40,7 +40,6 @@ export const routes: Routes = [
       {
         path: "blog",
         component: Blog,
-        title: 'Blog | Journal',
       },
       {
         path: "**",

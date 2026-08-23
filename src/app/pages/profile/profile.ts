@@ -9,7 +9,7 @@ import { PORTFOLIO_CARD_FOOTER_STYLES } from '../dashboard/features/portfolio/co
     <div class="w-full flex justify-center items-center">
       <div class="w-[80%] p-5 items-end gap-2 flex flex-col sm:flex-row border-x border-b bg-zinc-900/20">
         <div class="w-full md:w-[35%] grid place-items-center">
-          <img class="bg-[#660808] object-cover h-60 w-60 rounded-full" src="jg-profile.png" alt="jonathan-profile-pic">
+          <img class="bg-[#521945] object-cover h-60 w-60 rounded-full" src="jg-profile.png" alt="jonathan-profile-pic">
         </div>
         <div class="w-full grid gap-2">
           <div class="bg-zinc-900/50 p-2 border rounded-sm flex flex-col gap-2">
@@ -46,7 +46,7 @@ import { PORTFOLIO_CARD_FOOTER_STYLES } from '../dashboard/features/portfolio/co
                       target="_blank"
                       aria-label="Download CV">
                       <img
-                        src="https://img.shields.io/badge/download_cv-101012?style=for-the-badge&color=blue"/>
+                        src="https://img.shields.io/badge/download_cv-101012?style=for-the-badge&color=521945"/>
                     </a>
                   </li>
                 </ul>

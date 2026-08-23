@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Navbar } from "../../../../components/navbar/navbar";
 import { Sidebar } from "../../../../components/sidebar/sidebar";
-import { RouterModule } from "@angular/router";
-import { sidebarContent } from '../../../../core/constants/sidebar-sections';
+import { ActivatedRoute, RouterModule } from "@angular/router";
+import { sidebarContent, SidebarGroupMenu } from '../../../../core/constants/sidebar-sections';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +11,12 @@ import { sidebarContent } from '../../../../core/constants/sidebar-sections';
   styles: ``,
 })
 export class Dashboard {
-  protected readonly title = signal('The Portfolio');
-  protected readonly subtitle = signal('@jobearry');
-  protected readonly sidebarSections = signal(sidebarContent)
+  protected readonly title = signal('Jonathan Golimlim');
+  protected readonly subtitle = signal('Software Engineer');
+  protected readonly sidebarSections = signal(sidebarContent);
+  protected readonly pagename = signal("")
+  onItemClickHandler(item: SidebarGroupMenu){
+    console.log("🚀 ~ Dashboard ~ onItemClickHandler ~ item:", item)
+    this.pagename.set(item.title);
+  }
 }
