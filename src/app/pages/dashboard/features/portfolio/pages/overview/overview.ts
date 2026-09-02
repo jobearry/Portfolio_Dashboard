@@ -3,10 +3,11 @@ import { OverviewSignalService } from '../../store/portfolio.service';
 import { getContent } from '../../core/portfolio.util';
 import { DashboardItem } from '../../core/models/dashboard-item';
 import { SkeletonItem } from "../../../../../../components/skeletons/item/skeleton-item";
+import { HlmH1 } from "@spartan-ng/helm/typography";
 
 @Component({
   selector: 'app-overview',
-  imports: [SkeletonItem],
+  imports: [SkeletonItem, HlmH1],
   templateUrl: './overview.html',
   styles: ``,
 })
