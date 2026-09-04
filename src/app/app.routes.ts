@@ -1,12 +1,9 @@
 import { Routes } from '@angular/router';
-import { Portfolio } from './pages/dashboard/features/portfolio/ui/portfolio';
-import { Profile } from './pages/profile/profile';
-import { ExperienceComponent } from './pages/dashboard/features/portfolio/pages/experience/experience';
-import { SkillComponent } from './pages/dashboard/features/portfolio/pages/skill/skill';
-import { ProjectComponent } from './pages/dashboard/features/portfolio/pages/project/project';
-import { Blog } from './pages/blog/blog';
-import { Dashboard } from './pages/dashboard/features/templates/dashboard';
-import { DashboardHome } from './pages/dashboard/features/templates/dashboard-home';
+import { Portfolio } from './features/dashboard/bak/portfolio';
+import { Blog } from './features/blog/blog';
+import { Dashboard } from './features/dashboard/templates/dashboard';
+import { DashboardHome } from './features/dashboard/templates/dashboard-home';
+import { Profile } from './features/dashboard/profile/profile';
 
 export const routes: Routes = [
   {

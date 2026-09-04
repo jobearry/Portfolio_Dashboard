@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { SIDEBAR_ICONS } from './core/constants/sidebar-sections';
-import { PORTFOLIO_ICONS } from './pages/dashboard/features/portfolio/core/portfolio.constant';
+import { PORTFOLIO_ICONS } from './features/dashboard/core/portfolio.constant';
 
 @Component({
   selector: 'app-root',
