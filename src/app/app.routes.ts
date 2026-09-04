@@ -16,6 +16,10 @@ export const routes: Routes = [
         component: DashboardHome,
       },
       {
+        path: "timeline",
+        loadComponent: () => import('./features/dashboard/components/timeline/timeline').then(m => m.Timeline),
+      },
+      {
         path: "profile",
         component: Profile
       },

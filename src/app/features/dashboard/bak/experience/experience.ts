@@ -6,9 +6,9 @@ import { HlmH3 } from '@spartan-ng/helm/typography';
 import { ProjectDialog } from '../../../../components/dialog/project-dialog';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { JGExperience } from '../../core/models/experience';
-import { JGProject } from '../../core/models/project';
 import { getContent } from '../../core/portfolio.util';
+import { ExperienceTimeline } from '../../models/experience';
+import { Project } from '../../models/project';
 
 @Component({
   selector: 'app-experience',
@@ -25,12 +25,12 @@ export class ExperienceComponent implements OnInit {
 
   transitionMoveUp = TRANSITION_MOVE_UP;
   ngOnInit(){
-    getContent<JGExperience>('v1/experience?includeProjects=true', this._expService)
+    getContent<ExperienceTimeline>('v1/experience?includeProjects=true', this._expService)
 
   }
 
-  async openDialog(experience: JGExperience){
-    await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
+  async openDialog(experience: ExperienceTimeline){
+    await getContent<Project>(`v1/experience/${experience.id}/projects`, this._projectService)
     const dialogRef = this._hlmDialogService.open(ProjectDialog, {
       context: {
         experience: experience,

@@ -3,8 +3,8 @@ import { SkillsSignalService } from '../../store/portfolio.service';
 import { HlmH3 } from '@spartan-ng/helm/typography';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { JGTechStackDTO } from '../../core/models/techstack';
 import { getContent } from '../../core/portfolio.util';
+import { JGTechStackDTO } from '../../models/techstack';
 
 @Component({
   selector: 'app-skill',

@@ -3,8 +3,8 @@ import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmDialogImports } from '@spartan-ng/helm/dialog';
 import { HlmInputImports } from '@spartan-ng/helm/input';
-import { JGExperience } from '../../features/dashboard/core/models/experience';
-import { JGProject } from '../../features/dashboard/core/models/project';
+import { ExperienceTimeline } from '../../features/dashboard/models/experience';
+import { Project } from '../../features/dashboard/models/project';
 
 @Component({
   selector: 'app-project-dialog',
@@ -13,7 +13,7 @@ import { JGProject } from '../../features/dashboard/core/models/project';
     <hlm-dialog>
       <hlm-dialog-header>
         <div class="p-2">
-          <h3 hlmDialogTitle class="text-start">{{_experience.companyName}}</h3>
+          <h3 hlmDialogTitle class="text-start">{{_experience.company.name}}</h3>
           <p hlmDialogDescription class="text-start">{{_experience.description}}</p>
           <p class="flex flex-col text-start text-xs font-bold pt-2">
             <span>Responsibility: </span>
@@ -42,8 +42,8 @@ import { JGProject } from '../../features/dashboard/core/models/project';
   styles: ``,
 })
 export class ProjectDialog {
-  private readonly _dialogRef = inject<BrnDialogRef<JGProject>>(BrnDialogRef);
-  private readonly _dialogContext = injectBrnDialogContext<{projects: JGProject[], experience: JGExperience}>();
+  private readonly _dialogRef = inject<BrnDialogRef<Project>>(BrnDialogRef);
+  private readonly _dialogContext = injectBrnDialogContext<{projects: Project[], experience: ExperienceTimeline}>();
 
   protected readonly _projects = this._dialogContext.projects;
   protected readonly _experience = this._dialogContext.experience;

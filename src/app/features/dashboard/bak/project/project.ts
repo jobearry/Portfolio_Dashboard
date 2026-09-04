@@ -5,8 +5,8 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { ProjectDialog } from '../../../../components/dialog/project-dialog';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { JGProject } from '../../core/models/project';
 import { getContent } from '../../core/portfolio.util';
+import { Project } from '../../models/project';
 
 @Component({
   selector: 'app-project',
@@ -20,12 +20,12 @@ export class ProjectComponent implements OnInit {
 
   _hlmDialogService = inject(HlmDialogService);
   ngOnInit(){
-    getContent<JGProject>('v1/portfolio/projects', this._projectService)
+    getContent<Project>('v1/portfolio/projects', this._projectService)
 
   }
 
-  async openDialog(project: JGProject){
-    // await getContent<JGProject>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
+  async openDialog(project: Project){
+    // await getContent<Project>(`v1/portfolio/Experiences/${experience.experienceId}/projects`, this._projectService)
     const dialogRef = this._hlmDialogService.open(ProjectDialog, {
       context: {
         experience: null,

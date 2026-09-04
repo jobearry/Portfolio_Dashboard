@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import { PortfolioSignalService } from "./portfolio-base.service";
-import { DashboardItem } from "../core/models/dashboard-item";
-import { JGExperience } from "../core/models/experience";
-import { JGProject } from "../core/models/project";
-import { JGTechStackDTO } from "../core/models/techstack";
+import { DashboardItem } from "../models/dashboard-item";
+import { JGTechStackDTO } from "../models/techstack";
+import { ExperienceTimeline } from "../models/experience";
+import { Project } from "../models/project";
+@Injectable({ providedIn: 'root' })
+export class ProjectSignalService extends PortfolioSignalService<Project> {}
 
 @Injectable({ providedIn: 'root' })
-export class ProjectSignalService extends PortfolioSignalService<JGProject> {}
-
-@Injectable({ providedIn: 'root' })
-export class ExperienceSignalService extends PortfolioSignalService<JGExperience> {}
+export class ExperienceSignalService extends PortfolioSignalService<ExperienceTimeline> {}
 
 @Injectable({ providedIn: 'root' })
 export class SkillsSignalService extends PortfolioSignalService<JGTechStackDTO> {}

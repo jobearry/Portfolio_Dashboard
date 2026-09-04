@@ -3,9 +3,9 @@ import { HlmDialogService } from '../../../../../libs/ui/dialog/src/lib/hlm-dial
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { PORTFOLIO_CONTROLS } from '../core/portfolio.constant';
 import { CommonModule } from '@angular/common';
-import { PortfolioItems } from '../core/models/portfolio';
 import { SectionButton } from '../../../components/button/section-button';
 import { ApiClient } from '../../../core/api/api-client';
+import { PortfolioItems } from '../models/portfolio';
 
 @Component({
   selector: 'app-resume',

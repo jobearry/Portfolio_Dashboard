@@ -1,6 +1,6 @@
 import { TechStackSpec } from "./techstack";
 
-export interface JGProject {
+export interface Project {
   projectId: number;
   projectName: string;
   description: string;
