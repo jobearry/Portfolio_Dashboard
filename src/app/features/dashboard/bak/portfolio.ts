@@ -3,9 +3,9 @@ import { HlmDialogService } from '../../../../../libs/ui/dialog/src/lib/hlm-dial
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { PORTFOLIO_CONTROLS } from '../core/portfolio.constant';
 import { CommonModule } from '@angular/common';
-import { PortfolioApi } from '../../../data/api/portfolio-api';
 import { PortfolioItems } from '../core/models/portfolio';
 import { SectionButton } from '../../../components/button/section-button';
+import { ApiClient } from '../../../core/api/api-client';
 
 @Component({
   selector: 'app-resume',
@@ -15,7 +15,7 @@ import { SectionButton } from '../../../components/button/section-button';
 })
 export class Portfolio implements OnInit {
   _hlmDialogService = inject(HlmDialogService);
-  _portfolioApi = inject(PortfolioApi);
+  _apiClient = inject(ApiClient);
   _router = inject(Router);
   _route = inject(ActivatedRoute);
   controls = PORTFOLIO_CONTROLS
@@ -36,7 +36,7 @@ export class Portfolio implements OnInit {
   }
   async getItemCounter(){
     try{
-      const itemCount = await this._portfolioApi.get<PortfolioItems>('v1/portfolio/count');
+      const itemCount = await this._apiClient.get<PortfolioItems>('v1/portfolio/count');
       console.log("🚀 ~ Portfolio ~ getItemCounter ~ itemCount:", itemCount)
       this.itemCounter.set(itemCount);
     }catch (err){

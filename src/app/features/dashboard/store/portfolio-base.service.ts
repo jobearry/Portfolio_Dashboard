@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { createPortfolioState, PortfolioState } from "./portfolio.state";
-import { PortfolioApi } from "../../../data/api/portfolio-api";
+import { ApiClient } from "../../../core/api/api-client";
 
 /**This is the general service for anything resume related
  * This will utilize the api from @src/api
@@ -8,7 +8,7 @@ import { PortfolioApi } from "../../../data/api/portfolio-api";
 @Injectable({providedIn: 'root'})
 export class PortfolioSignalService<T>{
   protected readonly _state = signal<PortfolioState<T>>(createPortfolioState<T>());
-  protected readonly api = inject(PortfolioApi)
+  protected readonly apiClient = inject(ApiClient);
 
   getState(){
     return this._state();
@@ -18,7 +18,7 @@ export class PortfolioSignalService<T>{
   }
 
   async getPortfolioResource(endpoint: string){
-    const response = await this.api.get<T[]>(endpoint);
+    const response = await this.apiClient.get<T[]>(endpoint);
     console.log("🚀 ~ PortfolioSignalService ~ getPortfolioResource ~ response:", response)
     this._state.update((state) => ({
       ...state,

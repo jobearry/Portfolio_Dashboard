@@ -1,12 +1,12 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { NotionPageInitialState, NotionPageState } from "./notion.state";
 import { NotionPageCard } from "../../../models/notion-page.model";
-import { PortfolioApi } from "../../../data/api/portfolio-api";
+import { ApiClient } from "../../../core/api/api-client";
 
 @Injectable({providedIn: 'root'})
 export class NotionSignalService{
   private readonly pageMarkdown = signal<NotionPageState>(NotionPageInitialState)
-  private readonly api = inject(PortfolioApi);
+  private readonly apiClient = inject(ApiClient);
 
   state(){
     return this.pageMarkdown();
@@ -20,7 +20,7 @@ export class NotionSignalService{
       message: null
     })
 
-    const response = await this.api.get<NotionPageCard[]>(endpoint);
+    const response = await this.apiClient.get<NotionPageCard[]>(endpoint);
 
     this.pageMarkdown.set({
       content: response,
