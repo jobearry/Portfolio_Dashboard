@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
-import { Portfolio } from './features/dashboard/bak/portfolio';
-import { Blog } from './features/blog/blog';
 import { Dashboard } from './features/dashboard/templates/dashboard';
-import { DashboardHome } from './features/dashboard/templates/dashboard-home';
-import { Profile } from './features/dashboard/profile/profile';
 
 export const routes: Routes = [
   {
@@ -13,7 +9,7 @@ export const routes: Routes = [
     children: [
       {
         path: "dashboard",
-        component: DashboardHome,
+        loadComponent: () => import('./features/dashboard/templates/dashboard-home').then(m => m.DashboardHome),
       },
       {
         path: "timeline",
@@ -21,7 +17,7 @@ export const routes: Routes = [
       },
       {
         path: "profile",
-        component: Profile
+        loadComponent: () => import('./features/dashboard/components/profile/profile').then(m => m.Profile),
       },
       // {
       //   path: "portfolio",
@@ -40,7 +36,7 @@ export const routes: Routes = [
       // },
       {
         path: "blog",
-        component: Blog,
+        loadComponent: () => import('./features/blog/blog').then(m => m.Blog),
       },
       {
         path: "**",

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { HlmH3 } from '@spartan-ng/helm/typography';
-import { PORTFOLIO_CARD_FOOTER_STYLES } from '../core/styles/portfolio.styles';
+import { PORTFOLIO_CARD_FOOTER_STYLES } from '../../core/styles/portfolio.styles';
 
 @Component({
   selector: 'app-profile',
   imports: [HlmH3],
   template: `
     <div class="w-full flex justify-center items-center">
-      <div class="w-[80%] p-5 items-end gap-2 flex flex-col sm:flex-row border-x border-b bg-zinc-900/20">
+      <div class="w-[80%] p-5 items-end gap-2 flex flex-col sm:flex-row border bg-zinc-900/20">
         <div class="w-full md:w-[35%] grid place-items-center">
           <img class="bg-[#521945] object-cover h-60 w-60 rounded-full" src="jg-profile.png" alt="jonathan-profile-pic">
         </div>

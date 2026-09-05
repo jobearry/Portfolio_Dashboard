@@ -1,4 +1,4 @@
-import { NotionPageCard } from "../../../models/notion-page.model"
+import { NotionPageCard } from "../../../models/domain/notion-page.model"
 
 export interface NotionPageState {
   content: NotionPageCard[] | null
