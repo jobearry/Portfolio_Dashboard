@@ -1,5 +1,6 @@
 import {
   lucideBriefcaseBusiness,
+  lucideChartGantt,
   lucideLayoutDashboard,
   lucideNotebookPen,
   lucideRss,
@@ -16,6 +17,7 @@ export const SIDEBAR_ICONS: Record<string, string> = {
   lucideNotebookPen,
   lucideLayoutDashboard,
   lucideBriefcaseBusiness,
+  lucideChartGantt,
 };
 export const sidebarContent: SidebarGroupMenu[] = [
   {
@@ -24,9 +26,9 @@ export const sidebarContent: SidebarGroupMenu[] = [
     icon: 'lucideLayoutDashboard',
   },
   {
-    title: 'Portfolio',
-    url: '/portfolio',
-    icon: 'lucideBriefcaseBusiness',
+    title: 'Timeline',
+    url: '/timeline',
+    icon: 'lucideChartGantt',
   },
   {
     title: 'Blog',

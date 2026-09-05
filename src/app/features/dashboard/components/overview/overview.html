@@ -1,0 +1,35 @@
+<section class="w-full h-full flex flex-col gap-2">
+  @if(_overviewService.getState().loading){
+    <app-skeleton-item></app-skeleton-item>
+  }@else {
+      <div class="flex flex-col justify-between items-start w-full p-3 border-b">
+        <span class="text-sm text-gray-300/70 tracking-widest">Hello,</span>
+        <h1 hlmH1 class="tracking-widest">Than</h1>
+        <span class="text-sm text-gray-300/70 tracking-widest">Welcome back to your portfolio dashboard</span>
+
+      </div>
+      <div class="grid sm:grid-cols-3 w-full gap-2 border-b p-3">
+        @for(item of _overviewService.getState().content; track item.title){
+        <button class="border rounded-sm w-full h-fit
+          flex flex-col justify-between p-4 items-start">
+          <span class="text-xs text-gray-300/70 tracking-widest">
+            {{item.title.toUpperCase()}}
+          </span>
+          <span class="text-[3rem] font-semibold">
+            {{item.count}}
+          </span>
+          <span class="text-sm tracking-wide">
+            {{item.subtitle}}
+          </span>
+
+          <div class="border w-full my-2"></div>
+
+          <span class="text-xs text-start text-gray-300/70 tracking-widest my-2">{{item.description}}</span>
+          <button class="text-sm my-2 text-[#912F56]">
+            {{"View Details →"}}
+          </button>
+        </button>
+      }
+    </div>
+  }
+</section>
