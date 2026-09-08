@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { NotionPageInitialState, NotionPageState } from "./notion.state";
-import { NotionPageCard } from "../../../models/domain/notion-page.model";
-import { ApiClient } from "../../../core/api/api-client";
+import { NotionPageCard } from "../core/notion-page.model";
+import { ApiClient } from "../../../../../core/api/api-client";
+import { NotionPageInitialState, NotionPageState } from ".";
 
 @Injectable({providedIn: 'root'})
 export class NotionSignalService{

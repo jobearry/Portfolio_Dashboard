@@ -1,23 +1,22 @@
 import { Routes } from '@angular/router';
-import { Dashboard } from './features/dashboard/templates/dashboard';
 
 export const routes: Routes = [
   {
     path: "",
-    component: Dashboard,
+    loadComponent: () => import('./features/dashboard/shell/dashboard').then(m => m.Dashboard),
     title: "Dashboard | Jonathan Golimlim",
     children: [
       {
         path: "dashboard",
-        loadComponent: () => import('./features/dashboard/templates/dashboard-home').then(m => m.DashboardHome),
+        loadComponent: () => import('./features/dashboard/pages/home/dashboard-home').then(m => m.DashboardHome),
       },
       {
         path: "timeline",
-        loadComponent: () => import('./features/dashboard/components/timeline/timeline').then(m => m.Timeline),
+        loadComponent: () => import('./features/dashboard/pages/timeline/timeline').then(m => m.Timeline),
       },
       {
         path: "profile",
-        loadComponent: () => import('./features/dashboard/components/profile/profile').then(m => m.Profile),
+        loadComponent: () => import('./features/dashboard/pages/profile/profile').then(m => m.Profile),
       },
       // {
       //   path: "portfolio",
@@ -36,7 +35,7 @@ export const routes: Routes = [
       // },
       {
         path: "blog",
-        loadComponent: () => import('./features/blog/blog').then(m => m.Blog),
+        loadComponent: () => import('./features/dashboard/pages/blog/blog').then(m => m.Blog),
       },
       {
         path: "**",

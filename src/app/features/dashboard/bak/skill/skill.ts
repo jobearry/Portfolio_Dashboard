@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { SkillsSignalService } from '../../store/portfolio.service';
 import { HlmH3 } from '@spartan-ng/helm/typography';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { getContent } from '../../core/portfolio.util';
-import { JGTechStackDTO } from '../../models/techstack';
+import { getContent } from '../../../../shared/utils/portfolio.util';
+import { SkillsSignalService } from '../../../../shared/services/portfolio.service';
+import { JGTechStackDTO } from '../../core/models/techstack';
 
 @Component({
   selector: 'app-skill',

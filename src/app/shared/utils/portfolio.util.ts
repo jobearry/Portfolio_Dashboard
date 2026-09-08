@@ -1,4 +1,4 @@
-import { PortfolioSignalService } from "../store/portfolio-base.service";
+import { PortfolioSignalService } from "../services/portfolio-base.service";
 
 export async function getContent<T>(endpoint:string, signalState: PortfolioSignalService<T>){
   signalState.setLoading();

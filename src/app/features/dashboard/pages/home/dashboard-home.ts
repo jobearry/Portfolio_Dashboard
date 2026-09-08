@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Overview } from '../components/overview/overview';
+import { Overview } from '../overview/overview';
 
 @Component({
   selector: 'app-dashboard-home',

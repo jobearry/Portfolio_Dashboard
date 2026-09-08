@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ExperienceSignalService, ProjectSignalService } from '../../store/portfolio.service';
 import { NgIcon } from "@ng-icons/core";
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { HlmH3 } from '@spartan-ng/helm/typography';
 import { ProjectDialog } from '../../../../components/dialog/project-dialog';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { getContent } from '../../core/portfolio.util';
-import { ExperienceTimeline } from '../../models/experience';
-import { Project } from '../../models/project';
+import { getContent } from '../../../../shared/utils/portfolio.util';
+import { ExperienceTimeline } from '../../core/models/experience';
+import { Project } from '../../core/models/project';
+import { ExperienceSignalService, ProjectSignalService } from '../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'app-experience',

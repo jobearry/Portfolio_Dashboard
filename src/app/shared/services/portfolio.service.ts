@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { PortfolioSignalService } from "./portfolio-base.service";
-import { DashboardItem } from "../models/dashboard-item";
-import { JGTechStackDTO } from "../models/techstack";
-import { ExperienceTimeline } from "../models/experience";
-import { Project } from "../models/project";
+import { DashboardItem } from "../../features/dashboard/core/models/dashboard-item";
+import { Project } from "../../features/dashboard/core/models/project";
+import { JGTechStackDTO } from "../../features/dashboard/core/models/techstack";
+import { ExperienceTimeline } from "../../features/dashboard/core/models/experience";
 @Injectable({ providedIn: 'root' })
 export class ProjectSignalService extends PortfolioSignalService<Project> {}
 

@@ -1,10 +1,9 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ExperienceSignalService } from "../../store/portfolio.service";
-import { SkeletonItem } from "../../../../components/skeletons/item/skeleton-item";
-import { getContent } from "../../core/portfolio.util";
-import { ExperienceTimeline } from "../../models/experience";
 import { DatePipe } from "@angular/common";
 import { HlmH1 } from "../../../../../../libs/ui/typography/src/lib/hlm-h1";
+import { SkeletonItem } from "../../../../components";
+import { ExperienceSignalService, getContent } from "../../../../shared";
+import { ExperienceTimeline } from "../../core";
 
 @Component({
   selector: 'app-timeline',
@@ -60,7 +59,6 @@ import { HlmH1 } from "../../../../../../libs/ui/typography/src/lib/hlm-h1";
 })
 export class Timeline implements OnInit {
   protected readonly _experienceService = inject(ExperienceSignalService);
-
   ngOnInit(){
     getContent<ExperienceTimeline>('v1/experience?includeProjects=true', this._experienceService)
   }

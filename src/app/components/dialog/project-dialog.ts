@@ -3,8 +3,8 @@ import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmDialogImports } from '@spartan-ng/helm/dialog';
 import { HlmInputImports } from '@spartan-ng/helm/input';
-import { ExperienceTimeline } from '../../features/dashboard/models/experience';
-import { Project } from '../../features/dashboard/models/project';
+import { Project } from '../../features/dashboard/core/models/project';
+import { ExperienceTimeline } from '../../features/dashboard/core/models/experience';
 
 @Component({
   selector: 'app-project-dialog',

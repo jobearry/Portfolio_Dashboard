@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { createPortfolioState, PortfolioState } from "./portfolio.state";
-import { ApiClient } from "../../../core/api/api-client";
+import { createPortfolioState, PortfolioState } from "../store/portfolio.state";
+import { ApiClient } from "../../core/api/api-client";
 
 /**This is the general service for anything resume related
  * This will utilize the api from @src/api
