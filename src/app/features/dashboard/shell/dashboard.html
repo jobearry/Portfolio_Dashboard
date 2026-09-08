@@ -1,9 +1,9 @@
 <app-sidebar [title]="title()" [subtitle]="subtitle()" [sidebarContent]="sidebarSections()"
   (onItemClick)="onItemClickHandler($event)">
   <main class="w-full">
-    <section class="p-2 border-b">
-      <app-navbar [title]="pagename()"></app-navbar>
-    </section>
+    <nav class="p-2 border-b sticky top-0 z-10 bg-background">
+      <app-navbar  [title]="pagename()"></app-navbar>
+    </nav>
     <section class="grid place-items-center">
       <div class="max-w-300 w-full p-3">
         <router-outlet></router-outlet>

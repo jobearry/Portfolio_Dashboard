@@ -1,4 +1,4 @@
-import { TechStackSpec } from "./techstack";
+import { TechStack } from "./techstack";
 
 export interface Project {
   projectId: number;
@@ -8,5 +8,5 @@ export interface Project {
   duration: number;
   contribution: string;
 
-  techStackSpecs: TechStackSpec[];
+  techStackSpecs: TechStack[];
 }

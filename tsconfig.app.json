@@ -7,7 +7,7 @@
     "types": []
   },
   "include": [
-    "src/**/*.ts", "src/app/components/maintenance",
+    "src/**/*.ts",
   ],
   "exclude": [
     "src/**/*.spec.ts"

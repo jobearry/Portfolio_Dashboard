@@ -1,10 +1,10 @@
-export interface TechStackDescription {
+export interface TechStackCategory {
   stackId: number;
   stackName: string;
   createdAt: string;
 }
 
-export interface TechStackSpec {
+export interface TechStack {
   specId: number;
   toolName: string;
   imgSrc: string;
@@ -13,9 +13,10 @@ export interface TechStackSpec {
   stack: string;
 }
 
-export interface JGTechStackDTO {
-  stackId: number;
-  stackName: string;
+export interface TechStackItem {
+  id: number;
+  category: string;
   createdAt: string;
-  techStackSpecs: TechStackSpec[];
+  imgSrc: string;
+  stackName: string;
 }
