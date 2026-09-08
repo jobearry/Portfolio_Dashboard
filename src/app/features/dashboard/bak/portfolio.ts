@@ -1,11 +1,11 @@
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { HlmDialogService } from '../../../../../libs/ui/dialog/src/lib/hlm-dialog.service';
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { PORTFOLIO_CONTROLS } from '../core/portfolio.constant';
+import { PORTFOLIO_CONTROLS } from '../constants/portfolio.constant';
 import { CommonModule } from '@angular/common';
 import { SectionButton } from '../../../components/button/section-button';
 import { ApiClient } from '../../../core/api/api-client';
-import { PortfolioItems } from '../models/portfolio';
+import { PortfolioItems } from '../core/models/portfolio';
 
 @Component({
   selector: 'app-resume',

@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ProjectSignalService } from '../../store/portfolio.service';
 import { HlmH3 } from '@spartan-ng/helm/typography';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { ProjectDialog } from '../../../../components/dialog/project-dialog';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
 import { TRANSITION_MOVE_UP } from '../../../../core/styles/common.styles';
-import { getContent } from '../../core/portfolio.util';
-import { Project } from '../../models/project';
+import { getContent } from '../../../../shared/utils/portfolio.util';
+import { ProjectSignalService } from '../../../../shared/services/portfolio.service';
+import { Project } from '../../core/models/project';
 
 @Component({
   selector: 'app-project',

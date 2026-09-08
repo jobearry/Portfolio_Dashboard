@@ -6,10 +6,10 @@ import { RouterModule } from '@angular/router';
   selector: 'app-navbar',
   imports: [HlmSidebarTrigger, RouterModule],
   template: `
-    <nav class="w-full flex justify-start items-center gap-5">
+    <div class="w-full flex justify-start items-center gap-5">
       <button hlmSidebarTrigger><span class="sr-only"></span></button>
       <p class="text-2xl tracking-wide">{{ title() }}</p>
-    </nav>
+    </div>
   `,
   styles: [],
 })

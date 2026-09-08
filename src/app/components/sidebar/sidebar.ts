@@ -13,7 +13,9 @@ import { SidebarGroupMenu } from '../../core/constants/sidebar-sections';
     <div hlmSidebarWrapper>
       <hlm-sidebar>
         <div hlmSidebarHeader class="m-2 items-center border rounded-md">
-          <a [routerLink]="['/profile']" title="View Profile" class="grid gap-2">
+          <a [routerLink]="['/profile']" title="View Profile" class="grid gap-2"
+            (click)="onItemClick.emit(
+              {'title': 'Profile', 'url': '/profile', 'icon': ''})">
             <img class="h-15 w-15 p-1 rounded-full" src="grad_1.jpeg" alt="person-holding-diploma" />
             <div class="flex flex-col items-start">
               <h1 class="font-bold text-xl">{{ title() }}</h1>
@@ -46,7 +48,7 @@ import { SidebarGroupMenu } from '../../core/constants/sidebar-sections';
 })
 export class Sidebar {
   title = input<string>('');
-  subtitle = input<string>('Jobearry');
+  subtitle = input<string>('');
   sidebarContent = input<SidebarGroupMenu[]>([]);
   onItemClick = output<SidebarGroupMenu>();
 }
