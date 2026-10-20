@@ -35,11 +35,10 @@ accurate documentation set.
 - `package.json`, `package-lock.json`
 - `tsconfig.json` (`paths` block)
 - `src/styles.css` (any residual preset references)
-- `src/app/components/**` (remaining dead components)
-- `src/app/core/styles/common.styles.ts`,
-  `src/app/features/dashboard/core/styles/portfolio.styles.ts`
-- `src/app/features/dashboard/constants/portfolio.constant.ts`
-- `src/app/features/dashboard/core/models/value-objects/result.ts` (unused)
+- `src/app/components/**` (`Maintenance` only after 007)
+- `src/app/features/dashboard/core/models/portfolio.ts` (`PortfolioItems`, unused)
+- `src/app/features/dashboard/core/models/value-objects/result.ts` (`Result<T>`,
+  unused)
 - `src/app/features/dashboard/core/index.ts`, `src/app/core/index.ts`,
   `src/app/shared/index.ts` (barrels)
 - `.github/docs/*`
@@ -53,16 +52,13 @@ accurate documentation set.
 - [ ] `npm uninstall @spartan-ng/brain @spartan-ng/cli`.
 - [ ] Check `class-variance-authority`, `clsx`, `tailwind-merge`; uninstall only
       if no source file imports them.
-- [ ] Remove leftover unused components (`Card` remnants, `Item`,
-      `SectionButton`, `SkeletonCard` if any survived 002, `ProjectDialog` if any
-      survived) and their barrel exports.
+- [ ] Confirm `src/app/components/` contains only `Maintenance` plus its barrel;
+      `SkeletonItem` and all other dead components were deleted in 002/007.
 - [ ] Keep `Maintenance` and confirm where it is used (or document that it is
       intentionally retained).
-- [ ] Remove dead constants/icons: `PORTFOLIO_CONTROLS`, `Result<T>`,
-      `PortfolioItems` (if still present), unused `lucide*` registrations,
-      duplicate `lucideUserCircle`.
-- [ ] Remove duplicated style constants between `common.styles.ts` and
-      `portfolio.styles.ts`; delete empty files.
+- [ ] Remove the unused `PortfolioItems` and `Result<T>` model files and their
+      barrel exports (the old constants and duplicated style files were deleted
+      in 007).
 - [ ] Ensure `angular.json` has no Spartan builder/schematic references.
 - [ ] Run `npm prune` / confirm `npm ls` has no Spartan packages or extraneous
       deps.

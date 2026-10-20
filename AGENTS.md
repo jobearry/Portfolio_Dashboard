@@ -89,15 +89,14 @@ files. Never commit secrets.
 
 ## 5. Known landmines
 
-These are real defects in the current code, not hypotheticals:
+These are the remaining cleanup items in the current code, not hypotheticals:
 
-- The header title is set by click handlers, not the route; it is blank on load.
-- Profile is not in the sidebar menu (avatar only).
-- Notion page ID and public domain are hardcoded.
-- `components/skeletons/item` and `Maintenance` still use Spartan; several
-  unused Spartan-tied components remain until the cleanup phase.
-- Some unused constants/icons and the `common.styles.ts` vs
-  `portfolio.styles.ts` overlap are still present.
+- `components/maintenance` and the vendored `libs/ui/**` tree are the only
+  Spartan remnants; removal is the final cleanup phase (008).
+- `libs/ui` still contains packages with no remaining imports (`sheet`,
+  `scroll-area`, `separator`, `tooltip`).
+- Unused model types (`Result<T>`, `PortfolioItems`) remain until 008.
+- Blog intentionally has no pagination, search, or excerpts.
 
 See `.github/docs/gaps.md` for the full list.
 

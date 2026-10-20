@@ -1,22 +1,34 @@
-import { Component, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Navbar } from '../../../components/navbar/navbar';
-import { Sidebar } from '../../../components/sidebar/sidebar';
-import { sidebarContent, SidebarGroupMenu } from '../../../core/constants/sidebar-sections';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
+import { ShellHeader } from './header/header';
+import { ShellSidebar } from './sidebar/sidebar';
+import { ShellStateService } from './shell-state.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Navbar, Sidebar, RouterModule],
+  imports: [RouterOutlet, ShellHeader, ShellSidebar],
   templateUrl: './dashboard.html',
-  styles: ``,
+  host: {
+    '(document:keydown.escape)': 'onEscape()',
+  },
 })
 export class Dashboard {
-  protected readonly title = signal('Jonathan Golimlim');
-  protected readonly subtitle = signal('Software Engineer');
-  protected readonly sidebarSections = signal(sidebarContent);
-  protected readonly pagename = signal('');
+  protected readonly state = inject(ShellStateService);
 
-  onItemClickHandler(item: SidebarGroupMenu) {
-    this.pagename.set(item.title);
+  private readonly router = inject(Router);
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => this.state.closeMobile(true));
+  }
+
+  protected onEscape(): void {
+    this.state.closeMobile(true);
   }
 }

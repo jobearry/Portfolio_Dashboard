@@ -9,5 +9,3 @@ export * from './models/value-objects/company';
 export * from './models/value-objects/period';
 export * from './models/value-objects/role';
 export * from './models/value-objects/result';
-
-export * from './styles/portfolio.styles';

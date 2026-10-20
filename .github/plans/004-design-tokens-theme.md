@@ -1,8 +1,8 @@
 # 004 — Design tokens and theme
 
-Status: Draft
-Owner:
-Depends on: 002 (003 recommended first)
+Status: Done
+Owner: Jonathan Golimlim
+Depends on: 002, 003
 Related docs: `.github/docs/spartan-inventory.md` (sections 2 and 7)
 
 ## Goal
@@ -11,86 +11,99 @@ Replace the Spartan Tailwind preset with our own Tailwind v4 tokens, define a
 real light/dark theme, and add a persisted theme service — without changing how
 the app looks in dark mode.
 
-The shell is still Spartan in this phase, so **the token variable names must
-match** what the live templates already use. This phase is parity, not redesign.
+The shell is still Spartan in this phase, so the token variable names had to
+match what the live templates use. This phase is parity, not redesign.
 
 ## Scope
 
 **In:**
 
-- Remove `@import "@spartan-ng/brain/hlm-tailwind-preset.css"` from
-  `src/styles.css`.
-- Define `:root` / `:root.dark` variables and a Tailwind `@theme` mapping that
-  keeps the existing utility names working.
+- Remove `@import "@spartan-ng/brain/hlm-tailwind-preset.css"`.
+- Own `@theme inline` mapping + light/dark variables with matching names.
 - `color-scheme` for both themes.
 - `ThemeService`: `light` | `dark`, persisted, initial value from
   `prefers-color-scheme`.
-- Apply the theme class before Angular boots (no flash).
+- Apply the theme before Angular boots (no flash).
 - Remove the hardcoded `class="dark"` from `index.html`.
+- Replace dark-only neutral classes so light mode is legible.
 
 **Out:**
 
 - The visible theme toggle control (lands with the avatar dropdown in 006).
-- A full palette redesign; only legibility fixes are allowed.
-- Per-screen styling (007).
+- Full palette redesign.
+- Per-screen layout work (007).
 
 ## Affected surface
 
 - `src/styles.css`
 - `src/index.html`
-- New: `src/app/core/theme/theme.service.ts` (+ `index.ts`)
-- `src/app/app.config.ts` (initializer) or `src/app/app.ts` constructor
-- `src/app/core/index.ts`
+- `src/app/core/theme/theme.service.ts` + `theme.service.spec.ts` (new)
+- `src/app/core/theme/index.ts`, `src/app/core/index.ts`
+- `src/app/app.config.ts` (`provideAppInitializer`)
+- Templates that used dark-only grays (`overview`, `timeline`, `profile`,
+  `recommendations`, `skill`, `blog`, `sidebar`, `maintenance`)
+
+## Decisions
+
+- **Keep the existing token names** (`--background`, `--foreground`, `--card`,
+  `--muted`, `--border`, `--sidebar-*`). Renaming would break the still-Spartan
+  shell and turn 004 into a visual-risk phase.
+- **Keep two dependencies at the CSS level:** `@angular/cdk/overlay-prebuilt.css`
+  and `tw-animate-css` were imported by the preset. Spartan's mobile sheet and
+  animations still need them until 008; 008 removes them with the UI.
+- **Class-based dark mode** via `@custom-variant dark (&:is(.dark *))`. Without
+  it, `dark:` utilities would follow the OS instead of the stored choice.
+- **Keep the `data-*` variants** the preset defined. Only `data-disabled:` is
+  currently used, but the full set is kept until the vendored UI is deleted.
+- **Accent stays `#912f56`** in both themes (locked), exposed as
+  `--color-accent-brand` so templates stop repeating the hex.
+- **`@theme` radius scale** mirrors the preset (`sm` … `4xl` off `--radius`) so
+  rounded corners do not change.
+- **First-load rule:** stored theme wins; otherwise
+  `prefers-color-scheme: light` → light; no preference → dark.
+- **Template neutrals replaced in this phase** (`text-gray-300/70` →
+  `text-muted-foreground`, `bg-zinc-900/50` → `bg-muted/50`, etc.). Without it,
+  light mode rendered near-invisible text. This is a legibility fix, not a
+  redesign; 007 still owns layout.
 
 ## Tasks
 
-- [ ] Inventory every token currently consumed by live templates
-      (`bg-background`, `text-foreground`, `text-muted-foreground`,
-      `bg-muted/50`, `border-border`, `outline-ring/50`, `--radius`, and any
-      `sidebar-*` still used by Spartan internals).
-- [ ] Define the token sets in `styles.css` with the same custom-property names,
-      light in `:root`, dark in `:root.dark`, each with `color-scheme`.
-- [ ] Add `@theme inline { --color-background: var(--background); ... }` so
-      `bg-*`, `text-*`, and `border-*` utilities resolve without the preset.
-- [ ] Keep the accent `#912F56` as a named token (e.g. `--color-accent-brand`)
-      instead of repeating the hex in templates.
-- [ ] Delete the preset import and any `@layer` setup only the preset needed.
-- [ ] Add `ThemeService` with a `signal<'light' | 'dark'>`, `localStorage`
-      persistence (guard `typeof window`), and first-load fallback to
-      `window.matchMedia('(prefers-color-scheme: light)')`.
-- [ ] Apply the class to `document.documentElement` in one place; expose
-      `toggle()`.
-- [ ] Add a tiny inline script in `index.html` `<head>` that applies the stored
-      theme class before first paint (avoids the default-dark flash).
-- [ ] Remove `class="dark"` from `<html>`; keep `lang="en"`.
-- [ ] Verify the shell (still Spartan) renders identically in dark before moving
-      on.
-
-## Risks / decisions
-
-- **Preset dependency:** Spartan components use `bg-sidebar`, `bg-card`,
-  `text-card-foreground`, etc. Those must be mapped, or the sidebar will render
-  unstyled for one phase. Map them even if they are removed in 008.
-- **Flash:** Angular bootstraps after first paint. The inline pre-bootstrap
-  script is the mitigation; do not rely on the service constructor alone.
-- **Default:** dark is the locked default. First load without a stored value uses
-  `prefers-color-scheme`; store the result only after an explicit toggle.
-- Token values are not a redesign. Keep the existing oklch values unless a
-  contrast check fails.
+- [x] Inventory tokens consumed by live templates and `libs/ui` (colors, radius,
+      sidebar widths, variants, animations).
+- [x] Replace the preset import with own `@theme inline` mapping.
+- [x] Define light (`:root`) and dark (`:root.dark`) token sets with
+      `color-scheme`.
+- [x] Add `--color-accent-brand`.
+- [x] Add `ThemeService` (signal, `localStorage` key `portfolio-theme`,
+      `toggle()`, `set()`), and initialize it with `provideAppInitializer`.
+- [x] Add the inline pre-paint script to `index.html`; remove `class="dark"`.
+- [x] Replace dark-only neutral classes with semantic tokens.
+- [x] Add `theme.service.spec.ts` covering OS preference, stored override,
+      dark fallback, and toggle persistence.
+- [x] Update `current-state.md`, `gaps.md`, `screens.md`.
 
 ## Verification
 
-- [ ] `npm run build`, `npm test`, `npm run lint`.
-- [ ] Dark mode is visually unchanged on all four routes (compare before/after).
-- [ ] Light mode is legible on all four routes: body text, muted text, borders,
-      accent, sidebar.
-- [ ] `document.documentElement` has `color-scheme: dark|light` matching the
-      active theme.
-- [ ] Reload preserves the toggled theme; first load follows the OS setting.
-- [ ] No flash of the wrong theme on hard reload.
-- [ ] `grep -rn "hlm-tailwind-preset" src/` returns nothing.
+- [x] `npm run lint`, `npm run format:check`, `npm run build` pass.
+- [x] `npm test` — 14 tests pass (4 new theme tests).
+- [x] Dark mode is visually unchanged: `/dashboard` screenshot before/after
+      matches (sidebar, header, cards, muted text).
+- [x] Light mode is legible on `/dashboard`, `/timeline`, `/profile`, `/blog`
+      (headless Chromium, `color-scheme: light` confirmed).
+- [x] Reload keeps the stored theme; class and `color-scheme` match.
+- [x] First load follows `prefers-color-scheme` (unit tested).
+- [x] `grep -rn "hlm-tailwind-preset" src/` returns nothing.
+- [x] `grep -rn "#912F56" src/` returns only the explanatory comment in
+      `styles.css`.
+
+## Known follow-ups
+
+- The visible toggle and its keyboard behavior belong to 006.
+- Light-mode layout issues that are not contrast (e.g. the skills grid
+  overflowing in `/profile`) are 007 work.
+- 008 can reconsider `tw-animate-css` once the Spartan sheet is gone.
 
 ## Exit criteria
 
 The app owns its tokens and theme lifecycle; the Spartan preset is gone while
-every existing screen still renders correctly.
+every existing screen renders correctly in both themes.

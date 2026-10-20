@@ -5,19 +5,19 @@ the rewrite.
 
 ## 1. Stack
 
-| Concern | Current choice |
-| --- | --- |
-| Framework | Angular 21, standalone components, lazy `loadComponent` routes |
-| Styling | Tailwind CSS v4 (`@tailwindcss/postcss`) |
-| Component library | Spartan UI (Helm) vendored under `libs/ui` + `@spartan-ng/brain` |
-| Icons | `@ng-icons/core` + `@ng-icons/lucide` |
-| HTTP | `HttpClient`, wrapped by a custom `ApiClient` |
-| State | Angular signals, per-entity services |
-| Tests | Vitest via `@angular/build:unit-test` (shell/routing + service/overview specs) |
-| Lint | ESLint 9 flat config, `angular-eslint` + `typescript-eslint`, conservative rules |
-| Format | Prettier 3 (`printWidth: 100`, `singleQuote: true`) |
-| CI | GitHub Actions on PRs and `main` pushes: lint → format → build → test |
-| Deploy | Vercel (`vercel.json`, `vercel-build` → `build:prod`) |
+| Concern           | Current choice                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| Framework         | Angular 21, standalone components, lazy `loadComponent` routes                       |
+| Styling           | Tailwind CSS v4 (PostCSS), own `@theme` tokens, light + dark                         |
+| Component library | Spartan UI (Helm) vendored under `libs/ui` + `@spartan-ng/brain`                     |
+| Icons             | `@ng-icons/core` + `@ng-icons/lucide`                                                |
+| HTTP              | `HttpClient`, wrapped by a custom `ApiClient`                                        |
+| State             | Angular signals, per-entity services                                                 |
+| Tests             | Vitest via `@angular/build:unit-test` (shell/routing/theme + screen + service specs) |
+| Lint              | ESLint 9 flat config, `angular-eslint` + `typescript-eslint`, conservative rules     |
+| Format            | Prettier 3 (`printWidth: 100`, `singleQuote: true`)                                  |
+| CI                | GitHub Actions on PRs and `main` pushes: lint → format → build → test                |
+| Deploy            | Vercel (`vercel.json`, `vercel-build` → `build:prod`)                                |
 
 ## 2. Entry chain
 
@@ -25,8 +25,8 @@ the rewrite.
 src/main.ts
   └─ App (src/app/app.ts)                 → <router-outlet/>
        └─ src/app/app.routes.ts
-            └─ Dashboard shell ("")       → app-sidebar + app-navbar + <router-outlet/>
-                 ├─ /dashboard  → DashboardHome → Overview
+            └─ Dashboard shell ("")       → app-shell-sidebar + app-shell-header + <router-outlet/>
+                 ├─ /dashboard  → Overview
                  ├─ /timeline   → Timeline
                  ├─ /profile    → Profile → Recommendations + SkillComponent
                  ├─ /blog       → Blog
@@ -42,71 +42,99 @@ providers: [
   provideBrowserGlobalErrorListeners(),
   provideHttpClient(withFetch()),
   provideRouter(routes),
-]
+  provideAppInitializer(() => {
+    inject(ThemeService);
+  }),
+];
 ```
 
 - `HttpClient` is registered app-wide, so `ApiClient` resolves on every route.
+- The theme initializer applies the stored/system theme and keeps it on `<html>`.
 - No zone/change-detection configuration.
 - No global state, interceptors, retries, or guards.
 
-`src/app/app.ts` registers the global icon set:
-
-```ts
-providers: provideIcons({ ...SIDEBAR_ICONS, ...PORTFOLIO_ICONS }),
-```
+`src/app/app.ts` is a bare `<router-outlet/>` host. There is no global icon
+registry: each component (sidebar, blog, profile, maintenance) registers the
+lucide icons it uses through its own `provideIcons()`.
 
 ## 3. Routes
 
-| Path | Component | Title | Notes |
-| --- | --- | --- | --- |
-| `""` | `Dashboard` (shell) | `Dashboard \| Jonathan Golimlim` | Always mounted |
-| `dashboard` | `DashboardHome` → `Overview` | — | Default destination |
-| `timeline` | `Timeline` | — | |
-| `profile` | `Profile` | — | Not linked from the sidebar menu |
-| `blog` | `Blog` | — | |
-| `**` | redirect → `dashboard` | — | Child wildcard |
+| Path        | Component              | Title                            | Notes                            |
+| ----------- | ---------------------- | -------------------------------- | -------------------------------- |
+| `""`        | `Dashboard` (shell)    | `Dashboard \| Jonathan Golimlim` | Always mounted                   |
+| `dashboard` | `Overview`             | `Dashboard \| Jonathan Golimlim` | Default destination              |
+| `timeline`  | `Timeline`             | `Timeline \| Jonathan Golimlim`  |                                  |
+| `profile`   | `Profile`              | `Profile \| Jonathan Golimlim`   | Not linked from the sidebar menu |
+| `blog`      | `Blog`                 | `Blog \| Jonathan Golimlim`      |                                  |
+| `**`        | redirect → `dashboard` | —                                | Child wildcard                   |
 
-Only the shell route defines a `title`; child routes do not.
+Each child route sets both `title` (document tab) and `data.pageTitle` (header
+`h1`) through the `page()` helper in `app.routes.ts`. An explicit empty-path
+redirect handles `/`.
 
 ## 4. Shell layout
 
-`features/dashboard/shell/dashboard.{ts,html}`
+`features/dashboard/shell/`
 
 ```
-<div hlmSidebarWrapper>
-  <hlm-sidebar>
-    ├─ Header  : avatar + name + subtitle, links to /profile
-    ├─ Content : Dashboard / Timeline / Blog menu items
-    └─ Footer  : empty
-  </hlm-sidebar>
+dashboard.{ts,html}       host layout, backdrop, Escape + navigation close
+shell-state.service.ts    collapsed / mobileOpen / isDesktop signals, scroll lock
+sidebar/sidebar.ts        plain Tailwind sidebar (rail, nav, footer)
+header/header.ts          mobile trigger + route-driven <h1>
+user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
+```
 
-  <main class="w-full">
-    <nav class="p-2 border-b sticky top-0 z-10 bg-background">
-      <app-navbar [title]="pagename()" />   <!-- sidebar trigger + page title -->
-    </nav>
-    <section class="grid place-items-center">
-      <div class="max-w-300 w-full p-3">
-        <router-outlet />
-      </div>
-    </section>
-  </main>
+```
+<div [style.--shell-sidebar-width]="collapsed() ? '4.5rem' : '16rem'">
+  @if (mobile && open) { <overlay /> }
+  <app-shell-sidebar />                 <!-- fixed; 16rem or 4.5rem rail; 18rem mobile -->
+  <div class="md:pl-[var(--shell-sidebar-width)]">
+    <app-shell-header />                <!-- sticky; trigger below md + <h1> -->
+    <main class="max-w-[75rem] p-3"><router-outlet /></main>
+  </div>
 </div>
 ```
 
-- `title` = "Jonathan Golimlim", `subtitle` = "Software Engineer".
-- `pagename` starts as `""` and is set **only** when a sidebar item or the avatar
-  is clicked (`onItemClickHandler`), so it is blank on reload/direct navigation.
+- The header title comes from the deepest route's `data.pageTitle`; there is no
+  click handler and no `pagename` signal.
 - Sidebar items come from `core/constants/sidebar-sections.ts`:
 
-| Label | URL | Icon |
-| --- | --- | --- |
+| Label     | URL          | Icon                    |
+| --------- | ------------ | ----------------------- |
 | Dashboard | `/dashboard` | `lucideLayoutDashboard` |
-| Timeline | `/timeline` | `lucideChartGantt` |
-| Blog | `/blog` | `lucideRss` |
+| Timeline  | `/timeline`  | `lucideChartGantt`      |
+| Blog      | `/blog`      | `lucideRss`             |
 
-There is no active-link highlighting (`routerLinkActive` is unused).
+- Active links use `routerLinkActive` with exact matching and
+  `aria-current="page"`.
+- Desktop collapse (16rem ↔ 4.5rem) is persisted in localStorage; mobile uses an
+  off-canvas panel below `md` (48rem) with overlay, Escape, scroll lock, and
+  focus return.
+- The avatar block is a dropdown button with Profile, CV, and theme actions.
+
+### Shared UI — `src/app/shared/ui/`
+
+- `state-message` — error/empty block used by every data screen, with optional
+  **Try again** output.
+- `skeleton` — `app-skeleton` loading placeholder with `text`, `card`, `list`,
+  `grid`, and `entries` variants plus an optional `rows` count. It mirrors the
+  final layout, exposes `role="status"` with visually hidden "Loading…", and
+  marks the visual blocks `aria-hidden`.
 
 ## 5. Data layer
+
+### Site config — `src/app/core/config/site.config.ts`
+
+Single typed source of truth for personal content and public integrations:
+
+- `site.profile` — name, handle, role, bio.
+- `site.links` — GitHub and CV URLs.
+- `site.assets` — sidebar and profile avatar filenames (served from `public/`).
+- `site.notion` — page ID and public domain.
+
+The object is `as const satisfies SiteConfig`. Consumers: shell (title/subtitle),
+sidebar (avatar), profile (hero + links), blog (page ID/domain), and the root
+route title. Menu labels/URLs/icons stay in `core/constants/sidebar-sections.ts`.
 
 ### `ApiClient` — `src/app/core/api/api-client.ts`
 
@@ -140,13 +168,13 @@ Signal state `{ content: T[], loading: boolean, error: string | null }` with:
 
 Live:
 
-| Endpoint | Used by | Response type |
-| --- | --- | --- |
-| `v1/overview` | Dashboard home | `DashboardItem[]` |
-| `v1/experience?includeProjects=true` | Timeline | `ExperienceTimeline[]` |
-| `v1/skill` | Profile → Skills | `TechStackItem[]` |
-| `v1/recommendation` | Profile → Recommendations | `FeedbackItem[]` |
-| `v1/notion/16348b6ae5dd8032b137c4327f9ab77c` | Blog | `NotionPageCard[]` |
+| Endpoint                             | Used by                   | Response type          |
+| ------------------------------------ | ------------------------- | ---------------------- |
+| `v1/overview`                        | Overview                  | `DashboardItem[]`      |
+| `v1/experience?includeProjects=true` | Timeline                  | `ExperienceTimeline[]` |
+| `v1/skill`                           | Profile → Skills          | `TechStackItem[]`      |
+| `v1/recommendation`                  | Profile → Recommendations | `FeedbackItem[]`       |
+| `v1/notion/{site.notion.pageId}`     | Blog                      | `NotionPageCard[]`     |
 
 The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
@@ -173,31 +201,41 @@ screens are deleted.
   `public/jg-profile.png` (profile avatar).
 - `scripts/genenv.js` rewrites `src/environments/environment*.ts` from `.env`
   (`PORTFOLIO_API_HOST`, etc.) on every `npm start` / `npm run build*`.
-- `index.html` hardcodes `class="dark"` on `<html>`; there is no theme toggle.
-- `src/styles.css` imports the Spartan Tailwind preset and defines light/dark
-  shadcn-style CSS variables (`--background`, `--foreground`, `--card`,
-  `--muted`, `--border`, `--sidebar*`, `--radius: 0.625rem`).
-- Accent color used throughout: `#912F56`.
+- `index.html` no longer hardcodes a theme class. A small inline script applies
+  the stored theme (or `prefers-color-scheme` on first load) before first paint.
+- **Theme:** `ThemeService` (`core/theme`) exposes `theme`, `set()`, and
+  `toggle()`, persists to `localStorage` (`portfolio-theme`), and toggles the
+  `.dark` class plus `color-scheme` on `<html>`. The toggle lives in the avatar
+  dropdown.
+- `src/styles.css` no longer imports the Spartan preset. It defines its own
+  `@theme inline` mapping plus light/dark CSS variables (`--background`,
+  `--foreground`, `--card`, `--muted`, `--border`, `--sidebar*`,
+  `--radius: 0.625rem`). It keeps the CDK overlay CSS and `tw-animate-css` until
+  the 008 cleanup and adds the named `data-*` variants.
+- Accent color: token `--color-accent-brand` (`#912f56`); templates no longer
+  repeat the hex.
+- Template neutrals use semantic tokens (`text-muted-foreground`, `bg-muted/50`)
+  so both themes stay legible.
 
 ## 7. Functional inventory (rewrite checklist)
 
-- [ ] Router shell + lazy children + wildcard redirect to `/dashboard`.
-- [ ] Sidebar with three menu items and icons; avatar header linking to `/profile`.
-- [ ] Collapsible sidebar on desktop; off-canvas/mobile behavior via the sidebar trigger.
-- [ ] Sticky top header with sidebar trigger and current page title.
-- [ ] Content wrapper: centered, max-width ~1200px, padding.
-- [ ] Skeleton loading state on every data screen, with error and empty states.
-- [ ] Five GET fetches (four portfolio + one Notion).
-- [ ] Dashboard overview header + responsive 3-column metric cards.
-- [ ] Timeline experience cards with year badge, role/description, responsibility,
+- [x] Router shell + lazy children + wildcard redirect to `/dashboard`.
+- [x] Sidebar with three menu items and icons; avatar header linking to `/profile`.
+- [x] Collapsible sidebar on desktop; off-canvas/mobile behavior via the sidebar trigger.
+- [x] Sticky top header with sidebar trigger and current page title.
+- [x] Content wrapper: centered, max-width ~1200px, padding.
+- [x] Skeleton loading state on every data screen, with error and empty states.
+- [x] Five GET fetches (four portfolio + one Notion).
+- [x] Dashboard overview header + responsive 3-column metric cards.
+- [x] Timeline experience cards with year badge, role/description, responsibility,
       nested projects, and technology chips.
-- [ ] Profile hero (avatar, name, handle, bio), GitHub and CV external links.
-- [ ] Recommendations list and skills grid on Profile.
-- [ ] Blog list: numbered entries, title, date, external link icon, URL rewrite
+- [x] Profile hero (avatar, name, handle, bio), GitHub and CV external links.
+- [x] Recommendations list and skills grid on Profile.
+- [x] Blog list: numbered entries, title, date, external link icon, URL rewrite
       to the public Notion domain, new-tab links.
-- [ ] Hover/focus lift transition on blog cards.
-- [ ] Hardcoded dark theme.
-- [ ] External links use `target="_blank"` + `rel="noopener noreferrer"`.
+- [x] Hover/focus lift transition on blog cards.
+- [x] Light and dark theme with persisted choice; toggle in the avatar dropdown.
+- [x] External links use `target="_blank"` + `rel="noopener noreferrer"`.
 
 Not present today: forms, CRUD, auth, search/filter/pagination, dialogs in live
 code, toasts, analytics, i18n.

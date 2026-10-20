@@ -27,7 +27,8 @@ describe('App shell', () => {
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('app-sidebar')).toBeTruthy();
+    expect(element.querySelector('app-shell-sidebar')).toBeTruthy();
+    expect(element.querySelector('app-shell-header')).toBeTruthy();
     expect(router.url).toBe('/dashboard');
   });
 
@@ -39,6 +40,14 @@ describe('App shell', () => {
     expect(router.url).toBe('/dashboard');
   });
 
+  it('redirects the empty path to /dashboard', async () => {
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/');
+
+    expect(router.url).toBe('/dashboard');
+  });
+
   it('keeps every live route reachable', async () => {
     const router = TestBed.inject(Router);
 
@@ -46,5 +55,29 @@ describe('App shell', () => {
       await router.navigateByUrl(path);
       expect(router.url).toBe(path);
     }
+  });
+
+  it('derives the header title from the active route', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/timeline');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const heading = (fixture.nativeElement as HTMLElement).querySelector('header h1');
+    expect(heading?.textContent?.trim()).toBe('Timeline');
+  });
+
+  it('marks the active sidebar link with aria-current', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/blog');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const active = (fixture.nativeElement as HTMLElement).querySelector('a[aria-current="page"]');
+    expect(active?.textContent).toContain('Blog');
   });
 });

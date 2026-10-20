@@ -1,35 +1,34 @@
-<section class="flex h-full w-full flex-col gap-2">
+<section class="flex w-full flex-col gap-5">
   @if (state().loading) {
-    <app-skeleton-item />
+    <div class="flex flex-col gap-5">
+      <app-skeleton variant="text" [rows]="3" />
+      <app-skeleton variant="card" />
+    </div>
   } @else if (state().error) {
     <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
   } @else if (state().content.length === 0) {
     <app-state-message kind="empty" message="No overview metrics are available yet." />
   } @else {
-    <div class="flex w-full flex-col items-start justify-between border-b p-3">
-      <span class="text-sm tracking-widest text-gray-300/70">Hello,</span>
-      <h1 hlmH1 class="tracking-widest">Than</h1>
-      <span class="text-sm tracking-widest text-gray-300/70">
-        Welcome back to your portfolio dashboard
-      </span>
-    </div>
+    <header class="flex flex-col gap-1 border-b border-border pb-4">
+      <span class="text-sm tracking-[0.2em] text-muted-foreground uppercase">Hello,</span>
+      <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ site.profile.name }}</h2>
+      <p class="text-sm text-muted-foreground">Welcome back to your portfolio dashboard</p>
+    </header>
 
-    <div class="grid w-full gap-2 border-b p-3 sm:grid-cols-3">
+    <div class="grid w-full gap-4 sm:grid-cols-3">
       @for (item of state().content; track item.title) {
-        <article
-          class="flex h-fit w-full flex-col items-start justify-between rounded-sm border p-4"
-        >
-          <span class="text-xs tracking-widest text-gray-300/70">
+        <article class="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-5">
+          <h3 class="text-xs font-medium tracking-[0.2em] text-muted-foreground">
             {{ item.title.toUpperCase() }}
-          </span>
-          <span class="text-[3rem] font-semibold">{{ item.count }}</span>
-          <span class="text-sm tracking-wide">{{ item.subtitle }}</span>
+          </h3>
+          <p class="text-5xl font-semibold tracking-tight tabular-nums">{{ item.count }}</p>
+          <p class="text-sm text-foreground">{{ item.subtitle }}</p>
 
-          <div class="my-2 w-full border"></div>
+          <hr class="border-border" />
 
-          <span class="my-2 text-start text-xs tracking-widest text-gray-300/70">
+          <p class="text-xs tracking-widest text-muted-foreground uppercase">
             {{ item.description }}
-          </span>
+          </p>
         </article>
       }
     </div>

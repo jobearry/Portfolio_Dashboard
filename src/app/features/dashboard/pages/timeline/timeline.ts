@@ -1,59 +1,79 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { SkeletonItem } from '../../../../components';
-import { ExperienceSignalService, getContent, StateMessage } from '../../../../shared';
+import { ExperienceSignalService, getContent, Skeleton, StateMessage } from '../../../../shared';
 import { ExperienceTimeline } from '../../core';
 
 @Component({
   selector: 'app-timeline',
-  imports: [SkeletonItem, DatePipe, StateMessage],
+  imports: [Skeleton, StateMessage],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="flex h-full w-full flex-col gap-2">
+    <section class="flex w-full flex-col gap-5">
       @if (state().loading) {
-        <app-skeleton-item />
+        <div class="flex flex-col gap-5">
+          <app-skeleton variant="text" [rows]="1" />
+          <app-skeleton variant="list" [rows]="3" />
+        </div>
       } @else if (state().error) {
         <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
       } @else if (state().content.length === 0) {
         <app-state-message kind="empty" message="No experience has been published yet." />
       } @else {
-        <div class="flex w-full flex-col items-start justify-between border-b p-3">
-          <span class="text-sm tracking-widest text-gray-300/70">{{ 'Career'.toUpperCase() }}</span>
-        </div>
+        <header class="border-b border-border pb-4">
+          <h2 class="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+            Career
+          </h2>
+        </header>
 
-        <ul class="flex w-full flex-col gap-4 p-3">
+        <ul class="flex flex-col gap-4">
           @for (experience of state().content; track experience.id) {
-            <li class="flex flex-col gap-2 rounded-md border bg-zinc-900/50 p-3 lg:grid-cols-3">
-              <span class="flex gap-2 text-lg font-semibold">
-                {{ experience.company.name }}
-                <span class="rounded-full border p-1 px-3 text-xs">
-                  {{ experience.duration.startedAt | date: 'yyyy' }}
-                </span>
-              </span>
-              <span class="text-sm tracking-widest text-gray-300/70">
-                {{ experience.role.value }} | {{ experience.description }}
-              </span>
-              <span class="text-sm text-gray-300">{{ experience.responsibility }}</span>
+            <li class="flex flex-col gap-4 rounded-lg border border-border bg-muted/50 p-4 sm:p-5">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h3 class="text-lg font-semibold">{{ experience.company.name }}</h3>
+
+                @if (year(experience.duration.startedAt); as startYear) {
+                  <span
+                    class="w-fit rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground tabular-nums"
+                  >
+                    {{ startYear }}
+                  </span>
+                }
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <p class="text-sm font-medium text-foreground">
+                  {{ experience.role.value }}
+                  <span class="font-normal text-muted-foreground">
+                    | {{ experience.description }}
+                  </span>
+                </p>
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  {{ experience.responsibility }}
+                </p>
+              </div>
 
               @if (experience.projects && experience.projects.length > 0) {
-                <div class="flex w-full flex-col gap-2 p-3">
-                  <span class="flex items-center gap-2 text-xs tracking-widest text-gray-300/70">
-                    <div class="h-3 w-3 rounded-full bg-[#912F56]"></div>
-                    {{ 'projects'.toUpperCase() }}
-                  </span>
+                <div class="flex flex-col gap-3 border-t border-border pt-4">
+                  <h4
+                    class="flex items-center gap-2 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase"
+                  >
+                    <span class="h-2 w-2 rounded-full bg-accent-brand" aria-hidden="true"></span>
+                    Projects
+                  </h4>
 
-                  <ul class="flex flex-col gap-2">
+                  <ul class="grid gap-3">
                     @for (project of experience.projects; track project.projectId) {
-                      <li class="flex w-full flex-col gap-2 rounded-md border bg-zinc-900/50 p-3">
-                        <span class="text-sm font-semibold">{{ project.projectName }}</span>
-                        <span class="text-sm tracking-widest text-gray-300/70">
+                      <li
+                        class="flex flex-col gap-2 rounded-md border border-border bg-background/40 p-4"
+                      >
+                        <h5 class="text-sm font-semibold">{{ project.projectName }}</h5>
+                        <p class="text-sm leading-relaxed text-muted-foreground">
                           {{ project.description }}
-                        </span>
+                        </p>
 
                         <ul class="flex flex-wrap gap-2">
                           @for (spec of project.techStackSpecs; track spec.specId) {
                             <li
-                              class="rounded-md bg-zinc-800 px-2 py-1 text-xs tracking-widest text-gray-300/70"
+                              class="rounded-md bg-muted px-2 py-1 text-xs tracking-wide text-muted-foreground"
                             >
                               {{ spec.toolName }}
                             </li>
@@ -84,5 +104,14 @@ export class Timeline implements OnInit {
       'v1/experience?includeProjects=true',
       this._experienceService,
     );
+  }
+
+  protected year(value: string): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : String(date.getFullYear());
   }
 }

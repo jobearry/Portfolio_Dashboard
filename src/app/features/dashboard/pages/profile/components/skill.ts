@@ -1,33 +1,34 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
-import { SkeletonItem } from '../../../../../components';
-import { getContent, SkillsSignalService, StateMessage } from '../../../../../shared';
+import { getContent, Skeleton, SkillsSignalService, StateMessage } from '../../../../../shared';
 import { TechStackItem } from '../../../core';
 
 @Component({
   selector: 'app-skill',
-  imports: [SkeletonItem, StateMessage],
+  imports: [Skeleton, StateMessage],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (state().loading) {
-      <app-skeleton-item />
+      <app-skeleton variant="grid" [rows]="6" />
     } @else if (state().error) {
       <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
     } @else if (state().content.length === 0) {
       <app-state-message kind="empty" message="No skills have been published yet." />
     } @else {
-      <div class="flex w-full flex-col gap-2">
-        <span class="flex items-center gap-2 text-xs tracking-widest text-gray-300/70">
-          <div class="h-3 w-3 rounded-full bg-[#912F56]"></div>
-          {{ 'skill'.toUpperCase() }}
-        </span>
+      <div class="flex w-full flex-col gap-3">
+        <h3
+          class="flex items-center gap-2 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase"
+        >
+          <span class="h-2 w-2 rounded-full bg-accent-brand" aria-hidden="true"></span>
+          Skill
+        </h3>
 
-        <ul class="grid gap-2 sm:grid-cols-3">
+        <ul class="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
           @for (item of state().content; track item.id) {
-            <li class="flex w-full flex-col gap-2 border bg-zinc-900/50 p-1">
-              <span class="flex flex-col text-sm font-semibold">
-                {{ item.stackName }}
-                <span class="text-xs tracking-widest text-gray-300/70">{{ item.category }}</span>
-              </span>
+            <li
+              class="flex w-full flex-col gap-1 rounded-md border border-border bg-muted/50 p-3 break-words"
+            >
+              <span class="text-sm font-semibold">{{ item.stackName }}</span>
+              <span class="text-xs tracking-wide text-muted-foreground">{{ item.category }}</span>
             </li>
           }
         </ul>

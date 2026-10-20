@@ -1,86 +1,93 @@
-# 005 — Site and profile configuration
+# 005 — Site config
 
-Status: Draft
-Owner:
+Status: Done
+Owner: Jonathan Golimlim
 Depends on: 004
-Related docs: `.github/docs/gaps.md` (Profile, Blog), `.github/docs/screens.md`
+Related docs: `.github/docs/current-state.md` (sections 4–5),
+`.github/docs/screens.md` (Profile, Blog)
 
 ## Goal
 
-Move every hardcoded personal/Notion value out of components into one typed
-config module, so the shell and screen rebuilds (006, 007) are written once.
-
-This is a pure extraction: no visual change.
+Move personal content and public integration values out of templates and
+components into one typed module, so the shell/screens rebuilds (006–007) never
+reintroduce literals.
 
 ## Scope
 
 **In:**
 
-- Typed site/profile config: name, handle, role/subtitle, bio, GitHub URL, CV
-  URL, avatar paths.
-- Move the hardcoded Notion page ID and public domain out of `Blog` and
-  `notion.constants.ts`.
-- Move the hardcoded Notion page ID and public domain out of `Blog` and
-  `notion.constants.ts` into the typed config module.
-- Remove the now-duplicated strings from templates.
+- `core/config/site.config.ts` with typed `SiteConfig` and a `site` object.
+- Profile content: name, handle, role, bio.
+- Links: GitHub, CV.
+- Assets: sidebar avatar, profile avatar.
+- Notion: page ID, public domain.
+- Replace every consumer literal (shell, sidebar, profile, blog, root route
+  title, `notion.constants.ts`).
 
 **Out:**
 
-- Restyling the profile or blog.
-- Adding contact/email/LinkedIn links.
-- Any backend change.
+- Environment/API host (stays in `environment.portfolioApi`).
+- Menu labels/URLs/icons (stay in `core/constants/sidebar-sections.ts`).
+- Replacing the shields.io badge images (decided: 007).
+- Any visual change.
+
+## Decisions
+
+- **One module, one import path.** `ProfileConfig`, `LinkConfig`,
+  `AssetConfig`, `NotionConfig`, `SiteConfig`; `site` is
+  `as const satisfies SiteConfig`. Splitting files added imports without
+  benefit.
+- **Navigation metadata stays separate.** `sidebar-sections.ts` is UI metadata
+  consumed by the shell and icon registry, not personal content.
+- **Badges are replaced in 007**, not 005. This phase only moves the URLs into
+  config; presentation changes belong to the profile rebuild.
+- **`NOTION_PUBLIC_DOMAIN` remains exported** from `pages/blog/core/
+notion.constants.ts`, now derived from `site.notion.publicDomain`, so the
+  existing `convertNotionUrl` call site does not change.
+- **Root route title** uses `site.profile.name`; the document title stays
+  `Dashboard | {name}` until 006 adds route-level titles.
 
 ## Affected surface
 
-- New: `src/app/core/config/site.config.ts` (+ `index.ts`, interfaces)
-- `src/app/features/dashboard/shell/dashboard.ts` (passes `title`/`subtitle` to
-  the sidebar today)
+- `src/app/core/config/site.config.ts` (new)
+- `src/app/core/index.ts`
+- `src/app/app.routes.ts`
+- `src/app/features/dashboard/shell/dashboard.ts`
+- `src/app/components/sidebar/sidebar.ts`
 - `src/app/features/dashboard/pages/profile/profile.ts`
 - `src/app/features/dashboard/pages/blog/blog.ts`
 - `src/app/features/dashboard/pages/blog/core/notion.constants.ts`
-- `src/app/core/constants/sidebar-sections.ts` (only if labels/URLs move)
 
 ## Tasks
 
-- [ ] Create `site.config.ts` with explicit interfaces (no `any`, no inline
-      shapes):
-      `SiteConfig { profile: ProfileConfig; links: LinkConfig; assets:
-      AssetConfig; notion?: NotionConfig }`.
-- [ ] Populate it from the current values:
-      `Jonathan Golimlim`, `@jthan`, `Software Engineer`, the bio sentence,
-      `https://github.com/jobearry`, the Google Drive CV URL, `grad_1.jpeg`,
-      `jg-profile.png`.
-- [ ] Replace the literals in the shell inputs and the profile template.
-- [ ] Replace the page ID in `Blog.ngOnInit` with the configured value.
-- [ ] Notion location (decided 2026-10-20): **typed config module**. The page ID
-      and public domain are public content values, not deployment secrets, so
-      `scripts/genenv.js`, CI, and Vercel are not touched. Keep
-      `NOTION_PUBLIC_DOMAIN` derivable from that one source.
-- [ ] Remove the duplicated hardcoded domain from `notion.constants.ts` or make
-      that file re-export the configured value (no second literal).
-- [ ] Keep the config read-only and typed (`as const satisfies SiteConfig`).
-- [ ] Update `.github/docs/screens.md` where it lists hardcoded values.
-
-## Risks / decisions
-
-- **Notion location:** config module, decided. No environment/tooling change is
-  needed, so 005 stays a pure extraction.
-- **Icons/avatar paths:** keep paths root-relative (`grad_1.jpeg`,
-  `jg-profile.png`) exactly as served from `public/`, otherwise the shell and
-  profile break on nested routes.
-- **CV URL** is a Google Drive direct-download link. Do not "normalize" it to a
-  view URL.
+- [x] Add typed config interfaces and the `site` object.
+- [x] Export it from `core/index.ts`.
+- [x] Shell: title/subtitle from `site.profile`; route title from the name.
+- [x] Sidebar: avatar from `site.assets`.
+- [x] Profile: avatar, name, handle, bio, GitHub and CV URLs from `site`.
+- [x] Blog: page ID from `site.notion`; domain re-export from config.
+- [x] Verify no personal/Notion literals remain outside the config module.
+- [x] Update `current-state.md`, `screens.md`, `gaps.md`.
 
 ## Verification
 
-- [ ] `npm run build`, `npm test`, `npm run lint`.
-- [ ] `/profile` shows the same name, handle, bio, avatar, GitHub, and CV link.
-- [ ] `/blog` still loads and links resolve to the same public Notion URLs.
-- [ ] `grep -rn "Jonathan Golimlim\|@jthan\|jobearry\|drive.google.com\|jg-profile\|grad_1" src/app --include=*.ts --include=*.html`
-      returns only `site.config.ts` (and `index.html` if the title stays there).
-- [ ] No visual diff on `/profile` or `/blog`.
+- [x] `grep -rn` for name, handle, GitHub URL, Drive URL, avatar filenames,
+      page ID, and Notion domain matches only `core/config/site.config.ts` (plus the
+      `#521945` avatar background and alt text, which are presentation).
+- [x] `npm run lint`, `npm run format:check`, `npm run build` pass.
+- [x] `npm test` — 14 tests pass (no behavior change, no new tests needed).
+- [x] `/profile` renders the config values (name, handle, bio, both links) and
+      the avatar loads from `public/`.
+- [x] `/blog` still loads Notion pages with the configured page ID and rewrites
+      links against the configured domain.
+
+## Known follow-ups
+
+- Replace the shields.io badges with token-styled links (007).
+- Remove the remaining hardcoded avatar background color (007).
+- Route-level titles and the theme toggle (006).
 
 ## Exit criteria
 
-One typed module is the only place personal/Notion content lives; 006 and 007
-can rewrite templates without re-editing content.
+All personal content and Notion identifiers live in one typed config module,
+with behavior and visuals unchanged.

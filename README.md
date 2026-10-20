@@ -2,11 +2,9 @@
 
 ![angular](https://img.shields.io/badge/angular_v21-darkred?style=for-the-badge&logo=angular)
 ![tailwindcss](https://img.shields.io/badge/tailwindcss_v4-black?style=for-the-badge&logo=tailwindcss)
-![spartan](https://img.shields.io/badge/spartan_UI-darkred?style=for-the-badge)
-
 
 A dashboard page for updating my resume website easier.  
-Made with Angular, and SpartanUI
+Made with Angular and Tailwind CSS.
 
 Features
 ---

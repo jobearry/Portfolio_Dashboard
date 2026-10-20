@@ -21,47 +21,72 @@ Known issues in the current app and questions to resolve while rewriting.
   `"Hello, Portfolio_Dashboard"` text is removed. 003 adds real shell/routing
   tests.
 
+## Resolved in 005 (site config)
+
+- **Hardcoded personal content** — name, handle, role, bio, GitHub/CV URLs, and
+  avatar filenames come from `site` (`core/config/site.config.ts`).
+- **Hardcoded Notion values** — page ID and public domain come from
+  `site.notion`; the blog feature contains no literal.
+
+## Resolved in 006 (shell)
+
+- **Route-driven header title** — read from the deepest route's `data.pageTitle`,
+  correct on first load, reload, deep links, and back/forward.
+- **Active-link state** — `routerLinkActive` (exact) plus `aria-current="page"`.
+- **Route-level titles** — every child sets a branded document title.
+- **Default redirect** — explicit empty-path redirect to `/dashboard`.
+- **Sidebar footer** — now holds the desktop collapse/expand control.
+- **Profile access** — avatar dropdown with View profile, Download CV, and the
+  theme toggle.
+- **Mobile navigation** — off-canvas panel with overlay, close on navigate,
+  overlay click, Escape, body scroll lock, and focus return to the trigger.
+- **Collapse persistence** — desktop rail state survives reloads
+  (`portfolio-sidebar-collapsed`).
+
+## Resolved in 007 (screens)
+
+- **Spartan removed from the four screens** — `hlmH1`, `hlmH3`, `HlmIcon`, and
+  `SkeletonItem` are no longer used by Overview, Timeline, Profile, or Blog.
+- **Overview header** — the name comes from `site.profile.name`; no hardcoded
+  "Than" copy.
+- **Timeline dates** — `startedAt` is parsed defensively; a missing or invalid
+  date hides the year pill instead of rendering an empty/`Invalid Date` value.
+- **Profile links** — shields.io badges replaced by themed icon + text buttons
+  (GitHub outline, CV accent), so they work offline and in both themes.
+- **Profile skills** — responsive one/two-column layout with `break-words`; no
+  more clipped "TailwindCSS" at narrow widths.
+- **Blog entries** — plain `ng-icon`, Tailwind hover/focus lift with a
+  `motion-reduce` fallback, and a screen-reader new-tab hint.
+- **Loading** — one shared `app-skeleton` with `text`, `card`, `list`, `grid`, and
+  `entries` variants; the Spartan skeleton component is deleted.
+- **Cleanup** — `common.styles.ts`, `portfolio.styles.ts`, and the unused
+  portfolio icon/control constants are deleted; components register only the
+  icons they use.
+
 ## Navigation and layout
 
-- **Blank header title on reload.** `pagename` is empty until a sidebar item is
-  clicked; it is not derived from the active route. It also does not reset or
-  update on browser back/forward, or on direct URL entry. (006)
-- **No active-link state.** The sidebar has no `routerLinkActive` styling. (006)
-- **Profile is not in the sidebar menu.** It is reachable only through the
-  avatar card or by typing `/profile`. Locked decision: avatar dropdown, not a
-  menu item. (006)
-- **No route-level titles** on child routes (only the shell has a title). (006)
-- **No default redirect** for the root path; it depends on the child wildcard
-  matching the empty segment. (006)
-- **Sidebar footer is empty** (dead space). (006)
-- **No theme toggle.** `index.html` hardcodes `class="dark"`. (004/006)
+- **Profile is not in the sidebar menu** — intentional; it is reachable from the
+  avatar dropdown (locked decision).
+- **No sidebar keyboard shortcut** — the Spartan version registered one; the
+  plain shell does not. Not planned unless requested.
+- **Desktop collapse only** — the mobile panel always opens full width.
 
 ## Dashboard / Overview
 
 - Card data is entirely server-driven; an empty response now shows an empty
   state, but there is no static fallback.
-- The header still uses the Spartan `hlmH1` directive and hardcoded copy. (007)
 
 ## Timeline
 
 - **Read-only and non-interactive.** No expansion, links, or dialog.
-- `experience.duration.startedAt` is rendered with `DatePipe`; if the API returns
-  a non-date string, the year renders empty. (007)
 - Empty list now shows a message; no empty nested-projects block is rendered.
 
 ## Profile
 
-- **Personal content is hardcoded in the template**: name, handle, bio, GitHub
-  URL, CV Google Drive URL, avatar filename. (005)
 - No link to email/LinkedIn or any contact form.
-- The badges are external shields.io images; they will not render offline. (007)
-- `HlmH3` is used for the name and must be replaced with Tailwind typography.
-  (007)
 
 ## Blog
 
-- **Hardcoded Notion page ID** in `Blog` and **hardcoded public domain** in
-  `notion.constants.ts`. (005, decided: typed config module)
 - A `null` or empty response now shows an empty state instead of a blank grid.
 - No pagination, filtering, search, or post preview/excerpt.
 
@@ -75,15 +100,11 @@ Known issues in the current app and questions to resolve while rewriting.
 
 ## Dead code and cleanup remaining (008)
 
-- Unused constants: `PORTFOLIO_CONTROLS`, `Result<T>`, `PortfolioItems`.
-- Unused icon registrations: `lucideInfo`, `lucideToolCase`, `lucideLibraryBig`,
-  `lucideDrill`, `lucideFileDown`; `lucideUserCircle` is registered twice.
 - `libs/ui` libraries not imported anywhere: `sheet`, `scroll-area`, `separator`,
   `tooltip`.
-- Overlapping style constants (`common.styles.ts` vs `portfolio.styles.ts`).
-- `Maintenance` is retained intentionally for now.
-- `libs/ui`, `components.json`, and `@spartan-ng/*` are still installed until
-  008.
+- `Maintenance` is retained intentionally for now and is the last component that
+  still imports `@spartan-ng/helm/icon`.
+- `libs/ui`, `components.json`, and `@spartan-ng/*` are still installed until 008.
 
 ## Tooling / fixtures
 
@@ -93,13 +114,17 @@ Known issues in the current app and questions to resolve while rewriting.
   of `src/` is formatted.
 - **CI** runs lint → format check → build → test on PRs and `main` pushes
   (`.github/workflows/ci.yml`).
-- **Tests** cover shell routing, the portfolio service error contract, and the
-  overview states. Screen component tests arrive with 007.
+- **Tests** cover shell routing, the shell state service, the user menu
+  (keyboard/theme), the portfolio service error contract, theme behavior (OS
+  preference, stored override, persistence), and the Overview, Timeline, and Blog
+  screens (states, config header, date guard, URL rewrite).
 - **Environment generation:** `scripts/genenv.js` overwrites
   `src/environments/*.ts` on `start`/`build` from `.env`; missing `.env` values
   produce an empty `portfolioApi`, which yields relative `/v1/...` calls. CI does
   not need `.env` because the build only compiles.
-- **Hardcoded dark mode** until 004.
+- **Theme:** own `@theme` tokens replace the Spartan preset (004). Light and
+  dark are both verified on every screen; the toggle lives in the avatar
+  dropdown (006).
 
 ## Decisions for the Tailwind-only rewrite
 
@@ -108,10 +133,12 @@ Known issues in the current app and questions to resolve while rewriting.
 3. **Profile:** reachable from the avatar dropdown; not a sidebar menu item.
 4. **Header title:** derived from the route, with active-link styling. (006)
 5. **Overview "View Details":** removed. (002)
-6. **Error/empty states:** introduced in 002 and refined per screen in 007.
-7. **Icons:** keep `@ng-icons/lucide`; drop the `HlmIcon` wrapper.
+6. **Error/empty states:** introduced in 002 and applied to every data screen;
+   each screen styles them with the shared `StateMessage` (007).
+7. **Icons:** keep `@ng-icons/lucide`; the `HlmIcon` wrapper remains only in
+   `Maintenance` until 008.
 8. **Design tokens:** own Tailwind `@theme` tokens replacing the Spartan preset.
    (004)
-9. **Sidebar behavior:** reimplement collapse and mobile overlay in plain
+9. **Sidebar behavior:** reimplemented collapse and mobile overlay in plain
    Tailwind. (006)
 10. **Notion config:** typed config module (decided). (005)

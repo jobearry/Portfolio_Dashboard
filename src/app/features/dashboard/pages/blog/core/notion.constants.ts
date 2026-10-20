@@ -1,1 +1,3 @@
-export const NOTION_PUBLIC_DOMAIN = 'glamorous-monitor-0b1.notion.site';
+import { site } from '../../../../../core/config/site.config';
+
+export const NOTION_PUBLIC_DOMAIN = site.notion.publicDomain;

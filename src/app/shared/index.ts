@@ -5,4 +5,5 @@ export * from './store/portfolio.state';
 export * from './utils/error.util';
 export * from './utils/portfolio.util';
 
+export * from './ui/skeleton/skeleton';
 export * from './ui/state-message/state-message';

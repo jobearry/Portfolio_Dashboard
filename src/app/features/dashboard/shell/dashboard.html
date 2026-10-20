@@ -1,17 +1,24 @@
-<app-sidebar
-  [title]="title()"
-  [subtitle]="subtitle()"
-  [sidebarContent]="sidebarSections()"
-  (itemClick)="onItemClickHandler($event)"
+<div
+  class="min-h-svh bg-background text-foreground"
+  [style.--shell-sidebar-width]="state.collapsed() ? '4.5rem' : '16rem'"
 >
-  <main class="w-full">
-    <nav class="p-2 border-b sticky top-0 z-10 bg-background">
-      <app-navbar [title]="pagename()"></app-navbar>
-    </nav>
-    <section class="grid place-items-center">
-      <div class="max-w-300 w-full p-3">
-        <router-outlet></router-outlet>
-      </div>
-    </section>
-  </main>
-</app-sidebar>
+  @if (!state.isDesktop() && state.mobileOpen()) {
+    <div
+      class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+      aria-hidden="true"
+      (click)="state.closeMobile(true)"
+    ></div>
+  }
+
+  <app-shell-sidebar />
+
+  <div
+    class="flex min-h-svh flex-col transition-[padding] duration-200 ease-linear motion-reduce:transition-none md:pl-[var(--shell-sidebar-width)]"
+  >
+    <app-shell-header />
+
+    <main class="mx-auto w-full max-w-[75rem] flex-1 p-3">
+      <router-outlet />
+    </main>
+  </div>
+</div>

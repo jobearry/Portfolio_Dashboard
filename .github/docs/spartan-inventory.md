@@ -5,15 +5,18 @@ replace it deliberately.
 
 ## 1. Packages and configuration
 
-| Item | Location | Action for rewrite |
-| --- | --- | --- |
-| `@spartan-ng/brain` | `package.json` dependency | Remove |
-| `@spartan-ng/cli` | `package.json` devDependency | Remove |
-| `components.json` | project root | Delete (`componentsPath: "libs/ui"`, `importAlias: "@spartan-ng/helm"`) |
-| `libs/ui/**` | vendored Helm components | Delete; reimplement needed pieces |
-| `@spartan-ng/brain/hlm-tailwind-preset.css` | `src/styles.css` import | Remove/replace with own tokens |
+| Item                                        | Location                     | Action for rewrite                                                      |
+| ------------------------------------------- | ---------------------------- | ----------------------------------------------------------------------- |
+| `@spartan-ng/brain`                         | `package.json` dependency    | Remove                                                                  |
+| `@spartan-ng/cli`                           | `package.json` devDependency | Remove                                                                  |
+| `components.json`                           | project root                 | Delete (`componentsPath: "libs/ui"`, `importAlias: "@spartan-ng/helm"`) |
+| `libs/ui/**`                                | vendored Helm components     | Delete; reimplement needed pieces                                       |
+| `@spartan-ng/brain/hlm-tailwind-preset.css` | `src/styles.css` import      | Removed in 004; own `@theme` tokens                                     |
 
 ## 2. Styles and design tokens
+
+> Historical snapshot (pre-004). `src/styles.css` now owns the token layer; see
+> `current-state.md` §6 for the current setup.
 
 `src/styles.css`:
 
@@ -23,14 +26,22 @@ replace it deliberately.
 @import 'tailwindcss/preflight.css' layer(base);
 @import 'tailwindcss/utilities.css';
 
-@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
 
-:root { /* shadcn-style light tokens */ }
-:root.dark { /* shadcn-style dark tokens */ }
+:root {
+  /* shadcn-style light tokens */
+}
+:root.dark {
+  /* shadcn-style dark tokens */
+}
 
 @layer base {
-  * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 ```
 
@@ -58,50 +69,43 @@ or map them to explicit colors. Note that `bg-zinc-900/50`, `bg-zinc-800`,
 
 ## 3. Spartan components used by live code
 
-| Component / directive | Import | Used in | What it does |
-| --- | --- | --- | --- |
-| `hlmSidebarWrapper`, `hlm-sidebar`, `hlmSidebarHeader`, `hlmSidebarContent`, `hlmSidebarMenu`, `hlmSidebarMenuItem`, `hlmSidebarMenuButton`, `hlmSidebarFooter` | `HlmSidebarImports` | `components/sidebar/sidebar.ts` | Sidebar layout, menu styling, collapse/mobile state |
-| `hlmSidebarTrigger` | direct path `libs/ui/sidebar/.../hlm-sidebar-trigger` | `components/navbar/navbar.ts`, indirectly shell | Toggles the sidebar |
-| `HlmSidebarService` (Brain) | via sidebar library | sidebar internals | Collapsed/open-mobile state, keyboard shortcut |
-| `HlmIcon` + `NgIcon` | `@spartan-ng/helm/icon`, `@ng-icons/core` | sidebar, navbar (trigger), blog, maintenance | Icon sizing/alignment wrapper |
-| `HlmH1` | `@spartan-ng/helm/typography` | `pages/overview/overview.html` | Typography for "Than" |
-| `HlmH3` | `@spartan-ng/helm/typography` | `pages/profile/profile.ts` (used), `pages/profile/components/skill.ts` (imported but unused) | Typography for the name |
-| `HlmSkeleton` | `@spartan-ng/helm/skeleton` | `components/skeletons/item/skeleton-item.ts` | Pulsing placeholder |
+| Component / directive | Import                                    | Used in                                 | What it does                                                           |
+| --------------------- | ----------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
+| `HlmIcon` + `NgIcon`  | `@spartan-ng/helm/icon`, `@ng-icons/core` | `components/maintenance/maintenance.ts` | Icon sizing/alignment wrapper; last live Spartan usage, removed in 008 |
+
+> `HlmH1`, `HlmH3`, `HlmSkeleton`, and `SkeletonItem` were removed in 007. The
+> four data screens now use plain Tailwind typography and the shared
+> `app-skeleton`; icons are registered locally by each component.
+>
+> The `hlmSidebar*` directives, `hlmSidebarTrigger`, and the Brain sidebar
+> service were removed in 006; `components/sidebar` and `components/navbar` no
+> longer exist. The plain-Tailwind shell lives under
+> `features/dashboard/shell/`.
 
 ## 4. Spartan components used only by dead/legacy code
 
-| Component | Used in |
-| --- | --- |
-| `HlmCardImports` (+ `hlmCard*`) | `components/card/card.ts`, `components/skeletons/card/skeleton-card.ts` |
-| `HlmItemImports` (+ `hlmItem*`) | `components/item/item.ts`, `components/skeletons/item/skeleton-item.ts` |
-| `HlmButtonImports` | card, item, skeleton-item, project-dialog, bak pages |
-| `HlmDialogImports`, `BrnDialogRef`, `injectBrnDialogContext` | `components/dialog/project-dialog.ts` |
-| `HlmDialogService` | `bak/portfolio.ts`, `bak/experience/experience.ts`, `bak/project/project.ts` |
-| `HlmInputImports` | project-dialog (imported, no input in template) |
-| `HlmH3` | bak experience/project |
-| `HlmSkeleton` | skeleton-card |
-
-> `SkeletonItem` is used by live pages even though it is built from `hlmItem`
-> and `hlm-skeleton`, so it counts as a live Spartan dependency.
+The components previously listed here were deleted in 002 (legacy screens,
+dialog, card, item, skeleton-card) and 007 (`SkeletonItem`). Nothing in this
+section remains in `src/`.
 
 ## 5. Vendored library tree (`libs/ui`)
 
-| Library | Purpose | Needed by live code? |
-| --- | --- | --- |
-| `sidebar` | sidebar primitives, trigger, service, wrapper | Yes |
-| `icon` | `HlmIcon` | Yes |
-| `typography` | h1–h4, p, lead, large, small, muted, blockquote, code, ul | h1, h3 only |
-| `skeleton` | skeleton placeholder | Yes (via SkeletonItem) |
-| `item` | item layout primitive | Via SkeletonItem only |
-| `card` | card primitive | Dead |
-| `dialog` | Helm dialog + service | Dead |
-| `sheet` | sheet primitive | Not imported anywhere |
-| `scroll-area` | scroll area | Not imported anywhere |
-| `separator` | separator | Not imported anywhere |
-| `tooltip` | tooltip | Not imported anywhere |
-| `input` | input | Dead (project-dialog import only) |
-| `button` | button | Dead |
-| `utils` | `hlm()` class merge helper (`clsx` + `tailwind-merge`) | Indirectly |
+| Library       | Purpose                                                   | Needed by live code?                 |
+| ------------- | --------------------------------------------------------- | ------------------------------------ |
+| `sidebar`     | sidebar primitives, trigger, service, wrapper             | No — plain shell since 006           |
+| `icon`        | `HlmIcon`                                                 | Only by `Maintenance` until 008      |
+| `typography`  | h1–h4, p, lead, large, small, muted, blockquote, code, ul | No                                   |
+| `skeleton`    | skeleton placeholder                                      | No — shared `app-skeleton` since 007 |
+| `item`        | item layout primitive                                     | No                                   |
+| `card`        | card primitive                                            | No                                   |
+| `dialog`      | Helm dialog + service                                     | No                                   |
+| `sheet`       | sheet primitive                                           | Not imported anywhere                |
+| `scroll-area` | scroll area                                               | Not imported anywhere                |
+| `separator`   | separator                                                 | Not imported anywhere                |
+| `tooltip`     | tooltip                                                   | Not imported anywhere                |
+| `input`       | input                                                     | No                                   |
+| `button`      | button                                                    | No                                   |
+| `utils`       | `hlm()` class merge helper (`clsx` + `tailwind-merge`)    | No — only used inside vendored libs  |
 
 ## 6. Import style inconsistency
 
@@ -112,18 +116,20 @@ Both styles appear in the codebase:
   `../../../../libs/ui/typography/src/lib/hlm-h1`,
   `../../../../libs/ui/sidebar/src/lib/hlm-sidebar-trigger`.
 
-The rewrite removes both.
+The rewrite removes both. Live app code no longer imports `libs/ui` except
+`Maintenance` (`@spartan-ng/helm/icon`), which is removed in 008.
 
 ## 7. Behavior that must be reimplemented without Spartan
 
-1. **Sidebar collapse** — desktop icon-rail / hidden sidebar with a toggle.
-2. **Mobile sidebar** — off-canvas overlay/sheet triggered by the header button,
-   with close-on-navigate and overlay click-to-close.
-3. **Menu item styling** — hover/active background, icon + label alignment,
-   keyboard focus.
-4. **Skeleton pulse** — `animate-pulse` blocks shaped like content.
-5. **Typography** — replace `hlmH1`/`hlmH3` with explicit Tailwind text classes.
-6. **Icon rendering** — keep `@ng-icons` or replace with inline SVGs; `HlmIcon`
-   only supplies sizing/alignment.
-7. **Dialog (if restored)** — the legacy project dialog has no direct Tailwind
-   equivalent; would need a CDK dialog/overlay or a custom modal.
+1. **Sidebar collapse** — done in 006 (`portfolio-sidebar-collapsed`).
+2. **Mobile sidebar** — done in 006; off-canvas panel with overlay, Escape,
+   scroll lock, and focus return.
+3. **Menu item styling** — done in 006 with Tailwind tokens and `aria-current`.
+4. **Skeleton pulse** — done in 007 (`app-skeleton` variants).
+5. **Typography** — done in 007; `hlmH1`/`hlmH3` replaced with explicit Tailwind
+   text classes.
+6. **Icon rendering** — done for live screens in 007; only `Maintenance` still
+   uses `HlmIcon`, removed in 008.
+7. **Dialog (if restored)** — not planned; the legacy project dialog has no
+   direct Tailwind equivalent and would need a CDK dialog/overlay or a custom
+   modal.

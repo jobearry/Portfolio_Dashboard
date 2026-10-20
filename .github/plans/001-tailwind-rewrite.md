@@ -71,20 +71,20 @@ decisions below always win.
 
 ## Phase map
 
-| # | Plan | Goal | Gate (what you can trace) |
-| --- | --- | --- | --- |
-| 0 | `002-baseline-runtime.md` | Make the app work end to end and delete dead code | All 4 routes render data **or** an error; no skeleton can hang |
-| 1 | `003-tooling.md` | Add lint, format, tests, CI | `lint` + `test` + `build` green locally and in CI |
-| 2 | `004-design-tokens-theme.md` | Own tokens, light/dark, no Spartan preset | No preset import; both themes legible; parity in dark |
-| 3 | `005-site-config.md` | Typed site/profile config | No hardcoded personal strings in templates |
-| 4 | `006-shell.md` | Sidebar, header, mobile, dropdown, route titles | Title + active link correct on load, reload, deep link, back/forward |
-| 5 | `007-screens.md` | Rebuild the four screens | `screens.md` checklist passes in both themes |
-| 6 | `008-spartan-removal.md` | Delete Spartan, `libs/ui`, dead code | `grep -r "@spartan-ng\|libs/ui" src/` is empty |
+| #   | Plan                         | Goal                                              | Gate (what you can trace)                                            |
+| --- | ---------------------------- | ------------------------------------------------- | -------------------------------------------------------------------- |
+| 0   | `002-baseline-runtime.md`    | Make the app work end to end and delete dead code | All 4 routes render data **or** an error; no skeleton can hang       |
+| 1   | `003-tooling.md`             | Add lint, format, tests, CI                       | `lint` + `test` + `build` green locally and in CI                    |
+| 2   | `004-design-tokens-theme.md` | Own tokens, light/dark, no Spartan preset         | No preset import; both themes legible; parity in dark                |
+| 3   | `005-site-config.md`         | Typed site/profile config                         | No hardcoded personal strings in templates                           |
+| 4   | `006-shell.md`               | Sidebar, header, mobile, dropdown, route titles   | Title + active link correct on load, reload, deep link, back/forward |
+| 5   | `007-screens.md`             | Rebuild the four screens                          | `screens.md` checklist passes in both themes                         |
+| 6   | `008-spartan-removal.md`     | Delete Spartan, `libs/ui`, dead code              | `grep -r "@spartan-ng\|libs/ui" src/` is empty                       |
 
 Each phase is one commit / PR. Do not start phase N+1 until phase N's
 verification checklist and exit criteria pass.
 
-Progress: **002 Done, 003 Done.** 004–008 Draft.
+Progress: **002–007 Done.** 008 Draft.
 
 ## Cross-phase verification (run at the end of every phase)
 
@@ -101,16 +101,16 @@ Progress: **002 Done, 003 Done.** 004–008 Draft.
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Sidebar collapse/mobile behavior regressions | Build behavior in 006 with explicit keyboard, overlay, and resize checks. |
-| Theme flash or unreadable colors | Define tokens before shell/screens; pre-bootstrap theme script; test both themes on every screen. |
-| Losing a feature during the rewrite | Use `.github/docs/screens.md` as the acceptance checklist. |
-| API failures leaving stuck skeletons | 002 error/empty states land before UI work. |
-| Accidental new Spartan usage | Enforced by `.github/rules/tailwind.md` and the 008 grep gate. |
-| Breaking routes/links | Keep URLs unchanged; verify all four routes plus wildcard. |
-| Deleting dead code breaks a hidden import | 002: grep imports, then build; barrels updated in the same commit. |
-| Preset removal breaks the not-yet-rebuilt shell | 004 must define the same token variable names the live Spartan components use. |
+| Risk                                            | Mitigation                                                                                        |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Sidebar collapse/mobile behavior regressions    | Build behavior in 006 with explicit keyboard, overlay, and resize checks.                         |
+| Theme flash or unreadable colors                | Define tokens before shell/screens; pre-bootstrap theme script; test both themes on every screen. |
+| Losing a feature during the rewrite             | Use `.github/docs/screens.md` as the acceptance checklist.                                        |
+| API failures leaving stuck skeletons            | 002 error/empty states land before UI work.                                                       |
+| Accidental new Spartan usage                    | Enforced by `.github/rules/tailwind.md` and the 008 grep gate.                                    |
+| Breaking routes/links                           | Keep URLs unchanged; verify all four routes plus wildcard.                                        |
+| Deleting dead code breaks a hidden import       | 002: grep imports, then build; barrels updated in the same commit.                                |
+| Preset removal breaks the not-yet-rebuilt shell | 004 must define the same token variable names the live Spartan components use.                    |
 
 ## Pending questions
 

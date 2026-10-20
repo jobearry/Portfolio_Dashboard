@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { site } from '../../../../core/config/site.config';
 import { Overview } from './overview';
 
 describe('Overview', () => {
@@ -28,7 +29,7 @@ describe('Overview', () => {
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('app-skeleton-item')).toBeNull();
+    expect(element.querySelector('app-skeleton')).toBeNull();
     expect(element.querySelector('[role="alert"]')?.textContent).toContain('500');
     expect(element.querySelector('button')?.textContent).toContain('Try again');
   });
@@ -64,6 +65,7 @@ describe('Overview', () => {
     expect(card?.textContent).toContain('PROJECTS');
     expect(card?.textContent).toContain('3');
     expect(card?.querySelector('button')).toBeNull();
-    expect(element.querySelector('app-skeleton-item')).toBeNull();
+    expect(element.querySelector('app-skeleton')).toBeNull();
+    expect(element.querySelector('header')?.textContent).toContain(site.profile.name);
   });
 });
