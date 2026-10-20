@@ -1,0 +1,45 @@
+# Rule: Backend Integration (C# / .NET)
+
+**Status: mandatory.** The frontend consumes a C# / .NET REST API. The backend
+is a separate codebase; this repository contains no server code.
+
+## Contract
+
+- Base URL comes from `environment.portfolioApi` (generated from `.env` by
+  `scripts/genenv.js`). Never hardcode the API host in code.
+- Current access is **GET-only**. The app is read-only; do not build CRUD UI
+  without an explicit decision.
+- Live endpoints:
+  - `GET v1/overview`
+  - `GET v1/experience?includeProjects=true`
+  - `GET v1/skill`
+  - `GET v1/recommendation`
+  - `GET v1/notion/{pageId}`
+- Legacy endpoints are not used: `v1/portfolio/count`,
+  `v1/portfolio/projects`, `v1/experience/{id}/projects`.
+- Do not guess endpoints or response shapes. If something is undocumented, ask.
+- Swagger/OpenAPI is currently not exposed at the usual paths. Until it is
+  available, `environment.portfolioApi` plus the models in `core/models` are the
+  contract.
+
+## Code boundary
+
+- All requests go through `ApiClient` and entity services. Components must not
+  use `HttpClient` directly.
+- Type request and response models in
+  `src/app/features/dashboard/core/models/`.
+- If write operations are introduced, add typed request/response models and a
+  service method. Never put mutation logic in components.
+- Update the corresponding interface **and** `.github/docs/` whenever the
+  backend contract changes.
+- Surface API failures as explicit error states; do not swallow them or leave
+  loading states stuck.
+
+## Configuration and secrets
+
+- Notion page ID and public domain must not be hardcoded in components; move
+  them to a config module or environment variable. (Decision pending: see
+  `.github/plans/001-tailwind-rewrite.md`.)
+- Never commit secrets, tokens, API keys, or `.env` contents. `.env` is
+  gitignored; `.env.example` is the template.
+- Do not add CORS workarounds or proxy hacks without documenting the constraint.
