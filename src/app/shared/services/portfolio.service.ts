@@ -1,8 +1,11 @@
-import { Injectable } from "@angular/core";
-import { DashboardItem, ExperienceTimeline, FeedbackItem, Project, TechStackItem } from "../../features/dashboard/core";
-import { PortfolioSignalService } from "./portfolio-base.service";
-@Injectable({ providedIn: 'root' })
-export class ProjectSignalService extends PortfolioSignalService<Project> {}
+import { Injectable } from '@angular/core';
+import {
+  DashboardItem,
+  ExperienceTimeline,
+  FeedbackItem,
+  TechStackItem,
+} from '../../features/dashboard/core';
+import { PortfolioSignalService } from './portfolio-base.service';
 
 @Injectable({ providedIn: 'root' })
 export class ExperienceSignalService extends PortfolioSignalService<ExperienceTimeline> {}
@@ -10,8 +13,8 @@ export class ExperienceSignalService extends PortfolioSignalService<ExperienceTi
 @Injectable({ providedIn: 'root' })
 export class SkillsSignalService extends PortfolioSignalService<TechStackItem> {}
 
-@Injectable({ providedIn: 'root'})
-export class OverviewSignalService extends PortfolioSignalService<DashboardItem>{}
+@Injectable({ providedIn: 'root' })
+export class OverviewSignalService extends PortfolioSignalService<DashboardItem> {}
 
-@Injectable({ providedIn: 'root'})
-export class RecommendationService extends PortfolioSignalService<FeedbackItem>{}
+@Injectable({ providedIn: 'root' })
+export class RecommendationService extends PortfolioSignalService<FeedbackItem> {}

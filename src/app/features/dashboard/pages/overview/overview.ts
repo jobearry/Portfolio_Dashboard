@@ -1,20 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HlmH1 } from "@spartan-ng/helm/typography";
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { HlmH1 } from '@spartan-ng/helm/typography';
 import { SkeletonItem } from '../../../../components/skeletons/item/skeleton-item';
-import { getContent } from '../../../../shared/utils/portfolio.util';
+import { getContent, StateMessage } from '../../../../shared';
 import { OverviewSignalService } from '../../../../shared/services/portfolio.service';
 import { DashboardItem } from '../../core/models/dashboard-item';
 
 @Component({
   selector: 'app-overview',
-  imports: [SkeletonItem, HlmH1],
+  imports: [SkeletonItem, HlmH1, StateMessage],
   templateUrl: './overview.html',
-  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Overview implements OnInit {
-  protected readonly _overviewService = inject(OverviewSignalService);
+  private readonly _overviewService = inject(OverviewSignalService);
+  protected readonly state = computed(() => this._overviewService.getState());
 
-  ngOnInit(){
-    getContent<DashboardItem>('v1/overview', this._overviewService)
+  ngOnInit() {
+    void this.load();
+  }
+
+  protected load() {
+    return getContent<DashboardItem>('v1/overview', this._overviewService);
   }
 }

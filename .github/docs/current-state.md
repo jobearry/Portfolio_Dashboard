@@ -13,7 +13,7 @@ the rewrite.
 | Icons | `@ng-icons/core` + `@ng-icons/lucide` |
 | HTTP | `HttpClient`, wrapped by a custom `ApiClient` |
 | State | Angular signals, per-entity services |
-| Tests | Vitest via `@angular/build:unit-test` (only the default spec exists) |
+| Tests | Vitest via `@angular/build:unit-test` (default spec, service error contract, overview states) |
 | Deploy | Vercel (`vercel.json`, `vercel-build` → `build:prod`) |
 
 ## 2. Entry chain
@@ -37,13 +37,14 @@ src/main.ts
 ```ts
 providers: [
   provideBrowserGlobalErrorListeners(),
+  provideHttpClient(withFetch()),
   provideRouter(routes),
 ]
 ```
 
-- No `provideHttpClient()` — see [gaps.md](./gaps.md#1-missing-httpclient-provider-critical).
+- `HttpClient` is registered app-wide, so `ApiClient` resolves on every route.
 - No zone/change-detection configuration.
-- No global state, interceptors, or guards.
+- No global state, interceptors, retries, or guards.
 
 `src/app/app.ts` registers the global icon set:
 
@@ -61,7 +62,6 @@ providers: provideIcons({ ...SIDEBAR_ICONS, ...PORTFOLIO_ICONS }),
 | `profile` | `Profile` | — | Not linked from the sidebar menu |
 | `blog` | `Blog` | — | |
 | `**` | redirect → `dashboard` | — | Child wildcard |
-| ~~`portfolio`~~ | commented out | — | Legacy, see `features/dashboard/bak/**` |
 
 Only the shell route defines a `title`; child routes do not.
 
@@ -114,23 +114,24 @@ There is no active-link highlighting (`routerLinkActive` is unused).
 
 ### `PortfolioSignalService<T>` — `src/app/shared/services/portfolio-base.service.ts`
 
-Signal state `{ content: T[], loading: boolean, message: string }` with:
+Signal state `{ content: T[], loading: boolean, error: string | null }` with:
 
 - `getState()`
-- `setLoading()` — sets `loading: true`, clears content and message
-- `getPortfolioResource(endpoint)` — fetch, then replace state
+- `setLoading()` — sets `loading: true`, clears the previous error
+- `getPortfolioResource(endpoint)` — fetch in `try/catch`; success replaces
+  content, failure clears content, exits loading, and stores a user-safe message
 - helper `getContent<T>(endpoint, service)` — `setLoading()` then fetch
 
 ### Entity services (all `providedIn: 'root'`)
 
 `OverviewSignalService`, `ExperienceSignalService`, `SkillsSignalService`,
-`RecommendationService`, `ProjectSignalService` (used only by dead code).
+`RecommendationService`.
 
 ### Notion service
 
 `NotionSignalService` keeps its own state
-`{ content: NotionPageCard[] | null, loading, message }` and fetches
-`v1/notion/{pageId}`.
+`{ content: NotionPageCard[] | null, loading, error }` and fetches
+`v1/notion/{pageId}` with the same `try/catch` contract.
 
 ### Endpoints
 
@@ -144,8 +145,9 @@ Live:
 | `v1/recommendation` | Profile → Recommendations | `FeedbackItem[]` |
 | `v1/notion/16348b6ae5dd8032b137c4327f9ab77c` | Blog | `NotionPageCard[]` |
 
-Legacy (dead code only): `v1/portfolio/count`, `v1/portfolio/projects`,
-`v1/experience/{id}/projects`.
+The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
+`v1/experience/{id}/projects`) are no longer referenced now that the `bak`
+screens are deleted.
 
 ### Models
 
@@ -181,7 +183,7 @@ Legacy (dead code only): `v1/portfolio/count`, `v1/portfolio/projects`,
 - [ ] Collapsible sidebar on desktop; off-canvas/mobile behavior via the sidebar trigger.
 - [ ] Sticky top header with sidebar trigger and current page title.
 - [ ] Content wrapper: centered, max-width ~1200px, padding.
-- [ ] Skeleton loading state on every data screen.
+- [ ] Skeleton loading state on every data screen, with error and empty states.
 - [ ] Five GET fetches (four portfolio + one Notion).
 - [ ] Dashboard overview header + responsive 3-column metric cards.
 - [ ] Timeline experience cards with year badge, role/description, responsibility,
@@ -195,4 +197,4 @@ Legacy (dead code only): `v1/portfolio/count`, `v1/portfolio/projects`,
 - [ ] External links use `target="_blank"` + `rel="noopener noreferrer"`.
 
 Not present today: forms, CRUD, auth, search/filter/pagination, dialogs in live
-code, toasts, empty/error states, analytics, i18n.
+code, toasts, analytics, i18n.

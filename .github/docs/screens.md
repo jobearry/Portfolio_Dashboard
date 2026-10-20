@@ -29,7 +29,8 @@ its data comes from, and what can be interacted with.
 - **Files:** `pages/home/dashboard-home.{ts,html}` → `pages/overview/overview.{ts,html}`
 - **Reach:** sidebar "Dashboard", wildcard redirect, or direct URL.
 - **Data:** `GET v1/overview` → `DashboardItem[]` via `OverviewSignalService`.
-- **Loading:** `app-skeleton-item`.
+- **States:** skeleton while loading; shared error block with **Try again** on
+  failure; empty message when the API returns no items; cards otherwise.
 - **Shows:**
   1. Header block: eyebrow "Hello,", `h1` **Than**, caption
      "Welcome back to your portfolio dashboard".
@@ -39,9 +40,8 @@ its data comes from, and what can be interacted with.
      - `subtitle`
      - divider
      - `description` (small, uppercase tracking)
-     - "View Details →" in accent `#912F56`
-- **Interactions:** none — "View Details" is inert.
-- **HTML issue:** the card itself is a `<button>` containing another `<button>`.
+- **Interactions:** none — the cards are informational. The former
+  "View Details →" button (and the nested `<button>`) is gone.
 
 ---
 
@@ -50,7 +50,8 @@ its data comes from, and what can be interacted with.
 - **File:** `pages/timeline/timeline.ts` (inline template, no HTML file)
 - **Reach:** sidebar "Timeline" or direct URL.
 - **Data:** `GET v1/experience?includeProjects=true` → `ExperienceTimeline[]`.
-- **Loading:** `app-skeleton-item`.
+- **States:** skeleton while loading; shared error block with **Try again** on
+  failure; empty message when there is no experience.
 - **Shows:**
   1. Section label **CAREER**.
   2. Vertical list of experience cards:
@@ -77,7 +78,8 @@ its data comes from, and what can be interacted with.
 - **Data:**
   - `GET v1/recommendation` → `FeedbackItem[]`
   - `GET v1/skill` → `TechStackItem[]`
-- **Loading:** one `app-skeleton-item` per fetched section.
+- **Loading:** one `app-skeleton-item` per fetched section, with a shared error
+  block (**Try again**) and an empty message per section.
 - **Shows:**
   1. Hero card (`border`, stacked on mobile, side-by-side from `sm`):
      - Round avatar `jg-profile.png` (200×200, background `#521945`).
@@ -104,8 +106,7 @@ its data comes from, and what can be interacted with.
 - **Data:** `GET v1/notion/16348b6ae5dd8032b137c4327f9ab77c` →
   `NotionPageCard[]` via `NotionSignalService`. The page ID is hardcoded in
   `Blog.ngOnInit`.
-- **Loading:** `app-skeleton-item`.
-- **Shows:** responsive 2-column grid (`lg:grid-cols-2`) of external links:
+- **Loading:** `app-skeleton-item`.- **Shows:** responsive 2-column grid (`lg:grid-cols-2`) of external links:
   - two-digit index (`01`, `02`, …; single digit gets a leading zero)
   - `title`
   - `date`
@@ -116,30 +117,11 @@ its data comes from, and what can be interacted with.
 - **Interactions:** each entry opens in a new tab; hover/focus applies
   `TRANSITION_MOVE_UP` (lift + shadow).
 - **Notes:** public Notion domain is hardcoded in `core/notion.constants.ts`; if
-  the API returns `null` content, the loop silently renders nothing.
+  the API returns `null` or an empty list, an empty state is shown, and a
+  failed request shows the shared error block with **Try again**.
 
 ---
 
 ## 5. Fallback
 
 - Unknown child path → `redirectTo: "dashboard"`.
-
----
-
-## Legacy screens (not routed)
-
-Located in `src/app/features/dashboard/bak/`; referenced only by the commented
-route block in `app.routes.ts`.
-
-| Screen | Purpose | Details |
-| --- | --- | --- |
-| `portfolio` (resume sub-shell) | Section switchboard | Buttons for Profile / Experience / Skill with counts from `GET v1/portfolio/count`; navigates relative to the route; nested `<router-outlet/>` |
-| `experience` | Experience grid | `GET v1/experience?includeProjects=true`; cards; clicking opens a project dialog after `GET v1/experience/{id}/projects` |
-| `project` | Project grid | `GET v1/portfolio/projects`; cards; dialog code present but commented out |
-
-Supporting dead components: `ProjectDialog` (Spartan Brain dialog with
-`experience` + `projects` context), `SectionButton`, `Card`, `Item`,
-`SkeletonCard`, `Maintenance`.
-
-The `ProjectDialog` renders company name, description, responsibility, and each
-project's name, description, and tech chips.

@@ -91,15 +91,13 @@ files. Never commit secrets.
 
 These are real defects in the current code, not hypotheticals:
 
-- `provideHttpClient()` is missing, so every data screen fails at runtime.
-- `getContent()` has no error handling — failed requests leave skeletons stuck.
 - The header title is set by click handlers, not the route; it is blank on load.
 - Profile is not in the sidebar menu (avatar only).
-- Overview "View Details →" buttons do nothing; the markup nests buttons.
 - Notion page ID and public domain are hardcoded.
-- `features/dashboard/bak/**` and several components are dead code and are
-  scheduled for deletion.
-- `app.spec.ts` is stale and asserts text the app never renders.
+- `components/skeletons/item` and `Maintenance` still use Spartan; several
+  unused Spartan-tied components remain until the cleanup phase.
+- Some unused constants/icons and the `common.styles.ts` vs
+  `portfolio.styles.ts` overlap are still present.
 
 See `.github/docs/gaps.md` for the full list.
 

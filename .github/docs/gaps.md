@@ -1,123 +1,112 @@
 # Gaps, Bugs, and Open Decisions
 
-Known issues in the current app and questions to resolve before/while rewriting.
+Known issues in the current app and questions to resolve while rewriting.
 
-## Critical
+## Resolved in 002 (baseline runtime)
 
-### 1. Missing `HttpClient` provider (critical)
-
-`ApiClient` injects `HttpClient`, but `app.config.ts` never calls
-`provideHttpClient()`. Any page that constructs an entity service will throw
-`NullInjectorError: No provider for HttpClient`. This means the live data screens
-(`/dashboard`, `/timeline`, `/profile`, `/blog`) cannot render today.
-
-**Fix in rewrite:** add `provideHttpClient(withFetch())` to the app config.
-
-### 2. No error handling on requests
-
-`getContent()` does not catch errors. A failed request leaves `loading: true`
-forever, so the skeleton is displayed indefinitely. There are no error, empty, or
-retry states anywhere.
+- **`HttpClient` provider** — `provideHttpClient(withFetch())` is registered in
+  `app.config.ts`.
+- **No error handling** — `PortfolioSignalService` and `NotionSignalService` now
+  catch failures, exit the loading state, and expose a user-safe message.
+- **Stuck skeletons** — every data screen renders a shared error block with a
+  **Try again** action when a request fails, and an empty state when a request
+  succeeds with no rows.
+- **Overview "View Details →"** — removed; the cards are informational. The
+  invalid `<button>` inside `<button>` nesting is gone.
+- **`console.log`** — removed from the base service and the shell.
+- **Dead code** — `features/dashboard/bak/**`, `ProjectDialog`, `Card`, `Item`,
+  `SectionButton`, `SkeletonCard`, and `ProjectSignalService` are deleted. The
+  commented legacy route block is gone.
+- **Stale test** — the assertion for the never-rendered
+  `"Hello, Portfolio_Dashboard"` text is removed. 003 adds real shell/routing
+  tests.
 
 ## Navigation and layout
 
 - **Blank header title on reload.** `pagename` is empty until a sidebar item is
   clicked; it is not derived from the active route. It also does not reset or
-  update on browser back/forward, or on direct URL entry.
-- **No active-link state.** The sidebar has no `routerLinkActive` styling.
+  update on browser back/forward, or on direct URL entry. (006)
+- **No active-link state.** The sidebar has no `routerLinkActive` styling. (006)
 - **Profile is not in the sidebar menu.** It is reachable only through the
-  avatar card or by typing `/profile`.
-- **No route-level titles** on child routes (only the shell has a title).
+  avatar card or by typing `/profile`. Locked decision: avatar dropdown, not a
+  menu item. (006)
+- **No route-level titles** on child routes (only the shell has a title). (006)
 - **No default redirect** for the root path; it depends on the child wildcard
-  matching the empty segment.
-- **Sidebar footer is empty** (dead space).
+  matching the empty segment. (006)
+- **Sidebar footer is empty** (dead space). (006)
+- **No theme toggle.** `index.html` hardcodes `class="dark"`. (004/006)
 
 ## Dashboard / Overview
 
-- **"View Details →" does nothing.** No click handler, no route, no modal.
-- **Invalid nesting:** `<button>` inside `<button>` for each overview card.
-- Card data is entirely server-driven; no static fallback if the API returns an
-  empty list.
+- Card data is entirely server-driven; an empty response now shows an empty
+  state, but there is no static fallback.
+- The header still uses the Spartan `hlmH1` directive and hardcoded copy. (007)
 
 ## Timeline
 
 - **Read-only and non-interactive.** No expansion, links, or dialog.
-- Nested projects duplicate behavior that the legacy experience page implemented
-  through a dialog (dead code now).
 - `experience.duration.startedAt` is rendered with `DatePipe`; if the API returns
-  a non-date string, the year renders empty.
-- Projects are conditionally rendered but there is no empty-state message.
+  a non-date string, the year renders empty. (007)
+- Empty list now shows a message; no empty nested-projects block is rendered.
 
 ## Profile
 
-- **No CRUD/editing** anywhere, despite the README describing a dashboard for
-  updating the resume.
-- Personal content is hardcoded in the template: name, handle, bio, GitHub URL,
-  CV Google Drive URL, avatar filename (`jg-profile.png`).
+- **Personal content is hardcoded in the template**: name, handle, bio, GitHub
+  URL, CV Google Drive URL, avatar filename. (005)
 - No link to email/LinkedIn or any contact form.
-- The badges are external shields.io images; they will not render offline.
-- `HlmH3` is imported in `skill.ts` but unused.
+- The badges are external shields.io images; they will not render offline. (007)
+- `HlmH3` is used for the name and must be replaced with Tailwind typography.
+  (007)
 
 ## Blog
 
-- **Hardcoded Notion page ID** (`16348b6ae5dd8032b137c4327f9ab77c`) in
-  `Blog.ngOnInit`.
-- **Hardcoded Notion public domain** (`glamorous-monitor-0b1.notion.site`).
-- If the API returns `null` content, the grid renders nothing silently.
+- **Hardcoded Notion page ID** in `Blog` and **hardcoded public domain** in
+  `notion.constants.ts`. (005, decided: typed config module)
+- A `null` or empty response now shows an empty state instead of a blank grid.
 - No pagination, filtering, search, or post preview/excerpt.
-- No error state if the Notion fetch fails.
 
 ## Data layer
 
 - No interceptors, retries, timeouts, or cancellation.
-- `console.log` left in `PortfolioSignalService.getPortfolioResource` and
-  `Dashboard.onItemClickHandler`, plus a commented-out dialog log.
 - All services are `providedIn: 'root'`, so state persists across navigation and
-  pages re-fetch on every visit (except Project).
+  pages re-fetch on every visit.
 - No cache or shared store; each component fetches independently.
 - No request/response typing beyond generics; runtime shape is assumed.
 
-## Dead code and legacy
+## Dead code and cleanup remaining (008)
 
-- `src/app/features/dashboard/bak/**` — three un-routed screens plus a commented
-  route block in `app.routes.ts`.
-- Unused components: `Card`, `Item`, `SectionButton`, `SkeletonCard`,
-  `Maintenance`, `ProjectDialog`.
-- Unused constants: `PORTFOLIO_CONTROLS`, `Result<T>`, `PortfolioItems` (only in
-  legacy code).
+- Unused constants: `PORTFOLIO_CONTROLS`, `Result<T>`, `PortfolioItems`.
 - Unused icon registrations: `lucideInfo`, `lucideToolCase`, `lucideLibraryBig`,
-  `lucideDrill`, `lucideFileDown`; `lucideUserCircle` is registered twice (App
-  and Sidebar).
-- Unused `HlmH3` import in `profile/components/skill.ts`.
-- Unused `common.styles.ts` vs `portfolio.styles.ts` overlap
-  (`TRANSITION_MOVE_UP` vs `PORTFOLIO_CARD_FOOTER_STYLES`).
-- `ProjectSignalService` is only referenced by dead code.
+  `lucideDrill`, `lucideFileDown`; `lucideUserCircle` is registered twice.
 - `libs/ui` libraries not imported anywhere: `sheet`, `scroll-area`, `separator`,
   `tooltip`.
+- Overlapping style constants (`common.styles.ts` vs `portfolio.styles.ts`).
+- `Maintenance` is retained intentionally for now.
+- `libs/ui`, `components.json`, and `@spartan-ng/*` are still installed until
+  008.
 
 ## Tooling / fixtures
 
-- **Stale test:** `app.spec.ts` expects `"Hello, Portfolio_Dashboard"`, which the
-  app never renders.
+- **No ESLint configuration** and no `npm run lint` script. (003)
+- **No CI workflow** under `.github/workflows`. (003)
+- **Tests are minimal** (default spec + service/overview error-state specs).
+  (003)
 - **Environment generation:** `scripts/genenv.js` overwrites
-  `src/environments/*.ts` on `start`/`build` from `.env`; the committed Azure URL
-  is just the last generated output. Missing `.env` values produce an empty
-  `portfolioApi`, which yields relative `/v1/...` calls.
-- **Hardcoded dark mode:** `<html class="dark">`; no toggle, no `prefers-color-scheme`.
-- **No lint configuration** and no `npm run lint` script.
-- **No CI workflow** under `.github/workflows`.
+  `src/environments/*.ts` on `start`/`build` from `.env`; missing `.env` values
+  produce an empty `portfolioApi`, which yields relative `/v1/...` calls.
+- **Hardcoded dark mode** until 004.
 
-## Decisions needed for the Tailwind-only rewrite
+## Decisions for the Tailwind-only rewrite
 
-1. **Legacy features:** restore or drop the `bak` Portfolio / Experience /
-   Project screens and the `ProjectDialog`?
-2. **Routes:** keep the exact same URLs and layout, or redesign?
-3. **Profile:** add it to the sidebar menu? Add CRUD later?
-4. **Header title:** derive from the route (recommended) and add active-link styling?
-5. **Overview "View Details":** wire to a destination, open a dialog, or remove?
-6. **Error/empty states:** introduce them as part of the rewrite?
-7. **Icons:** keep `@ng-icons/lucide` or switch to inline SVGs?
-8. **Design tokens:** keep the shadcn-style CSS variables under Tailwind `@theme`,
-   or define a smaller custom palette?
-9. **Sidebar behavior:** replicate collapse + mobile overlay exactly, or simplify?
-10. **Notion config:** move page ID/domain into environment or config?
+1. **Legacy features:** dropped permanently (`bak` screens and dialog deleted).
+2. **Routes:** unchanged URLs; light refresh only.
+3. **Profile:** reachable from the avatar dropdown; not a sidebar menu item.
+4. **Header title:** derived from the route, with active-link styling. (006)
+5. **Overview "View Details":** removed. (002)
+6. **Error/empty states:** introduced in 002 and refined per screen in 007.
+7. **Icons:** keep `@ng-icons/lucide`; drop the `HlmIcon` wrapper.
+8. **Design tokens:** own Tailwind `@theme` tokens replacing the Spartan preset.
+   (004)
+9. **Sidebar behavior:** reimplement collapse and mobile overlay in plain
+   Tailwind. (006)
+10. **Notion config:** typed config module (decided). (005)

@@ -1,28 +1,37 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { HlmIcon } from '@spartan-ng/helm/icon';
 import { SkeletonItem } from '../../../../components';
+import { StateMessage } from '../../../../shared';
 import { TRANSITION_MOVE_UP } from '../../../../core';
 
 import { convertNotionUrl, NOTION_PUBLIC_DOMAIN } from './core';
 import { NotionSignalService } from './store';
 
+const NOTION_PAGE_ID = '16348b6ae5dd8032b137c4327f9ab77c';
+
 @Component({
   selector: 'app-blog',
-  imports: [SkeletonItem, NgIcon, HlmIcon],
+  imports: [SkeletonItem, NgIcon, HlmIcon, StateMessage],
   templateUrl: './blog.html',
   providers: [provideIcons({ lucideExternalLink })],
-  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Blog implements OnInit {
-  notionService = inject(NotionSignalService);
-  transitionMoveUp = TRANSITION_MOVE_UP;
-  async ngOnInit() {
-    await this.notionService.getPage("16348b6ae5dd8032b137c4327f9ab77c")
+  private readonly notionService = inject(NotionSignalService);
+  protected readonly state = computed(() => this.notionService.state());
+  protected readonly transitionMoveUp = TRANSITION_MOVE_UP;
+
+  ngOnInit() {
+    void this.load();
   }
 
-  parseUrl(url: string){
+  protected load() {
+    return this.notionService.getPage(NOTION_PAGE_ID);
+  }
+
+  protected parseUrl(url: string) {
     return convertNotionUrl(url, NOTION_PUBLIC_DOMAIN);
   }
 }

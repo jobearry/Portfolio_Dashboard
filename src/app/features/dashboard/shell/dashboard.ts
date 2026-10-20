@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { Component, signal } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Navbar } from '../../../components/navbar/navbar';
 import { Sidebar } from '../../../components/sidebar/sidebar';
 import { sidebarContent, SidebarGroupMenu } from '../../../core/constants/sidebar-sections';
@@ -14,9 +14,9 @@ export class Dashboard {
   protected readonly title = signal('Jonathan Golimlim');
   protected readonly subtitle = signal('Software Engineer');
   protected readonly sidebarSections = signal(sidebarContent);
-  protected readonly pagename = signal("")
-  onItemClickHandler(item: SidebarGroupMenu){
-    console.log("🚀 ~ Dashboard ~ onItemClickHandler ~ item:", item)
+  protected readonly pagename = signal('');
+
+  onItemClickHandler(item: SidebarGroupMenu) {
     this.pagename.set(item.title);
   }
 }

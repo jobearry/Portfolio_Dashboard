@@ -1,28 +1,32 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HlmH3 } from '@spartan-ng/helm/typography';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { SkeletonItem } from '../../../../../components';
-import { getContent, SkillsSignalService } from '../../../../../shared';
-import { TRANSITION_MOVE_UP } from '../../../../../core';
+import { getContent, SkillsSignalService, StateMessage } from '../../../../../shared';
 import { TechStackItem } from '../../../core';
 
 @Component({
   selector: 'app-skill',
-  imports: [SkeletonItem, HlmH3],
+  imports: [SkeletonItem, StateMessage],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (_skillsService.getState().loading) {
-      <app-skeleton-item></app-skeleton-item>
+    @if (state().loading) {
+      <app-skeleton-item />
+    } @else if (state().error) {
+      <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
+    } @else if (state().content.length === 0) {
+      <app-state-message kind="empty" message="No skills have been published yet." />
     } @else {
-      <div class="flex flex-col gap-2 w-full">
-        <span class="text-xs text-gray-300/70 tracking-widest flex items-center gap-2">
+      <div class="flex w-full flex-col gap-2">
+        <span class="flex items-center gap-2 text-xs tracking-widest text-gray-300/70">
           <div class="h-3 w-3 rounded-full bg-[#912F56]"></div>
-          {{"skill".toUpperCase()}}
+          {{ 'skill'.toUpperCase() }}
         </span>
-        <ul class="grid sm:grid-cols-3 gap-2">
-          @for (item of _skillsService.getState().content; track item.id) {
-            <li class="flex flex-col gap-2 w-full p-1 border bg-zinc-900/50">
-              <span class="text-sm font-semibold flex flex-col">
-                {{item.stackName}}
-                <span class="text-xs text-gray-300/70 tracking-widest">{{item.category}}</span>
+
+        <ul class="grid gap-2 sm:grid-cols-3">
+          @for (item of state().content; track item.id) {
+            <li class="flex w-full flex-col gap-2 border bg-zinc-900/50 p-1">
+              <span class="flex flex-col text-sm font-semibold">
+                {{ item.stackName }}
+                <span class="text-xs tracking-widest text-gray-300/70">{{ item.category }}</span>
               </span>
             </li>
           }
@@ -30,14 +34,16 @@ import { TechStackItem } from '../../../core';
       </div>
     }
   `,
-  styles: ``,
 })
 export class SkillComponent implements OnInit {
-  protected readonly _skillsService = inject(SkillsSignalService);
-  transitionMoveUp = TRANSITION_MOVE_UP;
+  private readonly _skillsService = inject(SkillsSignalService);
+  protected readonly state = computed(() => this._skillsService.getState());
 
-  ngOnInit(){
-    getContent<TechStackItem>('v1/skill', this._skillsService)
+  ngOnInit() {
+    void this.load();
+  }
 
+  protected load() {
+    return getContent<TechStackItem>('v1/skill', this._skillsService);
   }
 }

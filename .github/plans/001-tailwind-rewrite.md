@@ -1,10 +1,11 @@
-# 001 — Tailwind Rewrite (Spartan-free)
+# 001 — Tailwind Rewrite (Spartan-free) — umbrella
 
-Status: Draft
+Status: In progress
+Owner: Jonathan Golimlim
 Related docs: `.github/docs/current-state.md`, `.github/docs/screens.md`,
 `.github/docs/spartan-inventory.md`, `.github/docs/gaps.md`
 Related rules: `.github/rules/angular.md`, `.github/rules/tailwind.md`,
-`.github/rules/backend.md`, `.github/rules/quality.md`
+`.github/rules/backend.md`, `.github/rules/quality.md`, `.github/rules/plans.md`
 
 ## Goal
 
@@ -12,8 +13,10 @@ Rebuild the UI layer with **plain Tailwind CSS**, removing Spartan UI and
 `libs/ui` while preserving every current feature and fixing the baseline defects
 that prevent the app from working reliably.
 
-This plan records the agreed approach and locked product decisions. They are
-binding until explicitly changed.
+This file is the umbrella: goal, scope, locked decisions, and the phase map.
+The executable detail lives in the phase plans 002–008. When a phase plan and
+this file disagree, the phase plan wins for that phase's tasks; the locked
+decisions below always win.
 
 ## Scope
 
@@ -41,9 +44,10 @@ binding until explicitly changed.
 1. **Visual scope:** light refresh only. Keep screens, flow, routes, and
    features; improve spacing, typography, and card styling.
 2. **Legacy screens:** `features/dashboard/bak/**`, `ProjectDialog`, `Card`,
-   `Item`, `SectionButton`, `SkeletonCard` are deleted. Keep `Maintenance` for now
+   `Item`, `SectionButton`, `SkeletonCard` are deleted. Keep `Maintenance` for
+   now. **Deleted in 002, not at the end.**
 3. **Spartan removal:** incremental during the rewrite; full uninstall/cleanup
-   at the end.
+   in 008.
 4. **Overview cards:** remove the inert "View Details →" buttons; cards are
    informational only.
 5. **Header title:** derive from the active route; highlight the active sidebar
@@ -59,116 +63,69 @@ binding until explicitly changed.
     `prefers-color-scheme` on first load.
 11. **Tooling:** ESLint, Prettier config, GitHub Actions CI, real tests.
 12. **Plans:** sequential numbering in `.github/plans/`.
+13. **Config before screens:** site/profile config (005) lands before the shell
+    and screen rebuilds so templates are written once.
+14. **Notion configuration:** the page ID and public domain live in the typed
+    config module (decided 2026-10-20). They are public content values, not
+    deployment secrets, so `scripts/genenv.js`, CI, and Vercel stay untouched.
 
-## Affected surface
+## Phase map
 
-- **Routes:** `/dashboard`, `/timeline`, `/profile`, `/blog`, wildcard →
-  `/dashboard` (unchanged URLs).
-- **Shell:** `features/dashboard/shell/dashboard.*`, new sidebar and header
-  components, theme service.
-- **Screens:** `pages/overview`, `pages/timeline`, `pages/profile` (+
-  `recommendations`, `skill`), `pages/blog`.
-- **Shared:** `shared/services/*`, `shared/store/*`, `shared/utils/*`,
-  `core/api/api-client.ts`, `core/constants/*`.
-- **Styles:** `src/styles.css` design tokens and Tailwind theme.
-- **Config:** new typed profile/site config module.
-- **Assets:** `public/grad_1.jpeg`, `public/jg-profile.png`.
-- **Endpoints:** no changes; five live GET endpoints.
-- **Tooling:** `package.json`, ESLint/Prettier configs, `.github/workflows/`,
-  `src/app/app.spec.ts`.
-- **Removal:** `libs/ui/**`, `components.json`, `@spartan-ng/*` dependencies, the
-  Spartan preset import, `features/dashboard/bak/**`, unused components.
+| # | Plan | Goal | Gate (what you can trace) |
+| --- | --- | --- | --- |
+| 0 | `002-baseline-runtime.md` | Make the app work end to end and delete dead code | All 4 routes render data **or** an error; no skeleton can hang |
+| 1 | `003-tooling.md` | Add lint, format, tests, CI | `lint` + `test` + `build` green locally and in CI |
+| 2 | `004-design-tokens-theme.md` | Own tokens, light/dark, no Spartan preset | No preset import; both themes legible; parity in dark |
+| 3 | `005-site-config.md` | Typed site/profile config | No hardcoded personal strings in templates |
+| 4 | `006-shell.md` | Sidebar, header, mobile, dropdown, route titles | Title + active link correct on load, reload, deep link, back/forward |
+| 5 | `007-screens.md` | Rebuild the four screens | `screens.md` checklist passes in both themes |
+| 6 | `008-spartan-removal.md` | Delete Spartan, `libs/ui`, dead code | `grep -r "@spartan-ng\|libs/ui" src/` is empty |
 
-## Tasks
+Each phase is one commit / PR. Do not start phase N+1 until phase N's
+verification checklist and exit criteria pass.
 
-### Phase 0 — Baseline fixes
+Progress: **002 Done.** 003–008 Draft.
 
-- [ ] Add `provideHttpClient(withFetch())` to `app.config.ts`.
-- [ ] Fix `PortfolioSignalService` so failures exit the loading state and expose
-      an error message.
-- [ ] Add a shared error and empty state pattern for data screens.
-- [ ] Remove `console.log` from services and the shell.
-- [ ] Remove the overview "View Details →" buttons and fix the nested-button HTML.
+## Cross-phase verification (run at the end of every phase)
 
-### Phase 1 — Tooling
-
-- [ ] Add ESLint (Angular/TypeScript recommended) and `npm run lint`.
-- [ ] Add a Prettier config file; keep `printWidth: 100`, `singleQuote: true`.
-- [ ] Replace the stale `app.spec.ts` with shell/routing tests.
-- [ ] Add GitHub Actions CI: install → lint → build → test.
-
-### Phase 2 — Design tokens and theme
-
-- [ ] Replace the Spartan preset import with Tailwind v4 `@theme` / CSS
-      variables.
-- [ ] Define both light and dark token sets, including `color-scheme`.
-- [ ] Add a theme service that persists the choice and respects
-      `prefers-color-scheme` on first load.
-- [ ] Verify all existing colors remain legible in both themes.
-
-### Phase 3 — Shell
-
-- [ ] Rebuild the sidebar in plain Tailwind: header, menu, footer, collapse.
-- [ ] Implement mobile off-canvas behavior (overlay, close on navigate, Escape).
-- [ ] Build the sticky header with sidebar trigger and route-driven page title.
-- [ ] Add active-link styling with `routerLinkActive`.
-- [ ] Replace the avatar link with a dropdown: View profile, Download CV, Theme
-      toggle. Include keyboard and outside-click behavior.
-
-### Phase 4 — Screens
-
-- [ ] Rebuild the overview: header, responsive metric cards, no action buttons.
-- [ ] Rebuild the timeline: career section, experience cards, year badge,
-      nested projects, tech chips.
-- [ ] Rebuild the profile: hero, GitHub/CV links, recommendations, skills.
-- [ ] Rebuild the blog: numbered entries, external links, URL rewrite, hover
-      lift, dark/light support.
-- [ ] Replace `SkeletonItem` with Tailwind-only skeleton primitives.
-- [ ] Verify loading, empty, and error states on every screen.
-
-### Phase 5 — Configuration
-
-- [ ] Create a typed config module for profile/site content (name, handle, bio,
-      GitHub, CV, avatar paths).
-- [ ] Move the Notion page ID and public domain out of components (config module
-      or environment; decide during this phase).
-- [ ] Remove hardcoded personal strings from templates.
-
-### Phase 6 — Spartan cleanup
-
-- [ ] Remove remaining `@spartan-ng/*` imports and Brain services.
-- [ ] Delete `libs/ui/**` and `components.json`.
-- [ ] Uninstall `@spartan-ng/brain` and `@spartan-ng/cli`.
-- [ ] Remove the Spartan preset import and unused dependencies
-      (`class-variance-authority`, `clsx`, `tailwind-merge` if unreferenced).
-- [ ] Delete `features/dashboard/bak/**` and the unused components listed above.
-- [ ] Confirm no `@spartan-ng` or `libs/ui` references remain.
+- [ ] `npm run build` succeeds with no new warnings.
+- [ ] `npm test` passes.
+- [ ] `npm run lint` passes (from 003 onward).
+- [ ] All four routes render: `/dashboard`, `/timeline`, `/profile`, `/blog`.
+- [ ] Loading, empty, and error states behave (no stuck skeleton).
+- [ ] Keyboard focus is visible; no nested interactive elements.
+- [ ] Mobile (≤ 640px) and desktop layouts both work.
+- [ ] `.github/docs/` is updated for any behavior, route, model, or tooling
+      change.
+- [ ] Phase plan status moved `Draft` → `In progress` → `Done`.
 
 ## Risks and mitigations
 
 | Risk | Mitigation |
 | --- | --- |
-| Sidebar collapse/mobile behavior regressions | Build behavior in Phase 3 with explicit keyboard, overlay, and resize checks. |
-| Theme flash or unreadable colors | Define tokens before screens; test both themes on every screen. |
+| Sidebar collapse/mobile behavior regressions | Build behavior in 006 with explicit keyboard, overlay, and resize checks. |
+| Theme flash or unreadable colors | Define tokens before shell/screens; pre-bootstrap theme script; test both themes on every screen. |
 | Losing a feature during the rewrite | Use `.github/docs/screens.md` as the acceptance checklist. |
-| API failures leaving stuck skeletons | Phase 0 error/empty states before UI work. |
-| Accidental new Spartan usage | Enforced by `.github/rules/tailwind.md` and final grep check. |
+| API failures leaving stuck skeletons | 002 error/empty states land before UI work. |
+| Accidental new Spartan usage | Enforced by `.github/rules/tailwind.md` and the 008 grep gate. |
 | Breaking routes/links | Keep URLs unchanged; verify all four routes plus wildcard. |
+| Deleting dead code breaks a hidden import | 002: grep imports, then build; barrels updated in the same commit. |
+| Preset removal breaks the not-yet-rebuilt shell | 004 must define the same token variable names the live Spartan components use. |
 
 ## Pending questions
 
-1. **Notion configuration:** central config module vs. environment variables.
-2. **API docs:** Swagger/OpenAPI is not exposed today; the owner will fix it
+1. **API docs:** Swagger/OpenAPI is not exposed today; the owner will fix it
    later. Until then, `environment.portfolioApi` plus `core/models` is the
    contract.
-3. **Deployment:** confirm CORS, auth, and environment-variable requirements for
+2. **Deployment:** confirm CORS, auth, and environment-variable requirements for
    Vercel and the .NET API.
+3. **ESLint sequencing:** confirmed useful before the shell/screen rewrites
+   (006/007), configured conservatively; the exact placement is settled when
+   003 starts.
 
-## Verification
+## Global verification (end of rewrite)
 
-- [ ] `npm run build` succeeds with no new warnings.
-- [ ] `npm test` passes.
-- [ ] `npm run lint` passes.
+- [ ] `npm run build`, `npm run lint`, `npm test` pass.
 - [ ] `/dashboard`: overview loads, no action buttons, counts render.
 - [ ] `/timeline`: experiences and nested projects render.
 - [ ] `/profile`: hero, links, recommendations, and skills render.
@@ -179,4 +136,5 @@ binding until explicitly changed.
 - [ ] Mobile sidebar opens, navigates, and closes correctly.
 - [ ] Both light and dark themes render correctly on every screen.
 - [ ] `grep -r "@spartan-ng\|libs/ui" src/` returns nothing.
+- [ ] `libs/ui` and `components.json` are gone; dependencies uninstalled.
 - [ ] `.github/docs/` reflects the post-rewrite state.
