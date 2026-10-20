@@ -1,20 +1,22 @@
-import { Component, Input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideConstruction } from '@ng-icons/lucide';
-import { HlmIcon } from '@spartan-ng/helm/icon';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [HlmIcon, NgIcon],
+  imports: [NgIcon],
+  providers: [provideIcons({ lucideConstruction })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="w-full grid place-items-center p-5 my-2">
-      <ng-icon hlm name="lucideConstruction"></ng-icon>
-      <h1>...{{ subtitle }}...</h1>
+    <div
+      class="grid w-full place-items-center gap-2 rounded-lg border border-border bg-muted/50 p-8 text-center"
+    >
+      <ng-icon name="lucideConstruction" size="32" class="text-muted-foreground" />
+      <h2 class="text-lg font-semibold">Under construction</h2>
+      <p class="text-sm text-muted-foreground">{{ subtitle() }}</p>
     </div>
   `,
-  providers: provideIcons({ lucideConstruction }),
-  styles: ``,
 })
 export class Maintenance {
-  @Input() subtitle: string = 'working on it';
+  readonly subtitle = input('working on it');
 }

@@ -1,6 +1,6 @@
 # Gaps, Bugs, and Open Decisions
 
-Known issues in the current app and questions to resolve while rewriting.
+Known issues in the current app after the Tailwind rewrite.
 
 ## Resolved in 002 (baseline runtime)
 
@@ -63,6 +63,23 @@ Known issues in the current app and questions to resolve while rewriting.
   portfolio icon/control constants are deleted; components register only the
   icons they use.
 
+## Resolved in 008 (Spartan removal)
+
+- **No Spartan left** — `libs/ui/**`, `components.json`, `@spartan-ng/*`, and the
+  Helm path aliases are deleted.
+- **Unused dependencies removed** — `class-variance-authority`, `clsx`,
+  `tailwind-merge`, `tw-animate-css`, `@angular/cdk`, and `@angular/forms` are
+  uninstalled.
+- **Styles cleaned** — CDK overlay CSS, the `tw-animate-css` import, Spartan
+  `data-*` variants, and the unused `--animate-indeterminate` keyframes are gone.
+- **Unused models removed** — `PortfolioItems` and `Result<T>`.
+- **`Maintenance` kept** — rewritten in plain Tailwind and still not routed.
+- **Environment script fixed** — `dotenv` is now an explicit dev dependency, so
+  `genenv` no longer silently writes an empty API base after the Spartan CLI is
+  removed.
+- **Tooling cleanup** — `libs/ui` ignores removed from ESLint and Prettier;
+  README describes the current screens.
+
 ## Navigation and layout
 
 - **Profile is not in the sidebar menu** — intentional; it is reachable from the
@@ -98,18 +115,15 @@ Known issues in the current app and questions to resolve while rewriting.
 - No cache or shared store; each component fetches independently.
 - No request/response typing beyond generics; runtime shape is assumed.
 
-## Dead code and cleanup remaining (008)
+## Dead code
 
-- `libs/ui` libraries not imported anywhere: `sheet`, `scroll-area`, `separator`,
-  `tooltip`.
-- `Maintenance` is retained intentionally for now and is the last component that
-  still imports `@spartan-ng/helm/icon`.
-- `libs/ui`, `components.json`, and `@spartan-ng/*` are still installed until 008.
+- No known Spartan or rewrite dead code remains. `Maintenance` is intentionally
+  retained (unrouted) for future placeholder use.
 
 ## Tooling / fixtures
 
 - **ESLint** is configured (`eslint.config.js`, `npm run lint`) with
-  conservative rules; `libs/ui` is excluded until 008.
+  conservative rules.
 - **Prettier** is configured (`.prettierrc`, `format` / `format:check`), and all
   of `src/` is formatted.
 - **CI** runs lint → format check → build → test on PRs and `main` pushes
@@ -120,8 +134,9 @@ Known issues in the current app and questions to resolve while rewriting.
   screens (states, config header, date guard, URL rewrite).
 - **Environment generation:** `scripts/genenv.js` overwrites
   `src/environments/*.ts` on `start`/`build` from `.env`; missing `.env` values
-  produce an empty `portfolioApi`, which yields relative `/v1/...` calls. CI does
-  not need `.env` because the build only compiles.
+  produce an empty `portfolioApi`, which yields relative `/v1/...` calls. `dotenv`
+  is an explicit dev dependency. CI does not need `.env` because the build only
+  compiles.
 - **Theme:** own `@theme` tokens replace the Spartan preset (004). Light and
   dark are both verified on every screen; the toggle lives in the avatar
   dropdown (006).
@@ -135,8 +150,8 @@ Known issues in the current app and questions to resolve while rewriting.
 5. **Overview "View Details":** removed. (002)
 6. **Error/empty states:** introduced in 002 and applied to every data screen;
    each screen styles them with the shared `StateMessage` (007).
-7. **Icons:** keep `@ng-icons/lucide`; the `HlmIcon` wrapper remains only in
-   `Maintenance` until 008.
+7. **Icons:** keep `@ng-icons/lucide`; `HlmIcon` is gone and each component
+   registers its own icons. (008)
 8. **Design tokens:** own Tailwind `@theme` tokens replacing the Spartan preset.
    (004)
 9. **Sidebar behavior:** reimplemented collapse and mobile overlay in plain

@@ -1,23 +1,23 @@
 # Current State
 
-Snapshot of the application architecture, flow, and shared infrastructure before
-the rewrite.
+Snapshot of the application architecture, flow, and shared infrastructure after
+the Tailwind rewrite (002–008).
 
 ## 1. Stack
 
-| Concern           | Current choice                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------ |
-| Framework         | Angular 21, standalone components, lazy `loadComponent` routes                       |
-| Styling           | Tailwind CSS v4 (PostCSS), own `@theme` tokens, light + dark                         |
-| Component library | Spartan UI (Helm) vendored under `libs/ui` + `@spartan-ng/brain`                     |
-| Icons             | `@ng-icons/core` + `@ng-icons/lucide`                                                |
-| HTTP              | `HttpClient`, wrapped by a custom `ApiClient`                                        |
-| State             | Angular signals, per-entity services                                                 |
-| Tests             | Vitest via `@angular/build:unit-test` (shell/routing/theme + screen + service specs) |
-| Lint              | ESLint 9 flat config, `angular-eslint` + `typescript-eslint`, conservative rules     |
-| Format            | Prettier 3 (`printWidth: 100`, `singleQuote: true`)                                  |
-| CI                | GitHub Actions on PRs and `main` pushes: lint → format → build → test                |
-| Deploy            | Vercel (`vercel.json`, `vercel-build` → `build:prod`)                                |
+| Concern    | Current choice                                                                       |
+| ---------- | ------------------------------------------------------------------------------------ |
+| Framework  | Angular 21, standalone components, lazy `loadComponent` routes                       |
+| Styling    | Tailwind CSS v4 (PostCSS), own `@theme` tokens, light + dark                         |
+| Components | Plain Tailwind; shared `StateMessage` + `Skeleton` primitives                        |
+| Icons      | `@ng-icons/core` + `@ng-icons/lucide`                                                |
+| HTTP       | `HttpClient`, wrapped by a custom `ApiClient`                                        |
+| State      | Angular signals, per-entity services                                                 |
+| Tests      | Vitest via `@angular/build:unit-test` (shell/routing/theme + screen + service specs) |
+| Lint       | ESLint 9 flat config, `angular-eslint` + `typescript-eslint`, conservative rules     |
+| Format     | Prettier 3 (`printWidth: 100`, `singleQuote: true`)                                  |
+| CI         | GitHub Actions on PRs and `main` pushes: lint → format → build → test                |
+| Deploy     | Vercel (`vercel.json`, `vercel-build` → `build:prod`)                                |
 
 ## 2. Entry chain
 
@@ -190,34 +190,37 @@ screens are deleted.
 - `TechStack { specId, toolName, imgSrc, createdAt, stackId, stack }`
 - `TechStackItem { id, category, createdAt, imgSrc, stackName }`
 - `FeedbackItem { id, personName, description, careerPosition: Role, postedAt }`
-- `PortfolioItems { pjCount, expCount, techCount }`
 - Value objects: `Company { name }`, `Period { startedAt, finishedAt, duration }`,
-  `Role { value }`, `Result<T> { isSuccess, error?, value? }`
+  `Role { value }`
 - `NotionPageCard { url, date, title }`
+
+The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 
 ## 6. Asset and environment notes
 
 - Public assets: `public/favicon.ico`, `public/grad_1.jpeg` (sidebar avatar),
   `public/jg-profile.png` (profile avatar).
 - `scripts/genenv.js` rewrites `src/environments/environment*.ts` from `.env`
-  (`PORTFOLIO_API_HOST`, etc.) on every `npm start` / `npm run build*`.
+  (`PORTFOLIO_API_HOST`, etc.) on every `npm start` / `npm run build*`. It uses
+  `dotenv`, now an explicit dev dependency; without `.env` the API base is empty
+  and requests become relative `/v1/...` calls.
 - `index.html` no longer hardcodes a theme class. A small inline script applies
   the stored theme (or `prefers-color-scheme` on first load) before first paint.
 - **Theme:** `ThemeService` (`core/theme`) exposes `theme`, `set()`, and
   `toggle()`, persists to `localStorage` (`portfolio-theme`), and toggles the
   `.dark` class plus `color-scheme` on `<html>`. The toggle lives in the avatar
   dropdown.
-- `src/styles.css` no longer imports the Spartan preset. It defines its own
-  `@theme inline` mapping plus light/dark CSS variables (`--background`,
-  `--foreground`, `--card`, `--muted`, `--border`, `--sidebar*`,
-  `--radius: 0.625rem`). It keeps the CDK overlay CSS and `tw-animate-css` until
-  the 008 cleanup and adds the named `data-*` variants.
+- `src/styles.css` owns the token layer: `@theme inline` mapping plus light/dark
+  CSS variables (`--background`, `--foreground`, `--card`, `--muted`,
+  `--border`, `--sidebar*`, `--radius: 0.625rem`). It has no Spartan preset, CDK
+  overlay CSS, `tw-animate-css` import, or untyped `data-*` variants (all removed
+  in 008).
 - Accent color: token `--color-accent-brand` (`#912f56`); templates no longer
   repeat the hex.
 - Template neutrals use semantic tokens (`text-muted-foreground`, `bg-muted/50`)
   so both themes stay legible.
 
-## 7. Functional inventory (rewrite checklist)
+## 7. Functional inventory
 
 - [x] Router shell + lazy children + wildcard redirect to `/dashboard`.
 - [x] Sidebar with three menu items and icons; avatar header linking to `/profile`.
@@ -239,3 +242,19 @@ screens are deleted.
 
 Not present today: forms, CRUD, auth, search/filter/pagination, dialogs in live
 code, toasts, analytics, i18n.
+
+## 8. Removed in the Tailwind rewrite (008)
+
+- `libs/ui/**`, `components.json`, and the `@spartan-ng/helm/*` TypeScript path
+  aliases.
+- `@spartan-ng/brain`, `@spartan-ng/cli`, `class-variance-authority`, `clsx`,
+  `tailwind-merge`, `tw-animate-css`, `@angular/cdk`, and the unused
+  `@angular/forms`.
+- `HlmIcon` and all Helm directives; `Maintenance` remains but is now plain
+  Tailwind (it is not routed).
+- CDK overlay CSS, the `tw-animate-css` import, Spartan `data-*` variants, and
+  the unused `--animate-indeterminate` keyframes.
+- The unused `PortfolioItems` and `Result<T>` models.
+
+`Maintenance` is intentionally retained for future placeholder use. No live code
+imports `@spartan-ng/*` or `libs/ui`.

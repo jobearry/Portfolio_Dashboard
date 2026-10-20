@@ -4,7 +4,7 @@ export type StateMessageKind = 'error' | 'empty';
 
 /**
  * Shared loading failure / empty result block for data screens.
- * Plain Tailwind, no Spartan imports.
+ * Plain Tailwind.
  */
 @Component({
   selector: 'app-state-message',

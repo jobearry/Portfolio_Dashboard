@@ -1,9 +1,9 @@
 # 001 — Tailwind Rewrite (Spartan-free) — umbrella
 
-Status: In progress
+Status: Done
 Owner: Jonathan Golimlim
 Related docs: `.github/docs/current-state.md`, `.github/docs/screens.md`,
-`.github/docs/spartan-inventory.md`, `.github/docs/gaps.md`
+`.github/docs/gaps.md`
 Related rules: `.github/rules/angular.md`, `.github/rules/tailwind.md`,
 `.github/rules/backend.md`, `.github/rules/quality.md`, `.github/rules/plans.md`
 
@@ -84,7 +84,7 @@ decisions below always win.
 Each phase is one commit / PR. Do not start phase N+1 until phase N's
 verification checklist and exit criteria pass.
 
-Progress: **002–007 Done.** 008 Draft.
+Progress: **002–008 Done.** Rewrite complete.
 
 ## Cross-phase verification (run at the end of every phase)
 

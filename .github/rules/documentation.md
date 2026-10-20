@@ -37,5 +37,4 @@ untrue, the change is not complete.
 - Keep documents focused:
   - `current-state.md` — architecture, routing, data layer, endpoints, models
   - `screens.md` — screen-by-screen behavior
-  - `spartan-inventory.md` — Spartan UI surface and replacement scope
   - `gaps.md` — bugs, dead code, missing states, open decisions

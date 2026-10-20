@@ -6,13 +6,7 @@ const prettier = require('eslint-config-prettier');
 
 module.exports = tseslint.config(
   {
-    ignores: [
-      'dist/**',
-      '.angular/**',
-      'node_modules/**',
-      'libs/ui/**',
-      'src/environments/**',
-    ],
+    ignores: ['dist/**', '.angular/**', 'node_modules/**', 'src/environments/**'],
   },
   {
     files: ['**/*.ts'],

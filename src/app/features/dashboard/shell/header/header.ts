@@ -10,9 +10,12 @@ import { ShellStateService } from '../shell-state.service';
   selector: 'app-shell-header',
   imports: [NgIcon],
   providers: [provideIcons({ lucideMenu })],
+  host: {
+    class: 'sticky top-0 z-30 block',
+  },
   template: `
     <header
-      class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur md:px-4"
+      class="flex h-14 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur md:px-4"
     >
       <button
         #mobileTrigger
