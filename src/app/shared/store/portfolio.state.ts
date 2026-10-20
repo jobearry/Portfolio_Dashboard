@@ -1,13 +1,13 @@
-export interface PortfolioState<T>{
-  content: T[]
-  loading: boolean
-  message: string
+export interface PortfolioState<T> {
+  content: T[];
+  loading: boolean;
+  error: string | null;
 }
 
-export function createPortfolioState<T>(): PortfolioState<T>{
+export function createPortfolioState<T>(): PortfolioState<T> {
   return {
     content: [],
     loading: false,
-    message: ''
-  }
+    error: null,
+  };
 }

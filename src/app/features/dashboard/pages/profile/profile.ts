@@ -1,78 +1,80 @@
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideDownload, lucideGithub } from '@ng-icons/lucide';
 import { Component } from '@angular/core';
-import { HlmH3 } from '@spartan-ng/helm/typography';
-import { PORTFOLIO_CARD_FOOTER_STYLES } from '../../core/styles/portfolio.styles';
+import { site } from '../../../../core/config/site.config';
 import { Recommendations } from './components';
-import { SkillComponent } from "./components/skill";
+import { SkillComponent } from './components/skill';
 
 @Component({
   selector: 'app-profile',
-  imports: [HlmH3, Recommendations, SkillComponent],
+  imports: [NgIcon, Recommendations, SkillComponent],
+  providers: [provideIcons({ lucideDownload, lucideGithub })],
   template: `
-    <div class="grid gap-5">
-      <div class="w-full flex flex-col">
-        <div class="p-5 items-end gap-2 flex flex-col sm:flex-row border">
-          <div class="w-full md:w-[35%] grid place-items-center">
-            <img class="bg-[#521945] object-cover h-50 w-50 rounded-full" src="jg-profile.png" alt="jonathan-profile-pic">
-          </div>
-          <div class="w-full grid gap-2">
-            <div class="bg-zinc-900/50 p-2 border rounded-sm flex flex-col gap-2">
-              <span>
-                <h3 hlmH3>Jonathan Golimlim</h3>
-                <p class="text-muted-foreground">@jthan</p>
-              </span>
-              <p [className]="portfolioCardFooterStyle + ' '">
-                A full-stack software engineer who specializes on developing web applications through Angular and .NET
+    <div class="flex flex-col gap-5">
+      <section class="rounded-lg border border-border p-5" aria-labelledby="profile-name">
+        <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
+          <img
+            class="h-44 w-44 shrink-0 rounded-full bg-accent-brand/20 object-cover sm:h-48 sm:w-48"
+            [src]="site.assets.profileAvatar"
+            [alt]="'Portrait of ' + site.profile.name"
+          />
+
+          <div class="flex w-full flex-col gap-4">
+            <div class="flex flex-col gap-2 rounded-md bg-muted/50 p-4">
+              <div>
+                <h2 id="profile-name" class="text-2xl font-semibold tracking-tight">
+                  {{ site.profile.name }}
+                </h2>
+                <p class="text-sm text-muted-foreground">{{ site.profile.handle }}</p>
+              </div>
+              <p class="text-sm leading-relaxed text-muted-foreground">
+                {{ site.profile.bio }}
               </p>
             </div>
-            <aside>
-              <address class="not-italic">
-                <nav aria-label="Social and resume links">
-                  <ul class="flex **:justify-end gap-2">
-                    <li
-                      title="View Github"
-                      class="border flex gap-1 justify-center items-center">
-                      <a
-                        href="https://github.com/jobearry"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="View GitHub profile">
-                        <img
-                          src="https://img.shields.io/badge/view_github-101012?color=black&style=for-the-badge&logo=github&logoColor=white"/>
-                      </a>
-                    </li>
-                    <li
-                      title="Download CV"
-                      class="border flex gap-1 justify-center items-center">
-                      <a
-                        href="https://drive.google.com/uc?export=download&id=1FpztsStY7V_zDvG7eFdnDUVWaRZoWcBc"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        aria-label="Download CV">
-                        <img
-                          src="https://img.shields.io/badge/download_cv-101012?style=for-the-badge&color=521945"/>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </address>
-            </aside>
+
+            <nav aria-label="Social and resume links">
+              <ul class="flex flex-wrap gap-2">
+                <li>
+                  <a
+                    class="inline-flex items-center gap-2 rounded-md border border-border bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                    [href]="site.links.github"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ng-icon name="lucideGithub" size="16" />
+                    View GitHub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="inline-flex items-center gap-2 rounded-md bg-accent-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-brand/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                    [href]="site.links.cv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ng-icon name="lucideDownload" size="16" />
+                    Download CV
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="p-5 items-start justify-center gap-2 flex flex-col sm:flex-row border">
-        <div class="w-full">
-          <app-recommendations></app-recommendations>
+      <section class="rounded-lg border border-border p-5">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <div class="w-full">
+            <app-recommendations></app-recommendations>
+          </div>
+          <div class="w-full">
+            <app-skill></app-skill>
+          </div>
         </div>
-        <div class="w-full">
-          <app-skill></app-skill>
-        </div>
-      </div>
+      </section>
     </div>
-
   `,
-  styles: ``,
 })
 export class Profile {
-  portfolioCardFooterStyle = PORTFOLIO_CARD_FOOTER_STYLES;
+  protected readonly site = site;
 }

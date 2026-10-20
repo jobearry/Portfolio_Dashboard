@@ -1,34 +1,35 @@
-<section class="w-full h-full flex flex-col gap-2">
-  @if(_overviewService.getState().loading){
-    <app-skeleton-item></app-skeleton-item>
-  }@else {
-      <div class="flex flex-col justify-between items-start w-full p-3 border-b">
-        <span class="text-sm text-gray-300/70 tracking-widest">Hello,</span>
-        <h1 hlmH1 class="tracking-widest">Than</h1>
-        <span class="text-sm text-gray-300/70 tracking-widest">Welcome back to your portfolio dashboard</span>
+<section class="flex w-full flex-col gap-5">
+  @if (state().loading) {
+    <div class="flex flex-col gap-5">
+      <app-skeleton variant="text" [rows]="3" />
+      <app-skeleton variant="card" />
+    </div>
+  } @else if (state().error) {
+    <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
+  } @else if (state().content.length === 0) {
+    <app-state-message kind="empty" message="No overview metrics are available yet." />
+  } @else {
+    <header class="flex flex-col gap-1 border-b border-border pb-4">
+      <span class="text-sm tracking-[0.2em] text-muted-foreground uppercase">Hello,</span>
+      <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ site.profile.name }}</h2>
+      <p class="text-sm text-muted-foreground">Welcome back to your portfolio dashboard</p>
+    </header>
 
-      </div>
-      <div class="grid sm:grid-cols-3 w-full gap-2 border-b p-3">
-        @for(item of _overviewService.getState().content; track item.title){
-        <button class="border rounded-sm w-full h-fit
-          flex flex-col justify-between p-4 items-start">
-          <span class="text-xs text-gray-300/70 tracking-widest">
-            {{item.title.toUpperCase()}}
-          </span>
-          <span class="text-[3rem] font-semibold">
-            {{item.count}}
-          </span>
-          <span class="text-sm tracking-wide">
-            {{item.subtitle}}
-          </span>
+    <div class="grid w-full gap-4 sm:grid-cols-3">
+      @for (item of state().content; track item.title) {
+        <article class="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-5">
+          <h3 class="text-xs font-medium tracking-[0.2em] text-muted-foreground">
+            {{ item.title.toUpperCase() }}
+          </h3>
+          <p class="text-5xl font-semibold tracking-tight tabular-nums">{{ item.count }}</p>
+          <p class="text-sm text-foreground">{{ item.subtitle }}</p>
 
-          <div class="border w-full my-2"></div>
+          <hr class="border-border" />
 
-          <span class="text-xs text-start text-gray-300/70 tracking-widest my-2">{{item.description}}</span>
-          <button class="text-sm my-2 text-[#912F56]">
-            {{"View Details →"}}
-          </button>
-        </button>
+          <p class="text-xs tracking-widest text-muted-foreground uppercase">
+            {{ item.description }}
+          </p>
+        </article>
       }
     </div>
   }

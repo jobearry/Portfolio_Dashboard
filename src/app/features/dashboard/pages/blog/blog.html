@@ -1,20 +1,45 @@
-@if(notionService.state().loading){
-  <app-skeleton-item></app-skeleton-item>
-}@else {
-  <div class="flex flex-col lg:grid lg:grid-cols-2 gap-2 p-3">
-    @for (item of notionService.state().content; track $index) {
-      <div>
-        <a [href]="parseUrl(item.url)" target="_blank" rel="noopener noreferrer"
-          [class]="`text-start bg-muted/50 p-3.5 rounded-sm ${transitionMoveUp}
-            flex items-center gap-3 w-full`">
-            <span class="text-lg font-bold">{{$index < 9? `0${$index + 1}` : $index + 1}}</span>
-            <div class="flex-1">
-              <h3>{{item.title}}</h3>
-              <p class="text-zinc-500">{{item.date}}</p>
-            </div>
-            <ng-icon hlm name="lucideExternalLink" size="sm" class="font-bold" />
+<section class="flex w-full flex-col gap-5">
+  @if (state().loading) {
+    <app-skeleton variant="entries" [rows]="4" />
+  } @else if (state().error) {
+    <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
+  } @else if (!state().content || state().content?.length === 0) {
+    <app-state-message kind="empty" message="No blog entries are available yet." />
+  } @else {
+    <app-page-header
+      eyebrow="Writing"
+      title="Notes from the journey"
+      description="Thoughts on software, projects, and the lessons along the way."
+    />
+
+    <ul class="grid gap-3 lg:grid-cols-2">
+      @for (item of state().content; track $index) {
+        <li>
+          <a
+            class="group flex h-full w-full items-center gap-4 rounded-lg border border-border bg-muted/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:-translate-y-0.5 focus-visible:shadow-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            [href]="parseUrl(item.url)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="text-2xl font-bold text-muted-foreground tabular-nums" aria-hidden="true">
+              {{ indexLabel($index) }}
+            </span>
+
+            <span class="flex min-w-0 flex-1 flex-col gap-1">
+              <h3 class="text-sm font-semibold text-foreground">{{ item.title }}</h3>
+              <span class="text-xs text-muted-foreground">{{ item.date }}</span>
+            </span>
+
+            <ng-icon
+              class="shrink-0 text-muted-foreground transition-colors group-hover:text-foreground"
+              name="lucideExternalLink"
+              size="16"
+            />
+
+            <span class="sr-only">(opens in a new tab)</span>
           </a>
-      </div>
-    }
-  </div>
-}
+        </li>
+      }
+    </ul>
+  }
+</section>

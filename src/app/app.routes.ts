@@ -1,47 +1,49 @@
 import { Routes } from '@angular/router';
+import { site } from './core/config/site.config';
+
+const page = (label: string) => ({
+  title: `${label} | ${site.profile.name}`,
+  data: { pageTitle: label },
+});
 
 export const routes: Routes = [
   {
-    path: "",
-    loadComponent: () => import('./features/dashboard/shell/dashboard').then(m => m.Dashboard),
-    title: "Dashboard | Jonathan Golimlim",
+    path: '',
+    loadComponent: () => import('./features/dashboard/shell/dashboard').then((m) => m.Dashboard),
+    title: `Dashboard | ${site.profile.name}`,
     children: [
       {
-        path: "dashboard",
-        loadComponent: () => import('./features/dashboard/pages/home/dashboard-home').then(m => m.DashboardHome),
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/overview/overview').then((m) => m.Overview),
+        ...page('Dashboard'),
       },
       {
-        path: "timeline",
-        loadComponent: () => import('./features/dashboard/pages/timeline/timeline').then(m => m.Timeline),
+        path: 'timeline',
+        loadComponent: () =>
+          import('./features/dashboard/pages/timeline/timeline').then((m) => m.Timeline),
+        ...page('Timeline'),
       },
       {
-        path: "profile",
-        loadComponent: () => import('./features/dashboard/pages/profile/profile').then(m => m.Profile),
-      },
-      // {
-      //   path: "portfolio",
-      //   component: Portfolio,
-      //   title: "Portfolio | Jonathan Golimlim",
-      //   children:[
-      //     {
-      //       path: "",
-      //       redirectTo: "profile",
-      //       pathMatch: "full"
-      //     },
-      //     { path: "experience", component: ExperienceComponent },
-      //     { path: "skill", component: SkillComponent },
-      //     // { path: "project", component: ProjectComponent },
-      //   ]
-      // },
-      {
-        path: "blog",
-        loadComponent: () => import('./features/dashboard/pages/blog/blog').then(m => m.Blog),
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/dashboard/pages/profile/profile').then((m) => m.Profile),
+        ...page('Profile'),
       },
       {
-        path: "**",
-        redirectTo: "dashboard",
-        pathMatch: "full",
-      }
-    ]
+        path: 'blog',
+        loadComponent: () => import('./features/dashboard/pages/blog/blog').then((m) => m.Blog),
+        ...page('Blog'),
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+      {
+        path: '**',
+        redirectTo: 'dashboard',
+      },
+    ],
   },
 ];

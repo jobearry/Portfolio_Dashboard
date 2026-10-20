@@ -1,4 +1,4 @@
-import { TechStack } from "./techstack";
+import { TechStack } from './techstack';
 
 export interface Project {
   projectId: number;

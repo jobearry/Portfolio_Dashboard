@@ -1,4 +1,4 @@
-import { Role } from "./value-objects/role";
+import { Role } from './value-objects/role';
 
 export interface FeedbackItem {
   id: number;
