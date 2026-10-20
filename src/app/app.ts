@@ -7,10 +7,8 @@ import { PORTFOLIO_ICONS } from './features/dashboard/constants/portfolio.consta
 @Component({
   selector: 'app-root',
   imports: [RouterModule],
-  providers: provideIcons({...SIDEBAR_ICONS, ...PORTFOLIO_ICONS}),
+  providers: provideIcons({ ...SIDEBAR_ICONS, ...PORTFOLIO_ICONS }),
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
-
-}
+export class App {}

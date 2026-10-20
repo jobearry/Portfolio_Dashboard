@@ -86,9 +86,11 @@ Nothing in this phase is cosmetic. No tokens, no restyling, no shell rewrite.
 - **Navbar title still click-driven.** Fixing it requires the route titles that
   land in 006, so `pagename` remains for now; only the `console.log` was
   removed.
-- **API host unreachable from the dev machine** at implementation time, so the
-  data-render path was verified with unit tests and the error path was verified
-  in headless Chromium (see verification).
+- **API reachability:** the local API (`http://localhost:5254/api`) is up. The
+  first verification attempt used a second dev server on `:4300`, which is not
+  in the .NET CORS allowlist, so every request was blocked and the error state
+  rendered. Verification on `:4200` renders real data. Recorded here so future
+  phases do not repeat the port mismatch.
 
 ## Verification
 
@@ -96,9 +98,14 @@ Nothing in this phase is cosmetic. No tokens, no restyling, no shell rewrite.
 - [x] `npm test` — 7 tests pass.
 - [x] All four routes serve and render: `/dashboard`, `/timeline`, `/profile`,
       `/blog`.
-- [x] With the API unreachable: `/dashboard`, `/timeline`, `/blog`, and the
-      wildcard redirect each render one error alert with **Try again**;
-      `/profile` renders two (recommendations + skills). No skeleton remains.
+- [x] With the API unreachable (CORS-blocked port): `/dashboard`, `/timeline`,
+      `/blog`, and the wildcard redirect each render one error alert with
+      **Try again**; `/profile` renders two (recommendations + skills). No
+      skeleton remains.
+- [x] With the API reachable (`:4200`, browser + headless): `/dashboard` renders
+      3 metric cards, `/timeline` renders its experience list, `/profile`
+      renders recommendations + skills, `/blog` renders 5 entries with correct
+      Notion links. No alerts, no skeletons.
 - [x] Overview cards are `<article>` elements with no `<button>` and no
       "View Details".
 - [x] `grep -rn "console.log" src/` returns nothing.

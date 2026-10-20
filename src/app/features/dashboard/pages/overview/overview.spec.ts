@@ -51,9 +51,9 @@ describe('Overview', () => {
     const fixture = TestBed.createComponent(Overview);
     fixture.detectChanges();
 
-    http.expectOne((req) => req.url.endsWith('/v1/overview')).flush([
-      { title: 'projects', subtitle: 'Delivered', count: 3, description: 'Across teams' },
-    ]);
+    http
+      .expectOne((req) => req.url.endsWith('/v1/overview'))
+      .flush([{ title: 'projects', subtitle: 'Delivered', count: 3, description: 'Across teams' }]);
 
     await new Promise<void>((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();

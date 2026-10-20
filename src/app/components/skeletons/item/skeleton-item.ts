@@ -15,7 +15,6 @@ import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
         </div>
       </div>
     </a>
-
   `,
   styles: ``,
 })

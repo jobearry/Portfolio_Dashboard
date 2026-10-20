@@ -84,7 +84,7 @@ decisions below always win.
 Each phase is one commit / PR. Do not start phase N+1 until phase N's
 verification checklist and exit criteria pass.
 
-Progress: **002 Done.** 003–008 Draft.
+Progress: **002 Done, 003 Done.** 004–008 Draft.
 
 ## Cross-phase verification (run at the end of every phase)
 

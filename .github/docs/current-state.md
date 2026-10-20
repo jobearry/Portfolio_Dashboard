@@ -13,7 +13,10 @@ the rewrite.
 | Icons | `@ng-icons/core` + `@ng-icons/lucide` |
 | HTTP | `HttpClient`, wrapped by a custom `ApiClient` |
 | State | Angular signals, per-entity services |
-| Tests | Vitest via `@angular/build:unit-test` (default spec, service error contract, overview states) |
+| Tests | Vitest via `@angular/build:unit-test` (shell/routing + service/overview specs) |
+| Lint | ESLint 9 flat config, `angular-eslint` + `typescript-eslint`, conservative rules |
+| Format | Prettier 3 (`printWidth: 100`, `singleQuote: true`) |
+| CI | GitHub Actions on PRs and `main` pushes: lint → format → build → test |
 | Deploy | Vercel (`vercel.json`, `vercel-build` → `build:prod`) |
 
 ## 2. Entry chain

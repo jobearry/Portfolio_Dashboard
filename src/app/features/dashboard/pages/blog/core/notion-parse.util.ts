@@ -1,8 +1,8 @@
 export const convertNotionUrl = (url: string, publicDomain: string) => {
-  try{
+  try {
     const parsed = new URL(url);
     return `https://${publicDomain}${parsed.pathname}`;
-  }catch{
+  } catch {
     return url;
   }
-}
+};

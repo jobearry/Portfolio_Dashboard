@@ -16,7 +16,9 @@
 
     <div class="grid w-full gap-2 border-b p-3 sm:grid-cols-3">
       @for (item of state().content; track item.title) {
-        <article class="flex h-fit w-full flex-col items-start justify-between rounded-sm border p-4">
+        <article
+          class="flex h-fit w-full flex-col items-start justify-between rounded-sm border p-4"
+        >
           <span class="text-xs tracking-widest text-gray-300/70">
             {{ item.title.toUpperCase() }}
           </span>

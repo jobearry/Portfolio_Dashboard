@@ -1,0 +1,6 @@
+dist
+.angular
+node_modules
+libs/ui
+src/environments
+package-lock.json

@@ -87,13 +87,18 @@ Known issues in the current app and questions to resolve while rewriting.
 
 ## Tooling / fixtures
 
-- **No ESLint configuration** and no `npm run lint` script. (003)
-- **No CI workflow** under `.github/workflows`. (003)
-- **Tests are minimal** (default spec + service/overview error-state specs).
-  (003)
+- **ESLint** is configured (`eslint.config.js`, `npm run lint`) with
+  conservative rules; `libs/ui` is excluded until 008.
+- **Prettier** is configured (`.prettierrc`, `format` / `format:check`), and all
+  of `src/` is formatted.
+- **CI** runs lint → format check → build → test on PRs and `main` pushes
+  (`.github/workflows/ci.yml`).
+- **Tests** cover shell routing, the portfolio service error contract, and the
+  overview states. Screen component tests arrive with 007.
 - **Environment generation:** `scripts/genenv.js` overwrites
   `src/environments/*.ts` on `start`/`build` from `.env`; missing `.env` values
-  produce an empty `portfolioApi`, which yields relative `/v1/...` calls.
+  produce an empty `portfolioApi`, which yields relative `/v1/...` calls. CI does
+  not need `.env` because the build only compiles.
 - **Hardcoded dark mode** until 004.
 
 ## Decisions for the Tailwind-only rewrite
