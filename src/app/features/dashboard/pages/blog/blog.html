@@ -6,6 +6,12 @@
   } @else if (!state().content || state().content?.length === 0) {
     <app-state-message kind="empty" message="No blog entries are available yet." />
   } @else {
+    <app-page-header
+      eyebrow="Writing"
+      title="Notes from the journey"
+      description="Thoughts on software, projects, and the lessons along the way."
+    />
+
     <ul class="grid gap-3 lg:grid-cols-2">
       @for (item of state().content; track $index) {
         <li>
@@ -20,7 +26,7 @@
             </span>
 
             <span class="flex min-w-0 flex-1 flex-col gap-1">
-              <h2 class="text-sm font-semibold text-foreground">{{ item.title }}</h2>
+              <h3 class="text-sm font-semibold text-foreground">{{ item.title }}</h3>
               <span class="text-xs text-muted-foreground">{{ item.date }}</span>
             </span>
 

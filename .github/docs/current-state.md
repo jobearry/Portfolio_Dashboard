@@ -9,7 +9,7 @@ the Tailwind rewrite (002–008).
 | ---------- | ------------------------------------------------------------------------------------ |
 | Framework  | Angular 21, standalone components, lazy `loadComponent` routes                       |
 | Styling    | Tailwind CSS v4 (PostCSS), own `@theme` tokens, light + dark                         |
-| Components | Plain Tailwind; shared `StateMessage` + `Skeleton` primitives                        |
+| Components | Plain Tailwind; shared `PageHeader`, `StateMessage`, `Skeleton` primitives           |
 | Icons      | `@ng-icons/core` + `@ng-icons/lucide`                                                |
 | HTTP       | `HttpClient`, wrapped by a custom `ApiClient`                                        |
 | State      | Angular signals, per-entity services                                                 |
@@ -114,6 +114,8 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
 
 ### Shared UI — `src/app/shared/ui/`
 
+- `page-header` — shared eyebrow / `h2` / optional description block used by
+  Timeline and Blog.
 - `state-message` — error/empty block used by every data screen, with optional
   **Try again** output.
 - `skeleton` — `app-skeleton` loading placeholder with `text`, `card`, `list`,

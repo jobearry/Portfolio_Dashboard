@@ -72,7 +72,9 @@ its data comes from, and what can be interacted with.
   error block with **Try again** on failure; empty message when there is no
   experience.
 - **Shows:**
-  1. Section label **CAREER** (`h2`).
+  1. Header block (`app-page-header`): eyebrow **CAREER**, `h2` **Experience
+     timeline**, caption "Roles, responsibilities, and the projects I've worked
+     on."
   2. Vertical list of bordered experience cards:
      - Company `company.name` (`h3`)
      - Pill with start year from `duration.startedAt`; the pill is omitted when
@@ -130,9 +132,12 @@ its data comes from, and what can be interacted with.
 - **Data:** `GET v1/notion/{site.notion.pageId}` → `NotionPageCard[]` via
   `NotionSignalService`. The page ID comes from `site.notion` (005).
 - **Loading:** `app-skeleton` (`entries` variant).
+- **Header:** `app-page-header` with eyebrow **WRITING**, `h2` **Notes from the
+  journey**, caption "Thoughts on software, projects, and the lessons along the
+  way."
 - **Shows:** responsive 2-column grid (`lg:grid-cols-2`) of external links:
   - two-digit index (`01`, `02`, …; single digit gets a leading zero)
-  - `title` (`h2`)
+  - `title` (`h3`)
   - `date`
   - `lucideExternalLink` icon
   - visually hidden "(opens in a new tab)" for screen readers

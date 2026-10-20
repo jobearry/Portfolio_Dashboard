@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@a
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideExternalLink } from '@ng-icons/lucide';
 import { site } from '../../../../core/config/site.config';
-import { Skeleton, StateMessage } from '../../../../shared';
+import { PageHeader, Skeleton, StateMessage } from '../../../../shared';
 
 import { convertNotionUrl, NOTION_PUBLIC_DOMAIN } from './core';
 import { NotionSignalService } from './store';
 
 @Component({
   selector: 'app-blog',
-  imports: [NgIcon, Skeleton, StateMessage],
+  imports: [NgIcon, PageHeader, Skeleton, StateMessage],
   templateUrl: './blog.html',
   providers: [provideIcons({ lucideExternalLink })],
   changeDetection: ChangeDetectionStrategy.OnPush,

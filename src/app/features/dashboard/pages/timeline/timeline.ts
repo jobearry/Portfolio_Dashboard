@@ -1,10 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
-import { ExperienceSignalService, getContent, Skeleton, StateMessage } from '../../../../shared';
+import {
+  ExperienceSignalService,
+  getContent,
+  PageHeader,
+  Skeleton,
+  StateMessage,
+} from '../../../../shared';
 import { ExperienceTimeline } from '../../core';
 
 @Component({
   selector: 'app-timeline',
-  imports: [Skeleton, StateMessage],
+  imports: [PageHeader, Skeleton, StateMessage],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="flex w-full flex-col gap-5">
@@ -18,11 +24,11 @@ import { ExperienceTimeline } from '../../core';
       } @else if (state().content.length === 0) {
         <app-state-message kind="empty" message="No experience has been published yet." />
       } @else {
-        <header class="border-b border-border pb-4">
-          <h2 class="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
-            Career
-          </h2>
-        </header>
+        <app-page-header
+          eyebrow="Career"
+          title="Experience timeline"
+          description="Roles, responsibilities, and the projects I've worked on."
+        />
 
         <ul class="flex flex-col gap-4">
           @for (experience of state().content; track experience.id) {
