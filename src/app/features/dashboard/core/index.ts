@@ -1,9 +1,5 @@
-export * from './models/dashboard-item';
+export * from './models/overview-item';
 export * from './models/project';
 export * from './models/experience';
 export * from './models/techstack';
 export * from './models/feedback-item';
-
-export * from './models/value-objects/company';
-export * from './models/value-objects/period';
-export * from './models/value-objects/role';

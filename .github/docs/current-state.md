@@ -172,7 +172,7 @@ Live:
 
 | Endpoint                             | Used by                   | Response type          |
 | ------------------------------------ | ------------------------- | ---------------------- |
-| `v1/overview`                        | Overview                  | `DashboardItem[]`      |
+| `v1/overview`                        | Overview                  | `OverviewItem[]`       |
 | `v1/experience?includeProjects=true` | Timeline                  | `ExperienceTimeline[]` |
 | `v1/skill`                           | Profile → Skills          | `TechStackItem[]`      |
 | `v1/recommendation`                  | Profile → Recommendations | `FeedbackItem[]`       |
@@ -186,7 +186,9 @@ screens are deleted.
 
 `src/app/features/dashboard/core/models/`
 
-- `DashboardItem { title, subtitle, count, description }`
+- `OverviewItem { key, count }`; Overview displays each API-provided `key` in
+  uppercase with a matching local subtitle (key-derived fallback for unknown
+  values).
 - `ExperienceTimeline { id, company: Company, duration: Period, description, role: Role, responsibility, type, projects?: Project[] | null }`
 - `Project { projectId, projectName, description, coverImg, duration, contribution, techStackSpecs: TechStack[] }`
 - `TechStack { specId, toolName, imgSrc, createdAt, stackId, stack }`

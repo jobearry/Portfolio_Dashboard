@@ -22,10 +22,10 @@ import { TechStackItem } from '../../../core';
           Skill
         </h3>
 
-        <ul class="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
+        <ul class="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 lg:grid-cols-3">
           @for (item of state().content; track item.id) {
             <li
-              class="flex w-full flex-col gap-1 rounded-md border border-border bg-muted/50 p-3 break-words"
+              class="flex w-full flex-col gap-1 rounded-md border border-border bg-muted/50 p-3 wrap-break-word transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:-translate-y-0.5 focus-visible:shadow-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               <span class="text-sm font-semibold">{{ item.stackName }}</span>
               <span class="text-xs tracking-wide text-muted-foreground">{{ item.category }}</span>

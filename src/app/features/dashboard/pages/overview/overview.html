@@ -16,19 +16,15 @@
     </header>
 
     <div class="grid w-full gap-4 sm:grid-cols-3">
-      @for (item of state().content; track item.title) {
-        <article class="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-5">
+      @for (item of state().content; track item.key) {
+        <article
+          class="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-5 transition-colors"
+        >
           <h3 class="text-xs font-medium tracking-[0.2em] text-muted-foreground">
-            {{ item.title.toUpperCase() }}
+            {{ item.key.toUpperCase() }}
           </h3>
           <p class="text-5xl font-semibold tracking-tight tabular-nums">{{ item.count }}</p>
-          <p class="text-sm text-foreground">{{ item.subtitle }}</p>
-
-          <hr class="border-border" />
-
-          <p class="text-xs tracking-widest text-muted-foreground uppercase">
-            {{ item.description }}
-          </p>
+          <p class="text-sm text-muted-foreground">{{ subtitleFor(item.key) }}</p>
         </article>
       }
     </div>

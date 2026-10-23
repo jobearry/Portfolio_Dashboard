@@ -1,6 +1,9 @@
 <section class="flex w-full flex-col gap-5">
   @if (state().loading) {
-    <app-skeleton variant="entries" [rows]="4" />
+    <div class="flex flex-col gap-5">
+      <app-skeleton variant="text" [rows]="3" />
+      <app-skeleton variant="entries" [rows]="4" />
+    </div>
   } @else if (state().error) {
     <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
   } @else if (!state().content || state().content?.length === 0) {

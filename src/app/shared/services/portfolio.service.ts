@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  DashboardItem,
+  OverviewItem,
   ExperienceTimeline,
   FeedbackItem,
-  TechStackItem,
+  TechStackItem
 } from '../../features/dashboard/core';
 import { PortfolioSignalService } from './portfolio-base.service';
 
@@ -14,7 +14,7 @@ export class ExperienceSignalService extends PortfolioSignalService<ExperienceTi
 export class SkillsSignalService extends PortfolioSignalService<TechStackItem> {}
 
 @Injectable({ providedIn: 'root' })
-export class OverviewSignalService extends PortfolioSignalService<DashboardItem> {}
+export class OverviewSignalService extends PortfolioSignalService<OverviewItem> {}
 
 @Injectable({ providedIn: 'root' })
 export class RecommendationService extends PortfolioSignalService<FeedbackItem> {}

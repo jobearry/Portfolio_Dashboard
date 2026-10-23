@@ -63,7 +63,7 @@ import { SkillComponent } from './components/skill';
       </section>
 
       <section class="rounded-lg border border-border p-5">
-        <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+        <div class="flex flex-col gap-5 sm:items-start">
           <div class="w-full">
             <app-recommendations></app-recommendations>
           </div>

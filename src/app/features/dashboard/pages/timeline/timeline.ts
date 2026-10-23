@@ -16,7 +16,7 @@ import { ExperienceTimeline } from '../../core';
     <section class="flex w-full flex-col gap-5">
       @if (state().loading) {
         <div class="flex flex-col gap-5">
-          <app-skeleton variant="text" [rows]="1" />
+          <app-skeleton variant="text" [rows]="3" />
           <app-skeleton variant="list" [rows]="3" />
         </div>
       } @else if (state().error) {
@@ -34,9 +34,9 @@ import { ExperienceTimeline } from '../../core';
           @for (experience of state().content; track experience.id) {
             <li class="flex flex-col gap-4 rounded-lg border border-border bg-muted/50 p-4 sm:p-5">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold">{{ experience.company.name }}</h3>
+                <h3 class="text-lg font-semibold">{{ experience.company }}</h3>
 
-                @if (year(experience.duration.startedAt); as startYear) {
+                @if (year(experience.startedAt); as startYear) {
                   <span
                     class="w-fit rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground tabular-nums"
                   >
@@ -47,7 +47,7 @@ import { ExperienceTimeline } from '../../core';
 
               <div class="flex flex-col gap-1">
                 <p class="text-sm font-medium text-foreground">
-                  {{ experience.role.value }}
+                  {{ experience.role }}
                   <span class="font-normal text-muted-foreground">
                     | {{ experience.description }}
                   </span>
@@ -107,7 +107,7 @@ export class Timeline implements OnInit {
 
   protected load() {
     return getContent<ExperienceTimeline>(
-      'v1/experience?includeProjects=true',
+      'v1/experience?includeProjects=false',
       this._experienceService,
     );
   }

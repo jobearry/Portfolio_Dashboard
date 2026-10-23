@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@a
 import { getContent, Skeleton, StateMessage } from '../../../../shared';
 import { OverviewSignalService } from '../../../../shared/services/portfolio.service';
 import { site } from '../../../../core/config/site.config';
-import { DashboardItem } from '../../core/models/dashboard-item';
+import { OverviewItem } from '../../core/models/overview-item';
 
 @Component({
   selector: 'app-overview',
@@ -20,6 +20,19 @@ export class Overview implements OnInit {
   }
 
   protected load() {
-    return getContent<DashboardItem>('v1/overview', this._overviewService);
+    return getContent<OverviewItem>('v1/overview', this._overviewService);
+  }
+
+  protected subtitleFor(key: string): string {
+    switch (key.toLowerCase()) {
+      case 'projects':
+        return 'Selected work and portfolio projects';
+      case 'skills':
+        return 'Technologies and tools in my toolkit';
+      case 'recommendations':
+        return 'Feedback from people I have worked with';
+      default:
+        return `Overview of ${key.toLowerCase().replaceAll('_', ' ')}`;
+    }
   }
 }

@@ -44,20 +44,23 @@ its data comes from, and what can be interacted with.
 
 - **Files:** `pages/overview/overview.{ts,html}` (the `pages/home` wrapper was removed in 007).
 - **Reach:** sidebar "Dashboard", wildcard redirect, or direct URL.
-- **Data:** `GET v1/overview` → `DashboardItem[]` via `OverviewSignalService`.
+- **Data:** `GET v1/overview` → `OverviewItem[]` (`key`, `count`) via
+  `OverviewSignalService`.
 - **States:** `app-skeleton` (`text` + `card` variants) while loading; shared
   error block with **Try again** on failure; empty message when the API returns
   no items; cards otherwise.
 - **Shows:**
   1. Header block: eyebrow "Hello,", `h2` with `site.profile.name` (config, not
      hardcoded copy), caption "Welcome back to your portfolio dashboard".
-  2. Responsive grid (`sm:grid-cols-3`) of bordered cards (`bg-muted/30`), one
-     per API item:
-     - uppercase `title`
+  2. Responsive grid (`sm:grid-cols-3`, capped at `56rem`) of bordered
+     cards (`bg-muted/30`), one per API item:
+     - uppercase `key` value returned by the API
+     - subtitle with metric-specific copy for known keys and key-derived copy
+       for other keys
      - `count` in `text-5xl` semibold, tabular numerals
-     - `subtitle`
-     - divider
-     - `description` (small, uppercase tracking)
+     - border transitions to the existing brand accent on hover
+  - The current template repeats the metric loop; it was left unchanged at the
+    user's direction.
 - **Interactions:** none — the cards are informational. The former
   "View Details →" button (and the nested `<button>`) is gone.
 
@@ -118,8 +121,8 @@ its data comes from, and what can be interacted with.
        showing `personName`, `careerPosition.value`, and the quoted
        `description`.
      - **Skills:** heading **SKILL** (`h3`) with accent dot; one column on
-       narrow screens, two columns from `380px`, tiles show `stackName` and
-       `category` (`break-words` prevents clipping).
+       narrow screens, two columns from `380px`, and three columns from `lg`;
+       tiles show `stackName` and `category` (`break-words` prevents clipping).
 - **Interactions:** only the two external links.
 - **Note:** despite the README, there is no editing/CRUD on this page.
 
