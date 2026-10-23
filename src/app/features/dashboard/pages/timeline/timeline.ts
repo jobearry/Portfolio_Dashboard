@@ -31,7 +31,7 @@ import { ExperienceTimeline } from '../../core';
         />
 
         <ul class="flex flex-col gap-4">
-          @for (experience of state().content; track experience.id) {
+          @for (experience of orderedExperiences(); track experience.id) {
             <li class="flex flex-col gap-4 rounded-lg border border-border bg-muted/50 p-4 sm:p-5">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h3 class="text-lg font-semibold">{{ experience.company }}</h3>
@@ -100,6 +100,11 @@ import { ExperienceTimeline } from '../../core';
 export class Timeline implements OnInit {
   private readonly _experienceService = inject(ExperienceSignalService);
   protected readonly state = computed(() => this._experienceService.getState());
+  protected readonly orderedExperiences = computed(() =>
+    [...this.state().content].sort((left, right) => {
+      return Date.parse(right.startedAt) - Date.parse(left.startedAt);
+    }),
+  );
 
   ngOnInit() {
     void this.load();

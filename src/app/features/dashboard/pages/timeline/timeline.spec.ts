@@ -19,10 +19,12 @@ describe('Timeline', () => {
 
   const base: ExperienceTimeline = {
     id: 1,
-    company: { name: 'Acme' },
-    duration: { startedAt: '2020-01-01', finishedAt: '', duration: '' },
+    company: 'Acme',
+    startedAt: '2020-01-01',
+    finishedAt: null,
+    durationMonths: 12,
     description: 'Built things',
-    role: { value: 'Engineer' },
+    role: 'Engineer',
     responsibility: 'Shipped features',
     type: 'Full-time',
     projects: null,
@@ -41,15 +43,24 @@ describe('Timeline', () => {
   }
 
   it('renders the start year only when the date is valid', async () => {
-    const element = await render([
-      base,
-      { ...base, id: 2, duration: { ...base.duration, startedAt: 'not-a-date' } },
-    ]);
+    const element = await render([base, { ...base, id: 2, startedAt: 'not-a-date' }]);
 
     expect(element.textContent).toContain('2020');
     expect(element.querySelectorAll('.tabular-nums').length).toBe(1);
     expect(element.textContent).not.toContain('Invalid');
     expect(element.textContent).not.toContain('NaN');
+  });
+
+  it('orders experiences by start date descending', async () => {
+    const element = await render([
+      { ...base, id: 1, company: 'Older', startedAt: '2020-01-01' },
+      { ...base, id: 2, company: 'Middle', startedAt: '2022-01-01' },
+      { ...base, id: 3, company: 'Newest', startedAt: '2024-06-01' },
+    ]);
+
+    expect(
+      [...element.querySelectorAll('li > div h3')].map((heading) => heading.textContent),
+    ).toEqual(['Newest', 'Middle', 'Older']);
   });
 
   it('renders nested projects and tech chips', async () => {

@@ -71,6 +71,7 @@ its data comes from, and what can be interacted with.
 - **File:** `pages/timeline/timeline.ts` (inline template, no HTML file)
 - **Reach:** sidebar "Timeline" or direct URL.
 - **Data:** `GET v1/experience?includeProjects=true` → `ExperienceTimeline[]`.
+- **Ordering:** experiences are ordered by `startedAt` newest to oldest.
 - **States:** `app-skeleton` (`text` + `list` variants) while loading; shared
   error block with **Try again** on failure; empty message when there is no
   experience.

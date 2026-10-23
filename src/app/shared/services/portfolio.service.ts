@@ -3,7 +3,7 @@ import {
   OverviewItem,
   ExperienceTimeline,
   FeedbackItem,
-  TechStackItem
+  TechStackItem,
 } from '../../features/dashboard/core';
 import { PortfolioSignalService } from './portfolio-base.service';
 
