@@ -18,6 +18,6 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class Marquee {
-  @ContentChild(TemplateRef) contentTpl?: TemplateRef<any>;
+  @ContentChild(TemplateRef) contentTpl?: TemplateRef<unknown>;
   title = input<string>("")
 }

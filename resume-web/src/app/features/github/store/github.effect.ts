@@ -4,27 +4,26 @@ import { Store } from "@ngrx/store";
 import { GithubAPIActions } from "./github.action";
 import { catchError, concatMap, map, of, switchMap, take, from, mergeMap, toArray } from "rxjs";
 import { GithubService } from "./github.service";
-import { GithubRepo } from "../types/github.type";
+import { GithubCommit, GithubRepo } from "../types/github.type";
 import { State } from "../../../shared/store.provider";
 
 @Injectable()
 export class ProjectEffects{
+  private githubService = inject(GithubService);
+  private store = inject<Store<State>>(Store);
+
   private actions$ = inject(Actions);
-  constructor(
-    private githubService: GithubService,
-    private store: Store<State>
-  ){}
 
   _getGithubRepos = createEffect(() =>
     this.actions$.pipe(
       ofType(GithubAPIActions.viewGithubProjects),
-      switchMap((actions) => {
+      switchMap(() => {
         return this.githubService.get<GithubRepo[]>("user/repos").pipe(
           map(repos => {
             const publicRepos = repos.filter(x => x.private !== true)
             return GithubAPIActions.viewGithubProjectsSuccess({repos: publicRepos})
           }),
-          catchError(err => {
+          catchError(() => {
             return of(GithubAPIActions.viewGithubProjectsFail())
           })
         )
@@ -40,18 +39,18 @@ export class ProjectEffects{
           take(1),
           switchMap((project) => {
 
-            const aggregateCommitsFor = (reposList: GithubRepo[] | any[]) => {
+            const aggregateCommitsFor = (reposList: GithubRepo[]) => {
               return from(reposList).pipe(
-                mergeMap((r: any) => {
+                mergeMap(r => {
                   const full = r.full_name || `${r.owner?.login}/${r.name}`;
                   const endpoint = `repos/${full}/commits?since=${encodeURIComponent(actions.startDate)}&until=${encodeURIComponent(actions.endDate)}`;
-                  return this.githubService.getAllPages<any>(endpoint).pipe(
+                  return this.githubService.getAllPages<GithubCommit>(endpoint).pipe(
                     map(commits => commits.map(c => ({ ...c, _repo: full })))
                   );
                 }, 4), // concurrency 4
                 toArray(),
                 map((arrOfArrays) => arrOfArrays.flat()),
-                map((commits) => GithubAPIActions.viewGithubCommitsSuccess({ commits } as any))
+                map(commits => GithubAPIActions.viewGithubCommitsSuccess({ commits }))
               );
             };
 
@@ -77,4 +76,3 @@ export class ProjectEffects{
     )
   )
 }
-

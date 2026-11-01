@@ -1,15 +1,15 @@
-import { Component, Input, OnChanges, SimpleChanges, Type, ViewContainerRef, ComponentRef, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Type, ViewContainerRef, ComponentRef, OnDestroy, inject } from '@angular/core';
 
 @Component({
   selector: 'app-host',
   template: '' // nothing rendered here; child component is created in the view container
 })
 export class DynamicHostComponent implements OnChanges, OnDestroy {
-  @Input() component!: Type<any>;
-  @Input() inputs?: Record<string, unknown>;
-  private compRef?: ComponentRef<any>;
+  private vcr = inject(ViewContainerRef);
 
-  constructor(private vcr: ViewContainerRef) {}
+  @Input() component!: Type<object>;
+  @Input() inputs?: Record<string, unknown>;
+  private compRef?: ComponentRef<object>;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['component'] && this.component) {

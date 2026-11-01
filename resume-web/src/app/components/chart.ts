@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, ViewChild, AfterViewInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
+import type { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'app-chart',
@@ -13,13 +14,13 @@ export class Chart implements AfterViewInit, OnDestroy, OnChanges {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
 
   // ECharts option object (pass any valid ECharts option)
-  @Input() options: any = null;
+  @Input() options: EChartsOption | null = null;
   // optional theme or string theme name
-  @Input() theme: any = null;
+  @Input() theme: string | object | null = null;
   // whether the chart should auto-resize on window resize
-  @Input() autoResize: boolean = true;
+  @Input() autoResize = true;
   // explicit container height (e.g. '320px', '200px')
-  @Input() height: string = '320px';
+  @Input() height = '320px';
 
   private chart: echarts.ECharts | null = null;
   private resizeHandler = () => this.chart?.resize();
@@ -63,7 +64,7 @@ export class Chart implements AfterViewInit, OnDestroy, OnChanges {
     }
   }
 
-  private defaultOptions() {
+  private defaultOptions(): EChartsOption {
     return {
       title: { text: 'Chart' },
       tooltip: { trigger: 'axis' },

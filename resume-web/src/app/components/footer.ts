@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ThemeToggler } from './theme-toggler';
 
 @Component({
   selector: 'app-footer',

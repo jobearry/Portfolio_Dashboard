@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { GithubRepo } from "../types/github.type";
+import { GithubCommit, GithubRepo } from "../types/github.type";
 
 export const GithubAPIActions = createActionGroup({
   source: 'GithubAPI',
@@ -9,7 +9,7 @@ export const GithubAPIActions = createActionGroup({
     ViewGithubProjectsFail: emptyProps(),
 
     ViewGithubCommits: props<{startDate: string, endDate: string}>(),
-    ViewGithubCommitsSuccess: props<{ commits: any[] }>(),
+    ViewGithubCommitsSuccess: props<{ commits: GithubCommit[] }>(),
     ViewGithubCommitsFail: emptyProps()
   }
 })

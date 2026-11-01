@@ -21,8 +21,8 @@ import { LucideAngularModule } from "lucide-angular";
   styles: ``,
 })
 export class Card {
-  @Input() title: string = '';
-  @Input() subtitle: string = '';
-  @Input() description: string = '';
-  @Input() hasIcon: boolean = true;
+  @Input() title = '';
+  @Input() subtitle = '';
+  @Input() description = '';
+  @Input() hasIcon = true;
 }

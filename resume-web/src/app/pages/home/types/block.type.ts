@@ -1,6 +1,6 @@
 import { Type } from "@angular/core";
 
-export interface BlockContent<T = unknown> {
+export interface BlockContent<T = object> {
   id: string;
   title?: string;
   class?: string;

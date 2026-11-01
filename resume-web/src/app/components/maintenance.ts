@@ -13,5 +13,5 @@ import { LucideAngularModule } from "lucide-angular";
   styles: ``,
 })
 export class Maintenance {
-  @Input() subtitle: string = "working on it"
+  @Input() subtitle = "working on it"
 }

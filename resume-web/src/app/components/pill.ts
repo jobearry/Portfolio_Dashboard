@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styles: ``,
 })
 export class Pill {
-  @Input() label: string = '';
+  @Input() label = '';
   @Input() variant: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' = 'neutral';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
 

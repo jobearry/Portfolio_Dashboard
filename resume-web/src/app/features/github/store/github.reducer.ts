@@ -1,7 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { GITHUB_REPO_STATE, GithubProjectState } from "./github.state";
 import { GithubAPIActions } from "./github.action";
-import { PROJECT_HIGHLIGHT } from "../../../pages/projects/constants/project.constant";
 
 export const projectReducer = createReducer(
   GITHUB_REPO_STATE,

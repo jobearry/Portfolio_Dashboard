@@ -1,8 +1,8 @@
-export type TimelineEvent = {
+export interface TimelineEvent {
   title: string;
   date: string;
   description?: string;
-};
+}
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     title: 'Applied ICT Inc.',

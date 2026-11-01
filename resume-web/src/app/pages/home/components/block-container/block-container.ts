@@ -8,8 +8,8 @@ import { Spinner } from '../../../../components/spinner';
   templateUrl: './block-container.html',
 })
 export class BlockComponent {
-  @Input() class: string = '';
-  @Input() title: string = '';
-  @Input() description: string = '';
-  @Input() loading: boolean = false;
+  @Input() class = '';
+  @Input() title = '';
+  @Input() description = '';
+  @Input() loading = false;
 }

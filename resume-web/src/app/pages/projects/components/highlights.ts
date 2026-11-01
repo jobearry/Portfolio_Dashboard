@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Project } from '../types/project.type';
 import { Router } from '@angular/router';
 import { Card } from "../../../components/card";
@@ -32,10 +32,11 @@ import { TRANSITION_MOVE_UP } from '../../../shared/constants/styles.constants';
   styles: [],
 })
 export class Highlights {
+  private router = inject(Router);
+
   @Input() data: Project[] = [];
-  @Input() gridStyle: string = ""
+  @Input() gridStyle = ""
   transition_up = TRANSITION_MOVE_UP
-  constructor(private router: Router){}
 
   gotoProjects() {
     this.router.navigate(['/projects']);

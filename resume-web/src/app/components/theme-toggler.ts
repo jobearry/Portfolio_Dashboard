@@ -51,74 +51,42 @@ export class ThemeToggler {
   isDark = false;
 
   constructor() {
-    // initialize based on: localStorage -> system preference -> light
+    let savedTheme: string | null = null;
     try {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark') this.isDark = true;
-      else if (saved === 'light') this.isDark = false;
-      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        this.isDark = true;
-      } else {
-        this.isDark = false;
-      }
-
-      // apply initial theme attribute and class on `html` (primary source-of-truth)
-      const html = document.documentElement;
-      if (html) {
-        if (this.isDark) {
-          html.classList.add('dark');
-          html.setAttribute('data-theme', 'dark');
-        } else {
-          html.classList.remove('dark');
-          html.setAttribute('data-theme', 'light');
-        }
-      }
-    } catch (e) {
-      // ignore
+      savedTheme = localStorage.getItem('theme');
+    } catch (error) {
+      console.warn('Unable to read the saved theme preference.', error);
     }
 
-    // listen for system preference changes (only if user hasn't chosen explicitly)
-    try {
-      const saved = localStorage.getItem('theme');
-      if (!saved && window.matchMedia) {
-        const m = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = (ev: MediaQueryListEvent) => {
-          const html = document.documentElement;
-          if (html) {
-            if (ev.matches) {
-              html.classList.add('dark');
-              html.setAttribute('data-theme', 'dark');
-            } else {
-              html.classList.remove('dark');
-              html.setAttribute('data-theme', 'light');
-            }
-          }
-        };
-        // modern API
-        if (typeof m.addEventListener === 'function') m.addEventListener('change', handler as any);
-        else if (typeof (m as any).addListener === 'function') (m as any).addListener(handler as any);
+    this.isDark = savedTheme === 'dark'
+      || (savedTheme !== 'light' && window.matchMedia?.('(prefers-color-scheme: dark)').matches === true);
+    this.applyThemeToDocument();
+
+    if (!savedTheme && window.matchMedia) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handler = (event: MediaQueryListEvent) => {
+        this.isDark = event.matches;
+        this.applyThemeToDocument();
+      };
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handler);
+      } else {
+        mediaQuery.addListener(handler);
       }
-    } catch {}
+    }
   }
 
   toggle() {
-    const html = document.documentElement;
-    if (!html) return;
-
     this.isDark = !this.isDark;
-
-    if (this.isDark) {
-      html.classList.add('dark');
-      html.setAttribute('data-theme', 'dark');
-      try { localStorage.setItem('theme', 'dark'); } catch {}
-    } else {
-      html.classList.remove('dark');
-      html.setAttribute('data-theme', 'light');
-      try { localStorage.setItem('theme', 'light'); } catch {}
+    this.applyThemeToDocument();
+    try {
+      localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+    } catch (error) {
+      console.warn('Unable to save the theme preference.', error);
     }
 
-    // brief pulse animation to emphasize change
-    try {
+    const html = document.documentElement;
+    if (typeof html.animate === 'function') {
       html.animate(
         [
           { filter: 'brightness(1)' },
@@ -127,6 +95,12 @@ export class ThemeToggler {
         ],
         { duration: 420, easing: 'ease-out' }
       );
-    } catch {}
+    }
+  }
+
+  private applyThemeToDocument(): void {
+    const html = document.documentElement;
+    html.classList.toggle('dark', this.isDark);
+    html.setAttribute('data-theme', this.isDark ? 'dark' : 'light');
   }
 }

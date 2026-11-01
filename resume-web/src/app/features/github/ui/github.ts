@@ -11,6 +11,6 @@ import { Card } from '../../../components/card';
   styles: ``,
 })
 export class Github {
-  @Input() loading: boolean = false;
+  @Input() loading = false;
   @Input() data: GithubRepo[] = [];
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Highlights } from "../components/highlights";
 import { LucideAngularModule } from "lucide-angular";
 import { BlockComponent } from "../../home/components/block-container/block-container";
@@ -27,12 +27,14 @@ import { ThemeToggler } from "../../../components/theme-toggler";
   styles: ``,
 })
 export class Projects implements OnInit {
+  private router = inject(Router);
+  private store = inject<Store<State>>(Store);
+
   corpoProjects: Project[] = PROJECT_HIGHLIGHT
   projectState$!: Observable<GithubProjectState>
-  constructor(
-    private router: Router,
-    private store: Store<State>
-  ){
+  constructor(){
+    const store = this.store;
+
     this.projectState$ = store.select(state => state.project)
   }
 

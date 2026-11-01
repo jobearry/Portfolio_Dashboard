@@ -1,19 +1,20 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { environment } from "../../../../environments/environment";
+import { HttpResponse } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
 import { expand, map, reduce } from "rxjs/operators";
 
 @Injectable({providedIn:'root'})
 export class GithubService {
+  private api = inject(HttpClient);
+
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${environment.githubToken}`,
     'Accept': 'application/vnd.github.v3+json'
   });
   private baseUrl = environment.githubURL;
-
-  constructor(private api: HttpClient){}
 
   public get<T>(endpoint: string): Observable<T>{
     const url = `${this.baseUrl}/${endpoint}`;
@@ -29,17 +30,17 @@ export class GithubService {
     const endpointWithPageSize = `${endpoint}${sep}per_page=100`;
     const firstUrl = `${this.baseUrl}/${endpointWithPageSize}`;
 
-    return this.api.get<T[]>(firstUrl, { headers: this.headers, observe: 'response' as any }).pipe(
-      expand((res: any) => {
-        const link = res.headers?.get?.('link') || '';
+    return this.api.get<T[]>(firstUrl, { headers: this.headers, observe: 'response' }).pipe(
+      expand((res: HttpResponse<T[]>) => {
+        const link = res.headers.get('link') || '';
         const m = link.match(/<([^>]+)>;\s*rel="next"/);
         if (m && m[1]) {
-          return this.api.get<T[]>(m[1], { headers: this.headers, observe: 'response' as any });
+          return this.api.get<T[]>(m[1], { headers: this.headers, observe: 'response' });
         }
         return EMPTY;
       }),
-      map((r: any) => r.body as T[]),
-      reduce((acc: T[], body: T[] | undefined) => acc.concat(body || []), [] as T[])
+      map(response => response.body ?? []),
+      reduce((acc: T[], body) => acc.concat(body), [] as T[])
     );
   }
 

@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { TRANSITION_MOVE_UP } from '../../../../shared/constants/styles.constants';
 import { LucideAngularModule } from 'lucide-angular';
-import { Marquee } from "../../../../components/marquee/marquee";
-import { TechStack } from "../tech-stack/tech-stack";
 import { ThemeToggler } from "../../../../components/theme-toggler";
 import { Pill } from "../../../../components/pill";
 
@@ -14,8 +12,9 @@ import { Pill } from "../../../../components/pill";
 })
 // Add theme-aware image swapping using Angular lifecycle hooks
 export class Profile implements OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+
   TRANSITION_MOVE_UP = TRANSITION_MOVE_UP;
-  constructor(private cdr: ChangeDetectorRef) {}
 
   // Image sources — update paths if you keep assets elsewhere
   darkSrc = '/profile_dark.png';
@@ -44,7 +43,11 @@ export class Profile implements OnInit, OnDestroy {
   private currentTheme(): 'dark' | 'light' {
     const ds = document.documentElement.dataset as DOMStringMap;
     const dt = ds['theme'];
-    return (dt as any) || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    return dt === 'dark' || dt === 'light'
+      ? dt
+      : document.documentElement.classList.contains('dark')
+        ? 'dark'
+        : 'light';
   }
 
   private applyTheme(): void {

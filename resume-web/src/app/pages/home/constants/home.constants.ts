@@ -4,12 +4,11 @@ import { TIMELINE_EVENTS } from '../components/timeline/timeline.constants';
 import { Highlights } from '../../projects/components/highlights';
 import { PROJECT_HIGHLIGHT } from '../../projects/constants/project.constant';
 import { BlockContent } from '../types/block.type';
-import { Heatmap } from '../../../features/github/components/heatmap';
 import { Maintenance } from '../../../components/maintenance';
 import { TechStackList } from '../components/tech-stack-list/tech-stack-list';
 import { Certifications } from '../components/certifications/certifications';
 
-export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
+export const SIDE_BLOCK_CONTENT: BlockContent[] = [
   {
     id: 'side_block_1',
     title: 'About',
@@ -34,7 +33,7 @@ export const SIDE_BLOCK_CONTENT: BlockContent<any>[] = [
   },
 ];
 
-export const MAIN_BLOCK_CONTENT: BlockContent<any>[] = [
+export const MAIN_BLOCK_CONTENT: BlockContent[] = [
   {
     id: 'main_block_1',
     title: 'Recent Projects',

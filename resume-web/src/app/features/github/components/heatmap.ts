@@ -1,49 +1,44 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Chart } from "../../../components/chart";
+import { AfterViewInit, Component, DestroyRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { State } from '../../../shared/store.provider';
 import { GithubAPIActions } from '../store/github.action';
-import { Spinner } from "../../../components/spinner";
+import { GithubCommit } from '../types/github.type';
 import { Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Maintenance } from "../../../components/maintenance";
+import type { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'app-heatmap',
-  imports: [Chart, Spinner, CommonModule, Maintenance],
+  imports: [Maintenance],
   templateUrl: `./heatmap.html`,
   styles: ``,
 })
-export class Heatmap implements OnInit, AfterViewInit {
+export class Heatmap implements OnInit, AfterViewInit, OnDestroy {
+  private store = inject<Store<State>>(Store);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+
   chartTheme?: string;
   private themeObserver?: MutationObserver;
-  @Input() data: any[] = []
-  option: any;
-  monthLabel: string = ""
+  @Input() data: GithubCommit[] = []
+  option: EChartsOption = {};
+  monthLabel = ""
   selectedYear!: number;
   selectedMonthIndex!: number;
-  totalCommits: number = 0;
+  totalCommits = 0;
   loading$: Observable<boolean>
-  constructor(
-    private store: Store<State>,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ){
+  constructor(){
     this.loading$ = this.store.select(state => state.project.loading)
   }
   ngOnInit(): void {
     this.chartTheme = this.readDocumentTheme();
-    try {
-      this.themeObserver = new MutationObserver(() => {
-        const t = this.readDocumentTheme();
-        if (t !== this.chartTheme) {
-          this.chartTheme = t;
-          try { this.cdr.detectChanges(); } catch (e) {}
-        }
-      });
-      this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
-    } catch (e) {}
+    this.themeObserver = new MutationObserver(() => {
+      const theme = this.readDocumentTheme();
+      if (theme !== this.chartTheme) this.chartTheme = theme;
+    });
+    this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
 
     const now = new Date();
     // use previous month
@@ -103,32 +98,32 @@ export class Heatmap implements OnInit, AfterViewInit {
     const year = this.selectedYear ?? now.getFullYear();
     const monthIndex = this.selectedMonthIndex ?? now.getMonth();
     // subscribe to commits and update heatmap when available
-    this.store.select(s => s.project.monthlyCommits).subscribe(commits => {
+    this.store.select(s => s.project.monthlyCommits)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(commits => {
       if (!commits || !commits.length) return;
       const data = this.buildHeatmapData(commits, year, monthIndex);
-      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ data:", data)
       // compute max commits to scale the color map so higher counts get darker shades
       const maxCount = data.reduce((mx, entry) => {
-        const v = Array.isArray(entry) ? (entry[1] as number | null) : null;
-        return Math.max(mx, (v as number) || 0);
+        return Math.max(mx, entry[1] ?? 0);
       }, 0);
-      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ maxCount:", maxCount)
       const visualMax = Math.max(1, maxCount);
       // immutably update option so chart input change is detected
-      const existingSeries = Array.isArray(this.option?.series) ? this.option.series : [this.option?.series || {}];
-      console.log("🚀 ~ Heatmap ~ ngAfterViewInit ~ existingSeries:", existingSeries)
-
       // compute total commits for the month to display on the chart
       const totalCount = data.reduce((sum, entry) => {
-        const v = Array.isArray(entry) ? (entry[1] as number | null) : null;
-        return sum + ((v as number) || 0);
+        return sum + (entry[1] ?? 0);
       }, 0);
 
       this.totalCommits = totalCount
       this.option = {
         ...this.option,
         visualMap: { ...(this.option?.visualMap || {}), min: 1, max: visualMax },
-        series: [ { ...existingSeries[0], data } ]
+        series: [{
+          type: 'heatmap',
+          coordinateSystem: 'calendar',
+          data,
+          label: { show: false },
+        }],
       };
       // ensure change detection runs so child `app-chart` receives the new `options`
       // try { this.cdr.detectChanges(); } catch (e) { /* ignore */ }
@@ -137,13 +132,13 @@ export class Heatmap implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    try { this.themeObserver?.disconnect(); } catch (e) {}
+    this.themeObserver?.disconnect();
   }
 
   gotoProjects(){
     this.router.navigate(['/projects'])
   }
-  getVirtualData() {
+  getVirtualData(): [string, number][] {
     const year = this.selectedYear ?? new Date().getFullYear();
     const monthIndex = this.selectedMonthIndex ?? new Date().getMonth(); // 0-based for Date
 
@@ -162,7 +157,7 @@ export class Heatmap implements OnInit, AfterViewInit {
     return data;
   }
 
-  buildHeatmapData(commits: any[], year: number, monthIndex: number) {
+  buildHeatmapData(commits: GithubCommit[], year: number, monthIndex: number): [string, number | null][] {
     // initialize day map for month
     const start = new Date(Date.UTC(year, monthIndex, 1));
     const end = new Date(Date.UTC(year, monthIndex + 1, 1));
@@ -186,7 +181,10 @@ export class Heatmap implements OnInit, AfterViewInit {
     }
 
     // map 0 -> null so ECharts leaves cells empty (no color)
-    return Object.entries(dayCountMap).map(([k, v]) => [k, v === 0 ? null : v]);
+    return Object.entries(dayCountMap).map(([key, count]): [string, number | null] => [
+      key,
+      count === 0 ? null : count,
+    ]);
   }
 
   formatDate(d: Date) {
@@ -197,11 +195,9 @@ export class Heatmap implements OnInit, AfterViewInit {
   }
 
   private readDocumentTheme(): string | undefined {
-    try {
-      const el = document.documentElement;
-      const ds = (el as any).dataset?.theme;
-      if (ds) return String(ds).trim();
-      return el.classList.contains('dark') ? 'dark' : 'light';
-    } catch (e) { return undefined; }
+    const element = document.documentElement;
+    const theme = element.dataset['theme']?.trim();
+    if (theme) return theme;
+    return element.classList.contains('dark') ? 'dark' : 'light';
   }
 }
