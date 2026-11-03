@@ -1,0 +1,26 @@
+{
+	"tailwindCSS.includeLanguages": {
+		"typescript": "html",
+		"typescriptreact": "html"
+	},
+	"tailwindCSS.experimental.classRegex": [
+		"template:\\s*`([\\s\\S]*?)`",
+		"template:\\s*'([^']*)'",
+		"template:\\s*\"([^\"]*)\"",
+		"templateUrl:\\s*[\"']([^\"']*)[\"']",
+		"styles:\\s*`([\\s\\S]*?)`"
+	],
+	"tailwindCSS.emmetCompletions": true,
+	"emmet.includeLanguages": {
+		"javascript": "html",
+		"typescript": "html",
+		"javascriptreact": "html",
+		"typescriptreact": "html"
+	},
+	"editor.quickSuggestions": {
+		"other": true,
+		"comments": false,
+		"strings": true
+	},
+	"editor.colorDecorators": true
+}
