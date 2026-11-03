@@ -56,6 +56,21 @@ touches only `apps/<other-app>/**`, so it merges with zero conflicts against
 the current root layout. Relocating afterwards is a pure `git mv` in a separate
 commit, which keeps both steps independently revertible.
 
+**Confirmed import policy** (decided before Phase 1):
+
+- **Default branch only.** No other branches are fetched. Their remaining
+  branches stay in their own repository.
+- **Tags are not imported.** Avoids tag-name collisions and tags pointing at
+  commits whose paths changed meaning. Can be imported later with a
+  `<other-app>-` prefix if needed.
+- **Their `.github/` is deleted in the import commit.** GitHub only runs
+  workflows and reads `CODEOWNERS`/`dependabot.yml` from the repository root, so
+  `apps/<other-app>/.github/**` would be inert. The originals remain in their
+  own repository; anything worth keeping gets ported to the root `.github/`
+  deliberately, not by accident.
+- **No `--force` on `filter-repo`.** It must refuse rather than bypass its
+  fresh-clone safety check.
+
 **Move detection.** `git mv` + rename detection preserves file history, but
 `git log --follow` needs `--find-renames` (on by default) — it will still work
 per-file. Directory-level history requires `--follow` per path; this is a
@@ -89,15 +104,19 @@ documented, accepted limitation of any repository restructure.
 - [ ] Confirm the second repo URL and its default branch; record both here.
 - [ ] Clone it outside the working tree:
       `git clone <other-repo-url> /tmp/opencode/<other-app>-import`
-- [ ] Rewrite paths inside the clone:
-      `git filter-repo --to-subdirectory-filter apps/<other-app> --force`
+- [ ] Rewrite paths inside the clone (no `--force`; a refusal is meaningful):
+      `git filter-repo --to-subdirectory-filter apps/<other-app>`
 - [ ] Verify the rewrite: `git ls-tree -r --name-only HEAD | head` shows only
       `apps/<other-app>/...`, and `git log --oneline | wc -l` is unchanged.
-- [ ] Add it as a temporary remote and fetch:
-      `git remote add <other-app>-import /tmp/opencode/<other-app>-import`
+- [ ] Add it as a temporary remote and fetch the default branch only, without
+      tags: `git remote add <other-app>-import /tmp/opencode/<other-app>-import`
+      then `git fetch --no-tags <other-app>-import <branch>`
 - [ ] Merge with unrelated-history support:
       `git merge --allow-unrelated-histories --no-ff <other-app>-import/main`
 - [ ] Remove the temporary remote.
+- [ ] Drop the now-inert imported config in its own commit:
+      `git rm -r apps/<other-app>/.github` (root-of-import `.github/` only —
+      never the repository root `.github/`).
 - [ ] Confirm both histories are reachable: `git log --oneline --all --graph`.
 
 ### Phase 2 — Relocate this app
