@@ -227,6 +227,9 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
   `toggle()`, persists to `localStorage` (`portfolio-theme`), and toggles the
   `.dark` class plus `color-scheme` on `<html>`. The toggle lives in the avatar
   dropdown.
+- **TypeScript config:** `tsconfig.json` sets `rootDir: ./src` so the app and
+  spec projects stay compatible with TypeScript 6 editors (VS Code bundles
+  6.0.3); the project itself compiles with TypeScript 5.9.3.
 - `src/styles.css` owns the token layer: `@theme inline` mapping plus light/dark
   CSS variables (`--background`, `--foreground`, `--card`, `--muted`,
   `--border`, `--sidebar*`, `--radius: 0.625rem`). It has no Spartan preset, CDK

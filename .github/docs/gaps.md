@@ -146,6 +146,9 @@ Known issues in the current app after the Tailwind rewrite.
   reachable only through `@angular/cli` → `pacote`/`glob`/`minimatch` and the
   `eslint` dependency chain; each fix path requires a semver-major upgrade with
   no exposure for a static SPA. See plan 016.
+- **Editor TypeScript version:** VS Code 1.143 bundles TypeScript 6.0.3, which
+  reports TS5011 unless `rootDir` is explicit. `tsconfig.json` sets
+  `rootDir: ./src`; the project still compiles with TypeScript 5.9.3. See plan 018.
 - **Not applicable by architecture:** `HttpTransferCache` and SSR router
   advisories. `vercel.json` uses `@vercel/static-build` with no `server` output,
   and the app registers no `provideClientHydration()`, so those code paths never
