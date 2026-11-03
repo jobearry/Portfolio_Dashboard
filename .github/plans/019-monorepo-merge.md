@@ -1,9 +1,16 @@
 # 019 — Monorepo: import the second frontend with history
 
-Status: Draft
+Status: Superseded by plan 020 (not implemented)
 Owner: agent
 Related docs: `.github/docs/current-state.md`, `.github/docs/gaps.md`,
 `AGENTS.md`, `.github/rules/quality.md`
+
+> **Superseded.** The second frontend turned out to be an Angular app that
+> belongs as a route inside this app, not as a sibling application. A monorepo
+> (npm workspaces, `apps/*`, a second Vercel project) adds build, dependency
+> hoisting, and deployment surface for no benefit when the result is one
+> deployed app. The history-import mechanics in Phase 1 remain correct and are
+> carried forward; Phases 2–3 are dropped. See plan 020.
 
 ## Goal
 
