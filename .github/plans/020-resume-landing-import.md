@@ -1,4 +1,4 @@
-# 020 — Resume landing page imported from resume-web
+# 020 — Resume landing page imported from web_resume
 
 Status: Draft
 Owner: agent
@@ -9,169 +9,216 @@ Supersedes: plan 019
 
 ## Goal
 
-Merge the separate `resume-web` Angular app into this project as a lazily
-loaded landing page served at `/`, preserving `resume-web`'s full git history.
-The result is one Angular app, one build, one deployment — not a monorepo.
+Merge the separate `web_resume` Angular app into this project as two public
+screens — `/` (home/CV) and `/projects` — inside the existing app, preserving
+`web_resume`'s full git history. One build, one deployment.
+
+## Inspection results (repo: `github.com/jobearry/web_resume`, branch `main`)
+
+88 commits, no tags. Angular **21.1.0**, Tailwind 4.1.12, TypeScript 5.9.2 —
+same majors as this project.
+
+| Precondition | Result |
+| --- | --- |
+| Spartan UI | **None.** No rewrite needed |
+| Angular version | Same major — no upgrade |
+| Stylesheet format | Plain CSS + Tailwind, `@import "tailwindcss"` |
+| Token layer | **Same design system** — identical variable names, both `oklch` |
+
+The two repositories share an ancestor: identical `scripts/genenv.js`,
+`vercel.json`, `.postcssrc.json`, `AGENTS.md`, and a `maintenance.ts`.
+
+### Dead code found in the source app
+
+- `<app-heatmap>` is referenced **nowhere**.
+- `<app-chart>` appears only inside a **commented-out** line in `heatmap.html`.
+- `viewGithubCommits` is dispatched only by `heatmap.ts`, which is never
+  instantiated.
+
+Therefore the commit-aggregation effect, the commits state, the pagination
+logic, and **ECharts (~1 MB)** are all unreachable. The only live NgRx usage is
+one action group and one effect that fetches `user/repos` for the projects
+page.
+
+## Decisions
+
+- **Scope:** everything except the heatmap, the ECharts wrapper, and the
+  commits pipeline. `/` and `/projects` ship; the GitHub repo list ships; the
+  terminal ships.
+- **NgRx is removed, not carried.** The one live store slice becomes a
+  signal-based service. No `@ngrx/*` dependency is ever added.
+- **Repo data comes from the C# backend** through `ApiClient`, not GitHub
+  directly. The endpoint does not exist yet — this plan codes against a
+  placeholder and records the dependency in `gaps.md`.
+- **No new runtime dependencies.** ECharts, NgRx, `@vercel/analytics`, and
+  `@angular/forms` are all excluded.
+- **Icons convert to `@ng-icons/lucide`.** `lucide-angular` is not added.
+- **Theme unifies onto `ThemeService`.** The imported `ThemeToggler` is replaced
+  by a component that injects `ThemeService`; the `'theme'` localStorage key
+  and the `console.warn` calls go away.
+
+### Rationale: why the token could not be kept
+
+`web_resume`'s `GithubService` sends
+`Authorization: Bearer ${environment.githubToken}` from the browser, and
+`genenv.js` writes `GITHUB_TOKEN` from `.env` into `environment.ts`, which is
+compiled into the public bundle. That is a published secret, not a secret. This
+project's own `genenv.js` already declares `githubToken`/`githubURL` without
+exporting them — the same conclusion was reached here earlier.
+
+### Route mapping
+
+| Source | Target | Notes |
+| --- | --- | --- |
+| `''` → redirect `/home` | `''` → Home, `pathMatch: 'full'` | Landing page |
+| `projects` | `projects` | Free — no dashboard collision |
+| — | `/dashboard`, `/timeline`, `/profile`, `/blog` | Unchanged |
+
+The resume route and `/projects` are declared **above** the dashboard shell
+route. Both the resume root and the shell match the empty path; `pathMatch:
+'full'` decides it. Do not reorder without re-verifying `/` and `/dashboard`.
+
+### File mapping
+
+| Source (`web_resume`) | Target (this repo) |
+| --- | --- |
+| `src/app/pages/home/**` | `src/app/features/resume/pages/home/**` |
+| `src/app/pages/projects/**` | `src/app/features/resume/pages/projects/**` |
+| `src/app/components/{card,footer,marquee,pill,spinner,theme-toggler}` | `src/app/features/resume/components/**` |
+| `src/app/components/maintenance.ts` | `src/app/features/resume/components/maintenance.ts` |
+| `src/app/features/github/ui/**`, `types/**` | `src/app/features/resume/github/**` |
+| `src/app/features/github/store/**` | **replaced** by `src/app/features/resume/github/github.service.ts` |
+| `src/app/features/terminal/**` | `src/app/features/resume/terminal/**` |
+| `src/app/components/{chart,heatmap}*` | **dropped** |
+| `src/app/shared/store.provider.ts` | **dropped** |
+| `src/app/app.{ts,html,css}`, `app.config.ts`, `app.routes.ts`, `main.ts`, `index.html`, `angular.json`, `package.json`, `tsconfig*` | **dropped** (scaffolding) |
 
 ## Scope
 
 In:
 
-- Import `resume-web` history into a staging folder and merge it with
-  `--allow-unrelated-histories`.
-- Restructure the imported app into `src/app/features/resume/`, dissolving its
-  app-level scaffolding (`main.ts`, `app.config.ts`, `app.routes.ts`,
-  `index.html`, root component).
-- Add a top-level `''` route with `pathMatch: 'full'` that lazy-loads the resume
-  landing page outside the dashboard shell.
-- Fold the landing page's global concerns (fonts, meta, favicon) into the
-  existing `src/index.html` and `src/styles.css`.
-- Remap the landing page's colours onto the existing design tokens.
+- Import `web_resume` history, then reflow it into `src/app/features/resume/`.
+- Convert the single live NgRx slice to a signal-based service.
+- Convert Lucide icons to `@ng-icons/lucide`.
+- Fold their `--chart-1..5` and `--type-color` tokens into `src/styles.css`.
+- Add the two public routes.
 - Update `AGENTS.md` and `.github/docs/`.
 
 Out:
 
-- npm workspaces, `apps/*` or `projects/*` layout, a second Vercel project —
-  see plan 019, superseded.
+- The heatmap, the ECharts wrapper, and the commits pipeline (dead code).
+- `@ngrx/*`, `echarts`, `lucide-angular`, `@vercel/analytics`,
+  `@angular/forms`.
 - Any change to `/dashboard`, `/timeline`, `/profile`, `/blog`, or the wildcard
   redirect.
-- Porting `resume-web`'s `package.json` wholesale, its CI config, or its
-  lint/test tooling.
+- Their `index.html` global font stack (`system-ui, Avenir`), which would
+  override this project's `--font-sans`.
 - SSR or prerendering. The app stays a static SPA.
-
-## Decisions
-
-- **One app, one route.** The resume is a page, not a deployment boundary. It
-  lazy-loads, so it stays out of the initial bundle without needing a separate
-  build.
-- **Single global stylesheet.** Angular SPA has one `src/styles.css`, so
-  tokens cannot be scoped per page. The landing page adopts the dashboard
-  tokens rather than shipping a second `@theme` block.
-- **Staging import, then reflow.** Import verbatim into `resume-web/`, then
-  `git mv` into `src/app/features/resume/`. Two reviewable commits; rename
-  detection keeps file-level `git log --follow` working across the reflow.
-- **`resume-web` is archived after the merge.** From then on this repository is
-  the only source of truth; keeping both live guarantees drift.
-- **Route order matters.** The resume route is declared before the shell route;
-  both match the empty path, and `pathMatch: 'full'` on the resume route decides
-  it. Do not reorder without re-verifying `/` and `/dashboard`.
+- A backend GitHub endpoint — planned separately.
 
 ## Affected surface
 
-- Routes: adds `/` → resume landing page. All existing routes unchanged.
+- Routes: adds `/` and `/projects`. All existing routes unchanged.
 - Components: new `src/app/features/resume/**`.
-- Services / models: only if the landing page fetches data — and then it must
-  go through `ApiClient` and an entity service, never `HttpClient`.
-- Endpoints: expected none. The resume is static CV content.
-- Assets / config:
-  - `package.json` / `package-lock.json` — any runtime dependency the landing
-    page genuinely needs
-  - `src/index.html` — title, meta description, fonts, favicon
-  - `src/styles.css` — token mappings, only if the landing page needs tokens
-    that do not exist yet
-  - `tsconfig.json` — unchanged; `rootDir: ./src` still covers the new feature
-  - `AGENTS.md`, `.github/docs/current-state.md`, `.github/docs/screens.md`
-
-## Preconditions
-
-Inspect `resume-web` **before** writing the import tasks. Each of these changes
-the size of the job:
-
-- [ ] Does it use `@spartan-ng/*`? Forbidden here (non-negotiable 2); means a
-      plain-Tailwind rewrite of its UI.
-- [ ] Which Angular version? Sub-21 means upgrading standalone APIs and
-      `@if`/`@for` control flow before it can merge.
-- [ ] Stylesheet format: plain CSS, SCSS (adds `sass`), or Tailwind with its own
-      `@theme` (needs remapping onto existing tokens).
-- [ ] Runtime dependencies it imports — these join `package.json`.
-- [ ] Does it fetch data? If so, what endpoints, and do they belong in
-      `src/app/core/models`?
-- [ ] What is in its `index.html` — fonts, meta description, favicon, analytics?
+- Services / models: one new signal-based `GithubService`; repo model to
+  `src/app/core/models`.
+- Endpoints: **one new backend dependency** (GitHub repo list), not yet
+  available.
+- Assets / config: `package.json` (no new runtime deps; dev tooling unchanged),
+  `src/styles.css` (tokens), `AGENTS.md`, `.github/docs/*`.
 
 ## Tasks
 
 ### Phase 1 — Import history
 
-- [ ] Record the repo URL and default branch here.
 - [ ] Clone outside the working tree:
-      `git clone <resume-url> /tmp/opencode/resume-import`
+      `git clone https://github.com/jobearry/web_resume.git /tmp/opencode/resume-import`
 - [ ] Rewrite paths in the clone (no `--force`):
       `git filter-repo --to-subdirectory-filter resume-web`
-- [ ] Verify: all paths under `resume-web/`, commit count unchanged.
-- [ ] Add a temporary remote, fetch the default branch only:
-      `git remote add resume-import /tmp/opencode/resume-import`
-      then `git fetch --no-tags resume-import <branch>`
-- [ ] Merge: `git merge --allow-unrelated-histories resume-import/<branch>`
+- [ ] Verify: all paths under `resume-web/`, 88 commits preserved.
+- [ ] Add a temporary remote, fetch `main` only, without tags.
+- [ ] `git merge --allow-unrelated-histories resume-import/main`
 - [ ] Remove the temporary remote.
 - [ ] Drop the now-inert `resume-web/.github/` in its own commit.
 
 ### Phase 2 — Reflow into the feature folder
 
-- [ ] Decide the file mapping between `resume-web/src/app/**` and
-      `src/app/features/resume/**`; record it here before moving.
-- [ ] `git mv` components, templates, and styles into
-      `src/app/features/resume/`.
-- [ ] Delete scaffolding that has no meaning in a feature: `main.ts`,
-      `app.config.ts`, `app.routes.ts`, `index.html`, `package.json`,
-      `angular.json`, `tsconfig*.json`.
-- [ ] Resolve name collisions with existing dashboard components and the
-      `app` selector prefix (non-negotiable rules: prefix stays `app`,
-      kebab-case).
-- [ ] Delete the now-empty `resume-web/` staging folder.
+- [ ] `git mv` per the file-mapping table above.
+- [ ] Delete dropped files: `chart*`, `heatmap*`, `store.provider.ts`,
+      `features/github/store/**`, and all app scaffolding.
+- [ ] Delete the empty `resume-web/` staging folder.
 
-### Phase 3 — Route and styling
+### Phase 3 — NgRx to signals
 
-- [ ] Add the `''` / `pathMatch: 'full'` route lazy-loading the resume page,
-      declared above the shell route.
-- [ ] Confirm the landing page renders without the dashboard shell and without
-      the dashboard's `PageHeader`.
-- [ ] Merge landing fonts and meta into `src/index.html`; set per-route `title`.
-- [ ] Remap landing colours onto existing tokens; no hard-coded hex values, no
-      dynamic class names, no second `@theme`.
-- [ ] Confirm the landing page is mobile-first and keyboard navigable.
+- [ ] Add the repo model to `src/app/core/models`.
+- [ ] Write `GithubService` with `inject(ApiClient)`, a `signal` for the repos,
+      and a `loading`/`error` signal. Follow the existing entity-service
+      pattern; no `HttpClient` in the service, no `any`.
+- [ ] Rewrite `projects.ts`: remove `Store`, `State`, `GithubAPIActions`, and
+      the `Observable`; read signals directly.
+- [ ] Rewrite `projects.html`: replace `projectState$ | async` with signal
+      reads; handle loading, empty, and error states.
+- [ ] Leave the endpoint path as a named constant with a TODO and record the
+      missing endpoint in `gaps.md`.
 
-### Phase 4 — Docs
+### Phase 4 — Icons, theme, and tokens
 
-- [ ] `AGENTS.md`: add the resume route to the route list and the repository
-      map; note that `resume-web` is archived.
-- [ ] `.github/docs/current-state.md`: routes, feature layout, data layer.
-- [ ] `.github/docs/screens.md`: document the `/` screen.
-- [ ] `.github/docs/gaps.md`: record anything deliberately left out.
-- [ ] Mark this plan `Done`; keep 019 as the superseded record.
+- [ ] Convert every `<lucide-icon>` / `<lucide-angular>` to `<ng-icon>` with
+      `provideIcons` per component, matching the dashboard's pattern.
+- [ ] Replace their `ThemeToggler` internals with `inject(ThemeService)`;
+      keep the bulb visual.
+- [ ] Add `--type-color` and, if still referenced, the `--chart-*` tokens to
+      `src/styles.css`; remove references that are only used by dropped code.
+- [ ] Normalise `html[data-theme=...]` selectors to the existing `.dark`
+      convention, or extend `ThemeService` and the `index.html` bootstrap to
+      set `data-theme`. Choose one and record it.
+- [ ] Keep their footer; do not import their global `:root` font/line-height
+      rules.
+
+### Phase 5 — Routes and docs
+
+- [ ] Add `/` and `/projects` above the dashboard shell route, with
+      `title` values from `site.config`.
+- [ ] Confirm the public pages render without the dashboard shell.
+- [ ] `AGENTS.md`: routes, repository map, landmines.
+- [ ] `.github/docs/current-state.md`, `screens.md`, `gaps.md`.
+- [ ] Mark this plan `Done`.
 
 ## Risks / decisions
 
-- **Spartan UI in the source app** would require a full UI rewrite, as in plan
-  008. If found, stop and re-scope before importing.
-- **Angular version gap** means the import cannot compile until migrated. Prefer
-  upgrading in the `resume-web` clone before the merge, so the merge commit is
-  the only place the two codepaths meet.
-- **Single stylesheet.** Landing-page styles are global once imported; scope
-  them with component styles and wrapper classes, never by editing shared
-  tokens in a way that changes the dashboard.
-- **Bundle budgets.** `angular.json` warns at 500 kB and errors at 1 MB for the
-  initial bundle. The resume is lazy-loaded so it should not affect the initial
-  budget, but shared dependencies would. Check `npm run build:prod` output.
-- **Landing page is unauthenticated public content.** No secrets, no API keys,
-  no `console.log`.
+- **Missing backend endpoint.** The projects page cannot show live repos until
+  the C# API exposes one. Ship the page with the static
+  `PROJECT_HIGHLIGHT` list working and the GitHub block in its empty state.
+- **Two `Maintenance` components** will exist (dashboard's and the imported
+  one). Keep both under their own feature folders; unify later if convenient.
+- **Bundle budgets.** `angular.json` warns at 500 kB and errors at 1 MB
+  initial. The new routes are lazy, and ECharts is gone, so this should be a
+  net improvement — verify.
+- **Global stylesheet.** Imported styles are global. Scope with component
+  styles and wrapper classes; never edit shared tokens in a way that changes
+  the dashboard.
+- **`window` access at field-initialiser time** (`home.ts` uses
+  `window.innerHeight`) is SSR-unsafe but harmless here, since there is no SSR.
 - **Do not** run `filter-repo` in this working tree — only in
   `/tmp/opencode/resume-import`.
-- **Rollback.** All work happens on the feature branch; `main` is untouched
-  until merge.
+- **Rollback.** All work is on the feature branch; `main` is untouched until
+  merged.
 
 ## Verification
 
 - [ ] `git log --oneline --graph --all` shows one merge joining both histories.
-- [ ] `git log --follow -- src/app/features/resume/<a-moved-file>` shows the
-      imported history through the reflow.
+- [ ] `git log --follow -- src/app/features/resume/pages/home/ui/home.ts` shows
+      the imported history through the reflow.
 - [ ] `npm run build` and `npm run build:prod` succeed; budgets not exceeded.
-- [ ] `npm test` passes (existing 38 tests plus any new ones).
-- [ ] `npm run lint` passes.
-- [ ] Manual: `/` renders the landing page with no sidebar or dashboard chrome.
+- [ ] `npm test` passes.
+- [ ] `npm run lint` passes — no `any`, no `console.*`.
+- [ ] `grep -r "@ngrx\|echarts\|lucide-angular" src` returns nothing.
+- [ ] Manual: `/` renders the CV landing page with no dashboard chrome.
+- [ ] Manual: `/projects` renders highlights, the repo block, and its empty and
+      error states.
 - [ ] Manual: `/dashboard`, `/timeline`, `/profile`, `/blog` unchanged.
-- [ ] Manual: `/` and unknown paths still resolve as before; wildcard still
-      redirects to `/dashboard`.
-- [ ] Loading, empty, and error states for any data the landing page fetches.
+- [ ] Manual: wildcard still redirects to `/dashboard`.
 - [ ] Responsive at mobile, tablet, and desktop widths.
 - [ ] Keyboard: focus visible, landmarks present, heading order correct,
       icon-only controls labelled.
+- [ ] Theme toggle on `/` and in the dashboard share one stored preference.
