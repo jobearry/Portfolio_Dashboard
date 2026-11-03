@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-export type SkeletonVariant = 'text' | 'card' | 'list' | 'grid' | 'entries';
+export type SkeletonVariant = 'text' | 'card' | 'metric' | 'list' | 'grid' | 'entries';
 
 const DEFAULT_ROWS: Record<SkeletonVariant, number> = {
   text: 3,
   card: 3,
+  metric: 1,
   list: 3,
   grid: 6,
   entries: 4,
@@ -34,6 +35,15 @@ const DEFAULT_ROWS: Record<SkeletonVariant, number> = {
                   <div class="h-3 w-full rounded bg-foreground/10"></div>
                 </div>
               }
+            </div>
+          }
+          @case ('metric') {
+            <div
+              class="flex h-full flex-col gap-3 rounded-lg border border-border bg-muted/30 p-3 sm:p-5"
+            >
+              <div class="h-3 w-1/2 rounded bg-foreground/10"></div>
+              <div class="h-8 w-16 rounded bg-foreground/10 sm:h-12"></div>
+              <div class="h-4 w-2/3 rounded bg-foreground/10"></div>
             </div>
           }
           @case ('list') {

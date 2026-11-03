@@ -1,9 +1,12 @@
 export * from './services/portfolio.service';
 export * from './services/portfolio-base.service';
+export * from './services/resource-base.service';
 
 export * from './store/portfolio.state';
+export * from './store/resource.state';
 export * from './utils/error.util';
 export * from './utils/portfolio.util';
+export * from './utils/resource.util';
 
 export * from './ui/page-header/page-header';
 export * from './ui/skeleton/skeleton';

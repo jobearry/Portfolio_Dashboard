@@ -11,6 +11,8 @@ is a separate codebase; this repository contains no server code.
   without an explicit decision.
 - Live endpoints:
   - `GET v1/overview`
+  - `GET v1/github/owner/{username}/repositories/count`
+  - `GET v1/notion/{pageId}/count`
   - `GET v1/experience?includeProjects=true`
   - `GET v1/skill`
   - `GET v1/recommendation`

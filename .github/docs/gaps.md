@@ -140,6 +140,16 @@ Known issues in the current app after the Tailwind rewrite.
 - **Theme:** own `@theme` tokens replace the Spartan preset (004). Light and
   dark are both verified on every screen; the toggle lives in the avatar
   dropdown (006).
+- **Dependencies:** Angular framework packages are floored at `^21.2.26`, which
+  clears every runtime (`dependencies`) advisory — 0 high, 0 critical, 0 low in
+  `npm audit`. Remaining advisories (2 distinct, moderate) are build/dev-only and
+  reachable only through `@angular/cli` → `pacote`/`glob`/`minimatch` and the
+  `eslint` dependency chain; each fix path requires a semver-major upgrade with
+  no exposure for a static SPA. See plan 016.
+- **Not applicable by architecture:** `HttpTransferCache` and SSR router
+  advisories. `vercel.json` uses `@vercel/static-build` with no `server` output,
+  and the app registers no `provideClientHydration()`, so those code paths never
+  ship.
 
 ## Decisions for the Tailwind-only rewrite
 

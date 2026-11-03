@@ -44,25 +44,37 @@ its data comes from, and what can be interacted with.
 
 - **Files:** `pages/overview/overview.{ts,html}` (the `pages/home` wrapper was removed in 007).
 - **Reach:** sidebar "Dashboard", wildcard redirect, or direct URL.
-- **Data:** `GET v1/overview` → `OverviewItem[]` (`key`, `count`) via
-  `OverviewSignalService`.
-- **States:** `app-skeleton` (`text` + `card` variants) while loading; shared
-  error block with **Try again** on failure; empty message when the API returns
-  no items; cards otherwise.
+- **Data:**
+  - `GET v1/overview` → `OverviewItem[]` (`key`, `count`) via
+    `OverviewSignalService`.
+  - `GET v1/github/owner/{site.github.username}/repositories/count` →
+    `OverviewItem` via `GithubCountSignalService`.
+  - `GET v1/notion/{site.notion.pageId}/count` → `OverviewItem` via
+    `NotionCountSignalService`.
+  - All three requests start in parallel on init.
+- **States:**
+  - `v1/overview`: three `app-skeleton` (`metric` variant) cards while loading;
+    shared error block with **Try again** on failure; empty message when the API
+    returns no items.
+  - GitHub and Notion counts: each card shows its own compact skeleton, error
+    message, and **Try again** action, so one failure does not hide the rest of
+    the overview.
 - **Shows:**
   1. Header block: eyebrow "Hello,", `h2` with `site.profile.name` (config, not
-     hardcoded copy), caption "Welcome back to your portfolio dashboard".
-  2. Responsive grid (`sm:grid-cols-3`, capped at `56rem`) of bordered
-     cards (`bg-muted/30`), one per API item:
-     - uppercase `key` value returned by the API
-     - subtitle with metric-specific copy for known keys and key-derived copy
-       for other keys
-     - `count` in `text-5xl` semibold, tabular numerals
-     - border transitions to the existing brand accent on hover
-  - The current template repeats the metric loop; it was left unchanged at the
-    user's direction.
-- **Interactions:** none — the cards are informational. The former
-  "View Details →" button (and the nested `<button>`) is gone.
+     hardcoded copy), caption "Welcome back to your portfolio dashboard". The
+     header stays visible during loading and error states.
+  2. Responsive grid (`grid-cols-2`, `lg:grid-cols-3`) of five bordered cards
+     (`bg-muted/30`):
+     - three API metric cards with an uppercase, camelCase/underscore-aware
+       label, count, and metric-specific subtitle
+     - **GITHUB REPOSITORIES** with "Public repositories on GitHub"
+     - **NOTION PAGES** with "Blog posts through my Notion workspace"
+  3. The final card stays a normal one-column card; it does not span the full
+     mobile width.
+  4. Counts use `text-3xl` on mobile and `text-5xl` from `sm`; card padding is
+     `p-3` on mobile and `p-5` from `sm`.
+- **Interactions:** the only interactive controls are the **Try again** buttons
+  on failed count cards; the overview metric cards are informational.
 
 ---
 

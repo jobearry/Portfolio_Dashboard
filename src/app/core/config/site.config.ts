@@ -20,11 +20,16 @@ export interface NotionConfig {
   readonly publicDomain: string;
 }
 
+export interface GithubConfig {
+  readonly username: string;
+}
+
 export interface SiteConfig {
   readonly profile: ProfileConfig;
   readonly links: LinkConfig;
   readonly assets: AssetConfig;
   readonly notion: NotionConfig;
+  readonly github: GithubConfig;
 }
 
 /**
@@ -49,5 +54,8 @@ export const site = {
   notion: {
     pageId: '16348b6ae5dd8032b137c4327f9ab77c',
     publicDomain: 'glamorous-monitor-0b1.notion.site',
+  },
+  github: {
+    username: 'jobearry',
   },
 } as const satisfies SiteConfig;

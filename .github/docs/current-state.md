@@ -7,7 +7,7 @@ the Tailwind rewrite (002–008).
 
 | Concern    | Current choice                                                                       |
 | ---------- | ------------------------------------------------------------------------------------ |
-| Framework  | Angular 21, standalone components, lazy `loadComponent` routes                       |
+| Framework  | Angular 21.2, standalone components, lazy `loadComponent` routes                     |
 | Styling    | Tailwind CSS v4 (PostCSS), own `@theme` tokens, light + dark                         |
 | Components | Plain Tailwind; shared `PageHeader`, `StateMessage`, `Skeleton` primitives           |
 | Icons      | `@ng-icons/core` + `@ng-icons/lucide`                                                |
@@ -133,6 +133,7 @@ Single typed source of truth for personal content and public integrations:
 - `site.links` — GitHub and CV URLs.
 - `site.assets` — sidebar and profile avatar filenames (served from `public/`).
 - `site.notion` — page ID and public domain.
+- `site.github` — GitHub username used by the repository count endpoint.
 
 The object is `as const satisfies SiteConfig`. Consumers: shell (title/subtitle),
 sidebar (avatar), profile (hero + links), blog (page ID/domain), and the root
@@ -155,10 +156,19 @@ Signal state `{ content: T[], loading: boolean, error: string | null }` with:
   content, failure clears content, exits loading, and stores a user-safe message
 - helper `getContent<T>(endpoint, service)` — `setLoading()` then fetch
 
+### `ResourceSignalService<T>` — `src/app/shared/services/resource-base.service.ts`
+
+Single-object counterpart to `PortfolioSignalService`, used by count endpoints.
+
+- state `{ content: T | null, loading, error }`
+- same `getState()` / `setLoading()` / `getResource(endpoint)` contract
+- helper `getResource<T>(endpoint, service)`
+
 ### Entity services (all `providedIn: 'root'`)
 
 `OverviewSignalService`, `ExperienceSignalService`, `SkillsSignalService`,
-`RecommendationService`.
+`RecommendationService`, `GithubCountSignalService`,
+`NotionCountSignalService`.
 
 ### Notion service
 
@@ -170,13 +180,15 @@ Signal state `{ content: T[], loading: boolean, error: string | null }` with:
 
 Live:
 
-| Endpoint                             | Used by                   | Response type          |
-| ------------------------------------ | ------------------------- | ---------------------- |
-| `v1/overview`                        | Overview                  | `OverviewItem[]`       |
-| `v1/experience?includeProjects=true` | Timeline                  | `ExperienceTimeline[]` |
-| `v1/skill`                           | Profile → Skills          | `TechStackItem[]`      |
-| `v1/recommendation`                  | Profile → Recommendations | `FeedbackItem[]`       |
-| `v1/notion/{site.notion.pageId}`     | Blog                      | `NotionPageCard[]`     |
+| Endpoint                                        | Used by                   | Response type          |
+| ----------------------------------------------- | ------------------------- | ---------------------- |
+| `v1/overview`                                   | Overview                  | `OverviewItem[]`       |
+| `v1/github/owner/{username}/repositories/count` | Overview                  | `OverviewItem`         |
+| `v1/notion/{pageId}/count`                      | Overview                  | `OverviewItem`         |
+| `v1/experience?includeProjects=true`            | Timeline                  | `ExperienceTimeline[]` |
+| `v1/skill`                                      | Profile → Skills          | `TechStackItem[]`      |
+| `v1/recommendation`                             | Profile → Recommendations | `FeedbackItem[]`       |
+| `v1/notion/{site.notion.pageId}`                | Blog                      | `NotionPageCard[]`     |
 
 The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
@@ -187,8 +199,9 @@ screens are deleted.
 `src/app/features/dashboard/core/models/`
 
 - `OverviewItem { key, count }`; Overview displays each API-provided `key` in
-  uppercase with a matching local subtitle (key-derived fallback for unknown
-  values).
+  uppercase with camelCase/underscore word breaks and a matching local subtitle
+  (key-derived fallback for unknown values). The same model types the GitHub and
+  Notion count responses.
 - `ExperienceTimeline { id, company: Company, duration: Period, description, role: Role, responsibility, type, projects?: Project[] | null }`
 - `Project { projectId, projectName, description, coverImg, duration, contribution, techStackSpecs: TechStack[] }`
 - `TechStack { specId, toolName, imgSrc, createdAt, stackId, stack }`
@@ -233,7 +246,8 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 - [x] Content wrapper: centered, max-width ~1200px, padding.
 - [x] Skeleton loading state on every data screen, with error and empty states.
 - [x] Five GET fetches (four portfolio + one Notion).
-- [x] Dashboard overview header + responsive 3-column metric cards.
+- [x] Dashboard overview header + responsive 5-card metric grid, including
+      GitHub repository and Notion page counts with independent retry states.
 - [x] Timeline experience cards with year badge, role/description, responsibility,
       nested projects, and technology chips.
 - [x] Profile hero (avatar, name, handle, bio), GitHub and CV external links.

@@ -1,32 +1,54 @@
 <section class="flex w-full flex-col gap-5">
-  @if (state().loading) {
-    <div class="flex flex-col gap-5">
-      <app-skeleton variant="text" [rows]="3" />
-      <app-skeleton variant="card" />
-    </div>
-  } @else if (state().error) {
-    <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
-  } @else if (state().content.length === 0) {
-    <app-state-message kind="empty" message="No overview metrics are available yet." />
-  } @else {
-    <header class="flex flex-col gap-1 border-b border-border pb-4">
-      <span class="text-sm tracking-[0.2em] text-muted-foreground uppercase">Hello,</span>
-      <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ site.profile.name }}</h2>
-      <p class="text-sm text-muted-foreground">Welcome back to your portfolio dashboard</p>
-    </header>
+  <header class="flex flex-col gap-1 border-b border-border pb-4">
+    <span class="text-sm tracking-[0.2em] text-muted-foreground uppercase">Hello,</span>
+    <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ site.profile.name }}</h2>
+    <p class="text-sm text-muted-foreground">Welcome back to your portfolio dashboard</p>
+  </header>
 
-    <div class="grid w-full gap-4 sm:grid-cols-3">
-      @for (item of state().content; track item.key) {
-        <article
-          class="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-5 transition-colors"
-        >
-          <h3 class="text-xs font-medium tracking-[0.2em] text-muted-foreground">
-            {{ item.key.toUpperCase() }}
-          </h3>
-          <p class="text-5xl font-semibold tracking-tight tabular-nums">{{ item.count }}</p>
-          <p class="text-sm text-muted-foreground">{{ subtitleFor(item.key) }}</p>
-        </article>
+  <div class="grid w-full grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+    @if (state().loading) {
+      @for (row of skeletonRows; track row) {
+        <app-skeleton variant="metric" />
       }
-    </div>
-  }
+    } @else if (state().error) {
+      <div class="col-span-2 lg:col-span-3">
+        <app-state-message kind="error" [message]="state().error ?? ''" (retry)="loadOverview()" />
+      </div>
+    } @else if (state().content.length === 0) {
+      <div class="col-span-2 lg:col-span-3">
+        <app-state-message kind="empty" message="No overview metrics are available yet." />
+      </div>
+    } @else {
+      @for (item of state().content; track item.key) {
+        <app-metric-card
+          [attr.data-metric-key]="item.key"
+          [label]="labelFor(item.key)"
+          [subtitle]="subtitleFor(item.key)"
+          [count]="item.count"
+        />
+      }
+    }
+
+    <app-metric-card
+      data-metric-key="githubRepositories"
+      data-testid="github-count"
+      label="GITHUB REPOSITORIES"
+      subtitle="Public repositories on GitHub"
+      [count]="github().content?.count ?? null"
+      [loading]="github().loading"
+      [error]="github().error"
+      (retry)="loadGithub()"
+    />
+
+    <app-metric-card
+      data-metric-key="notionPages"
+      data-testid="notion-count"
+      label="NOTION PAGES"
+      subtitle="Blog posts through my Notion workspace"
+      [count]="notion().content?.count ?? null"
+      [loading]="notion().loading"
+      [error]="notion().error"
+      (retry)="loadNotion()"
+    />
+  </div>
 </section>
