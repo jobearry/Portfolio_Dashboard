@@ -19,7 +19,7 @@ import { UserMenu } from '../user-menu/user-menu';
   template: `
     <aside
       id="shell-sidebar"
-      class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[transform,visibility,width] duration-200 ease-linear motion-reduce:transition-none md:z-30 md:w-[var(--shell-sidebar-width)] md:translate-x-0"
+      class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[transform,visibility,width] duration-200 ease-linear motion-reduce:transition-none md:z-30 md:w-(--shell-sidebar-width) md:translate-x-0"
       [class.invisible]="!state.sidebarVisible()"
       [class.-translate-x-full]="!state.sidebarVisible()"
       aria-label="Sidebar"
@@ -66,20 +66,6 @@ import { UserMenu } from '../user-menu/user-menu';
       </nav>
 
       <div class="border-t border-sidebar-border p-2">
-        <a
-          [routerLink]="profileLink.url"
-          class="mb-1 flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring"
-          [class.justify-center]="!state.showLabels()"
-          (click)="closeMobile()"
-        >
-          <ng-icon [name]="profileLink.icon" size="18" />
-          @if (state.showLabels()) {
-            <span>{{ profileLink.title }}</span>
-          } @else {
-            <span class="sr-only">{{ profileLink.title }}</span>
-          }
-        </a>
-
         <button
           type="button"
           class="hidden w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring md:flex"

@@ -76,10 +76,10 @@ The public routes and `/profile` compatibility redirect are declared **above**
 the dashboard shell route. Both the résumé landing page and the shell match the
 empty path; `pathMatch: 'full'` on the landing route decides it, so declaration
 order matters. Navigation between the halves is explicit and in-tab: the
-sidebar footer's Profile link and the account menu's View profile link navigate
-to `/`; both résumé pages link back to `/dashboard`. Each dashboard child route
-sets both `title` (document tab) and `data.pageTitle` (header `h1`) through the
-`page()` helper in `app.routes.ts`.
+account menu's View profile link navigates to `/`; both résumé pages link back
+to `/dashboard`. The sidebar footer contains only the collapse/expand control.
+Each dashboard child route sets both `title` (document tab) and
+`data.pageTitle` (header `h1`) through the `page()` helper in `app.routes.ts`.
 
 ## 4. Shell layout
 
@@ -114,10 +114,8 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
 | Timeline  | `/timeline`  | `lucideChartGantt`      |
 | Blog      | `/blog`      | `lucideRss`             |
 
-- A **Profile** entry (`/`, `lucideUser`) renders in the sidebar footer above
-  the collapse button. It is outside the primary `<nav>` because the résumé
-  renders outside the shell and cannot be an active dashboard destination.
-  The avatar menu's **View profile** item also links to `/`. The former
+- The sidebar footer contains the desktop collapse/expand control only. The
+  avatar menu's **View profile** item links to `/`. The former
   dashboard profile screen remains in the source but is unrouted; legacy
   `/profile` requests redirect to the résumé.
 
@@ -163,8 +161,8 @@ core/models/        GithubRepo
   `lucideToolbox`.
 - `ThemeToggler` delegates to the shared `ThemeService`, so the public pages and
   the dashboard share one stored preference and one `.dark` class.
-- `pages/home/components/profile` swaps between `/profile.png` and
-  `/profile_dark.png` by observing the `<html>` class.
+- `pages/home/components/profile` uses the configured `site.assets.profileAvatar`
+  (`/jg-profile.png`) in both themes.
 
 ## 5. Data layer
 
@@ -284,8 +282,7 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 ## 6. Asset and environment notes
 
 - Public assets: `public/favicon.ico`, `public/grad_1.jpeg` (sidebar avatar),
-  `public/jg-profile.png` (profile avatar), `public/profile.png` and
-  `public/profile_dark.png` (resume landing page, plan 020).
+  `public/jg-profile.png` (dashboard and résumé profile photo).
 - `scripts/genenv.js` rewrites `src/environments/environment*.ts` from `.env`
   (`PORTFOLIO_API_HOST`, etc.) on every `npm start` / `npm run build*`. It uses
   `dotenv`, now an explicit dev dependency; without `.env` the API base is empty
@@ -312,7 +309,9 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 ## 7. Functional inventory
 
 - [x] Router shell + lazy children + wildcard redirect to `/dashboard`.
-- [x] Sidebar with three dashboard menu items and a footer Profile link to `/`.
+- [x] Sidebar with three dashboard menu items and a collapse/expand footer
+      control. Profile navigation is provided by the account menu's View profile
+      link to `/`.
 - [x] Collapsible sidebar on desktop; off-canvas/mobile behavior via the sidebar trigger.
 - [x] Sticky top header with sidebar trigger and current page title.
 - [x] Content wrapper: centered, max-width ~1200px, padding.

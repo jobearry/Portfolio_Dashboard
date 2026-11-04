@@ -18,10 +18,8 @@ redirects to `/`.
     - User menu trigger: `grad_1.jpeg` avatar + name + role. It is a real
       disclosure button, not a link.
     - Menu: Dashboard, Timeline, Blog (icon + label, `sr-only` label in rail).
-    - Footer: **Profile** link (`/`, `lucideUser`) above the collapse/expand
-      button. It is a regular `routerLink`, not a new tab; the résumé page has a
-      matching **View dashboard** button so the trip is reversible.
-      The collapse/expand button is desktop only.
+    - Footer: desktop-only collapse/expand button; there is no separate Profile
+      link in the footer.
   - Sticky header (`h-14`, border, `z-30`): mobile menu trigger below `md`, then
     the route page title (`h1`).
   - Content: centered `max-w-[75rem]`, `p-3`, inside `<main>`.
@@ -42,11 +40,11 @@ redirects to `/`.
   closes; focus returns to the trigger.
 - **Theme:** light/dark is applied to `<html>` before first paint (stored choice,
   otherwise `prefers-color-scheme`). The only toggle is inside the dropdown.
-- **Profile navigation (025):** the sidebar footer's Profile link and account
-  menu's View profile item both navigate to `/`, which renders the résumé
-  outside the shell. The old dashboard profile page is parked and unrouted;
-  legacy `/profile` requests redirect to `/`. `/` and `/projects` each render a
-  **View dashboard** icon link that returns to `/dashboard` in the same tab.
+- **Profile navigation:** the account menu's **View profile** item navigates to
+  `/`, which renders the résumé outside the shell. The old dashboard profile
+  page is parked and unrouted; legacy `/profile` requests redirect to `/`.
+  `/` and `/projects` each render a **View dashboard** icon link that returns
+  to `/dashboard` in the same tab.
 
 ---
 
@@ -163,9 +161,9 @@ redirects to `/`.
 - **Reach:** the empty path with `pathMatch: 'full'`, declared directly above the
   dashboard shell route. Renders **without** the dashboard shell.
 - **Shows:**
-  - Profile header: photo (`/profile_dark.png`, swapping to `/profile.png` in
-    light mode), name, `lucideMapPin` + location, two role pills, GitHub and CV
-    links, and the top-right **View dashboard** + theme toggle pair.
+  - Profile header: circularly cropped photo (`/jg-profile.png`), name,
+    `lucideMapPin` + location, two role pills, GitHub and CV links, and the
+    top-right **View dashboard** + theme toggle pair.
   - Two-column responsive grid built from `SIDE_BLOCK_CONTENT` and
     `MAIN_BLOCK_CONTENT`: About, Timeline, Certifications, Recent Projects,
     Technical Stack, and a `Maintenance` placeholder.

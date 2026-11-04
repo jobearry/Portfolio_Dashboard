@@ -56,7 +56,7 @@ import { ShellStateService } from '../shell-state.service';
             routerLink="/"
             role="menuitem"
             class="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:outline-none"
-            (click)="close()"
+            (click)="navigateToProfile()"
           >
             <ng-icon name="lucideUser" size="16" />
             View profile
@@ -130,6 +130,11 @@ export class UserMenu {
   protected toggleTheme(): void {
     this.theme.toggle();
     this.close(true);
+  }
+
+  protected navigateToProfile(): void {
+    this.close();
+    this.shell.closeMobile();
   }
 
   protected onTriggerArrowDown(event: Event): void {

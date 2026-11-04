@@ -36,8 +36,9 @@ Known issues in the current app after the Tailwind rewrite.
 - **Route-level titles** — every child sets a branded document title.
 - **Default redirect** — explicit empty-path redirect to `/dashboard`.
 - **Sidebar footer** — now holds the desktop collapse/expand control.
-- **Profile access** — sidebar Profile and avatar menu View profile both open
-  the résumé at `/`; the old dashboard profile screen is parked.
+- **Profile access** — the account menu's View profile item opens the résumé at
+  `/`; there is no separate Profile link in the sidebar footer. The old
+  dashboard profile screen is parked.
 - **Mobile navigation** — off-canvas panel with overlay, close on navigate,
   overlay click, Escape, body scroll lock, and focus return to the trigger.
 - **Collapse persistence** — desktop rail state survives reloads
@@ -81,9 +82,9 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Navigation and layout
 
-- The former dashboard Profile screen is retained but unrouted. Both the
-  sidebar Profile link and avatar menu link open the résumé at `/`; legacy
-  `/profile` requests redirect there.
+- The former dashboard Profile screen is retained but unrouted. The account
+  menu's View profile item opens the résumé at `/`; there is no separate
+  sidebar footer Profile link. Legacy `/profile` requests redirect there.
 - **No sidebar keyboard shortcut** — the Spartan version registered one; the
   plain shell does not. Not planned unless requested.
 - **Desktop collapse only** — the mobile panel always opens full width.
@@ -139,8 +140,7 @@ Known issues in the current app after the Tailwind rewrite.
   vendoring it would remove the third-party request.
 - **`--type-color` is an alias** for `--foreground`, kept only because the
   imported resume templates use it. New code should use the foreground token.
-- **Landing-page images** are `public/profile.png` and `public/profile_dark.png`,
-  separate from the dashboard's `jg-profile.png`.
+- The résumé and dashboard profile use the same `public/jg-profile.png` image.
 
 ## Dead code
 
@@ -187,8 +187,8 @@ Known issues in the current app after the Tailwind rewrite.
 
 1. **Legacy features:** dropped permanently (`bak` screens and dialog deleted).
 2. **Routes:** unchanged URLs; light refresh only.
-3. **Profile:** the résumé at `/` is the profile; sidebar and avatar menu both
-   link there. Legacy `/profile` redirects to `/`.
+3. **Profile:** the résumé at `/` is the profile; the account menu's View
+   profile item links there. Legacy `/profile` redirects to `/`.
 4. **Header title:** derived from the route, with active-link styling. (006)
 5. **Overview "View Details":** removed. (002)
 6. **Error/empty states:** introduced in 002 and applied to every data screen;

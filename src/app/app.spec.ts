@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { App } from './app';
 import { routes } from './app.routes';
+import { ShellStateService } from './features/dashboard/shell/shell-state.service';
 
 describe('App shell', () => {
   beforeEach(async () => {
@@ -30,10 +31,6 @@ describe('App shell', () => {
     expect(element.querySelector('app-shell-sidebar')).toBeTruthy();
     expect(element.querySelector('app-shell-header')).toBeTruthy();
     expect(router.url).toBe('/dashboard');
-
-    const resumeProfile = element.querySelector('app-shell-sidebar a[href="/"]');
-    expect(resumeProfile?.textContent).toContain('Profile');
-    expect(element.textContent).not.toContain('Public site');
   });
 
   it('redirects unknown paths to /dashboard', async () => {
@@ -58,6 +55,45 @@ describe('App shell', () => {
     expect(element.querySelector('app-profile')).toBeTruthy();
     expect(element.querySelector('app-footer')).toBeTruthy();
     expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
+    const profileImage = element.querySelector('#profile-img');
+    expect(profileImage?.getAttribute('src')).toBe('/jg-profile.png');
+    expect(profileImage?.classList.contains('size-28')).toBe(true);
+    expect(profileImage?.classList.contains('sm:size-32')).toBe(true);
+    expect(profileImage?.classList.contains('md:size-40')).toBe(true);
+    expect(profileImage?.classList.contains('rounded-full')).toBe(true);
+    expect(profileImage?.classList.contains('object-cover')).toBe(true);
+  });
+
+  it('releases the mobile sidebar scroll lock when View profile opens the résumé', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+    const sidebarState = TestBed.inject(ShellStateService);
+    const previousOverflow = document.body.style.overflow;
+
+    await router.navigateByUrl('/dashboard');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    sidebarState.openMobile();
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    fixture.detectChanges();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    const element = fixture.nativeElement as HTMLElement;
+    (
+      element.querySelector('app-user-menu button[aria-haspopup="menu"]') as HTMLButtonElement
+    ).click();
+    fixture.detectChanges();
+    (element.querySelector('a[role="menuitem"][href="/"]') as HTMLAnchorElement).click();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+    expect(router.url).toBe('/');
+    expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+    expect(sidebarState.mobileOpen()).toBe(false);
+    expect(document.body.style.overflow).toBe(previousOverflow);
   });
 
   it('serves the projects page at /projects', async () => {

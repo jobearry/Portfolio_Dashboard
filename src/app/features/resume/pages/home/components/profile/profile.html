@@ -8,15 +8,10 @@
   </div>
 
   <figure class="m-1 shrink-0">
-    <!-- Single img with data attributes for dark/light variants. JS swaps src on theme changes and falls back if a variant 404s. -->
     <img
       id="profile-img"
-      class="rounded-full m-auto w-28 sm:w-32 md:w-40"
-      [src]="imgSrc"
-      [attr.data-dark]="darkSrc"
-      [attr.data-light]="lightSrc"
-      (error)="onImgError()"
-      [class.profile-filter-light]="useFilter"
+      class="m-auto size-28 rounded-full object-cover sm:size-32 md:size-40"
+      [src]="profileImage"
       alt="Photo of Jonathan Golimlim"
       style="border: 2px solid var(--border)"
     />
