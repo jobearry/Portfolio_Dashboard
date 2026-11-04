@@ -2,15 +2,22 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angula
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideFileDown, lucideGithub, lucideMapPin } from '@ng-icons/lucide';
 import { TRANSITION_MOVE_UP } from '../../../../shared/constants/styles.constants';
-import { ThemeToggler } from "../../../../components/theme-toggler";
-import { Pill } from "../../../../components/pill";
+import { ThemeToggler } from '../../../../components/theme-toggler';
+import { DashboardLink } from '../../../../components/dashboard-link';
+import { Pill } from '../../../../components/pill';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgIcon, ThemeToggler, Pill],
+  imports: [NgIcon, ThemeToggler, DashboardLink, Pill],
   providers: [provideIcons({ lucideFileDown, lucideGithub, lucideMapPin })],
   templateUrl: './profile.html',
-  styles: [`.profile-filter-light { filter: brightness(1.06) saturate(1.05) contrast(1.02); }`],
+  styles: [
+    `
+      .profile-filter-light {
+        filter: brightness(1.06) saturate(1.05) contrast(1.02);
+      }
+    `,
+  ],
 })
 // Add theme-aware image swapping using Angular lifecycle hooks
 export class Profile implements OnInit, OnDestroy {
@@ -35,7 +42,10 @@ export class Profile implements OnInit, OnDestroy {
     this.applyTheme();
     // observe theme changes on <html>
     this.mo = new MutationObserver(() => this.applyTheme());
-    this.mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+    this.mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'class'],
+    });
   }
 
   ngOnDestroy(): void {
@@ -65,8 +75,20 @@ export class Profile implements OnInit, OnDestroy {
   // Test the candidate src before committing it to avoid broken images
   private trySetSrc(candidate: string): void {
     const tester = new Image();
-    tester.onload = () => { setTimeout(() => { this.useFilter = false; this.imgSrc = candidate; this.cdr.detectChanges(); }); };
-    tester.onerror = () => { setTimeout(() => { this.useFilter = true; this.imgSrc = this.darkSrc; this.cdr.detectChanges(); }); };
+    tester.onload = () => {
+      setTimeout(() => {
+        this.useFilter = false;
+        this.imgSrc = candidate;
+        this.cdr.detectChanges();
+      });
+    };
+    tester.onerror = () => {
+      setTimeout(() => {
+        this.useFilter = true;
+        this.imgSrc = this.darkSrc;
+        this.cdr.detectChanges();
+      });
+    };
     tester.src = candidate;
   }
 

@@ -17,7 +17,10 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
     - User menu trigger: `grad_1.jpeg` avatar + name + role. It is a real
       disclosure button, not a link.
     - Menu: Dashboard, Timeline, Blog (icon + label, `sr-only` label in rail).
-    - Footer: collapse/expand button (desktop only).
+    - Footer: **Public site** link (`/`, `lucideGlobe`) above the collapse/expand
+      button. It is a regular `routerLink`, not a new tab; the resume landing
+      page has a matching **View dashboard** button so the trip is reversible.
+      The collapse/expand button is desktop only.
   - Sticky header (`h-14`, border, `z-30`): mobile menu trigger below `md`, then
     the route page title (`h1`).
   - Content: centered `max-w-[75rem]`, `p-3`, inside `<main>`.
@@ -40,6 +43,10 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
   otherwise `prefers-color-scheme`). The only toggle is inside the dropdown.
 - **Locked decision:** Profile is reachable from the dropdown, not the sidebar
   menu.
+- **Cross-links (021):** the Public site entry lives in the sidebar *footer*,
+  outside `sidebarContent`, because it is not a dashboard destination and must
+  never take an active state. `/` and `/projects` each render a **View
+  dashboard** icon link that returns to `/dashboard` in the same tab.
 
 ---
 
@@ -181,7 +188,7 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
 - **Shows:**
   - Profile header: photo (`/profile_dark.png`, swapping to `/profile.png` in
     light mode), name, `lucideMapPin` + location, two role pills, GitHub and CV
-    links, and the public theme toggle.
+    links, and the top-right **View dashboard** + theme toggle pair.
   - Two-column responsive grid built from `SIDE_BLOCK_CONTENT` and
     `MAIN_BLOCK_CONTENT`: About, Timeline, Certifications, Recent Projects,
     Technical Stack, and a `Maintenance` placeholder.
@@ -191,7 +198,8 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
   `project.constant.ts`. No API call on this screen.
 - **Title:** `Jonathan Golimlim | Software Engineer`.
 - **Interactions:** *View more* inside Recent Projects navigates to `/projects`;
-  the theme toggle uses the shared `ThemeService`.
+  **View dashboard** navigates to `/dashboard`; the theme toggle uses the shared
+  `ThemeService`.
 - **States:** no loading/empty/error states, because nothing is fetched.
 
 ---
@@ -201,7 +209,8 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
 - **Files:** `features/resume/pages/projects/ui/projects.{ts,html}`,
   `pages/projects/components/highlights.ts`, `pages/projects/constants/project.constant.ts`
 - **Reach:** top-level `projects` route, above the shell.
-- **Shows:** a back button (`/`), a **Projects** pill, the public theme toggle,
+- **Shows:** a back button (`/`), a **Projects** pill, the **View dashboard**
+  link and the public theme toggle at the right,
   a **Client Projects** block built from the static `PROJECT_HIGHLIGHT` list, and
   a **Github Repos** block listing public repositories.
 - **Data:** `GithubRepoSignalService` → `ApiClient.get('github/repos')`.

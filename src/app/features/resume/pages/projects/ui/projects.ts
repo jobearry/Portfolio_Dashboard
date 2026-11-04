@@ -9,11 +9,12 @@ import { Github } from '../../../github/ui/github';
 import { GithubRepoSignalService } from '../../../github/github-repo.service';
 import { Pill } from '../../../components/pill';
 import { ThemeToggler } from '../../../components/theme-toggler';
+import { DashboardLink } from '../../../components/dashboard-link';
 import { Footer } from '../../../components/footer';
 
 @Component({
   selector: 'app-projects',
-  imports: [Highlights, NgIcon, BlockComponent, Github, Pill, ThemeToggler, Footer],
+  imports: [Highlights, NgIcon, BlockComponent, Github, Pill, ThemeToggler, DashboardLink, Footer],
   providers: [provideIcons({ lucideArrowLeft, lucideBlocks })],
   templateUrl: './projects.html',
   styles: ``,

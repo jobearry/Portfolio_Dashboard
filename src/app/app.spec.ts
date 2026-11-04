@@ -30,6 +30,9 @@ describe('App shell', () => {
     expect(element.querySelector('app-shell-sidebar')).toBeTruthy();
     expect(element.querySelector('app-shell-header')).toBeTruthy();
     expect(router.url).toBe('/dashboard');
+
+    const publicSite = element.querySelector('app-shell-sidebar a[href="/"]');
+    expect(publicSite?.textContent).toContain('Public site');
   });
 
   it('redirects unknown paths to /dashboard', async () => {
@@ -53,6 +56,7 @@ describe('App shell', () => {
     expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
     expect(element.querySelector('app-profile')).toBeTruthy();
     expect(element.querySelector('app-footer')).toBeTruthy();
+    expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
   });
 
   it('serves the projects page at /projects', async () => {
@@ -68,6 +72,7 @@ describe('App shell', () => {
     expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
     expect(element.querySelectorAll('app-block').length).toBeGreaterThanOrEqual(2);
     expect(element.querySelector('app-github')).toBeTruthy();
+    expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
   });
 
   it('keeps every live route reachable', async () => {

@@ -33,4 +33,12 @@ describe('ShellSidebar', () => {
 
     expect(document.activeElement?.getAttribute('aria-label')).toBe('Close navigation');
   });
+
+  it('links to the public site from the footer', () => {
+    const fixture = TestBed.createComponent(ShellSidebar);
+    fixture.detectChanges();
+
+    const link = (fixture.nativeElement as HTMLElement).querySelector('a[href="/"]');
+    expect(link?.textContent).toContain('Public site');
+  });
 });

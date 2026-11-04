@@ -74,7 +74,9 @@ lucide icons it uses through its own `provideIcons()`.
 
 The two public routes are declared **above** the dashboard shell route. Both the
 resume landing page and the shell match the empty path; `pathMatch: 'full'` on
-the landing route decides it, so declaration order matters. Each dashboard child
+the landing route decides it, so declaration order matters. Navigation between
+the halves is explicit and in-tab (021): the sidebar footer links to `/`, and
+both résumé pages link back to `/dashboard`. Each dashboard child
 route sets both `title` (document tab) and `data.pageTitle` (header `h1`) through
 the `page()` helper in `app.routes.ts`.
 
@@ -111,6 +113,13 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
 | Timeline  | `/timeline`  | `lucideChartGantt`      |
 | Blog      | `/blog`      | `lucideRss`             |
 
+- A separate **Public site** entry (`/`, `lucideGlobe`) renders in the sidebar
+  footer above the collapse button, sourced from `publicSiteLink` rather than
+  `sidebarContent`. It is deliberately outside the primary `<nav>` because the
+  landing page renders outside the shell and can never be an active
+  destination. Added in 021, together with the **View dashboard** link on the
+  public pages.
+
 - Active links use `routerLinkActive` with exact matching and
   `aria-current="page"`.
 - Desktop collapse (16rem ↔ 4.5rem) is persisted in localStorage; mobile uses an
@@ -139,7 +148,7 @@ pages/home/         landing page: profile, about, timeline, certifications,
                     recent projects, tech stack
 pages/projects/     client-project highlights + public GitHub repos
 components/         card, footer, maintenance, marquee, pill, spinner,
-                    theme-toggler
+                    theme-toggler, dashboard-link
 github/             GithubRepoSignalService + presentational repo list
 terminal/           terminal widget
 shared/constants/   TRANSITION_MOVE_UP

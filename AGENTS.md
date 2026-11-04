@@ -94,7 +94,8 @@ These are real constraints and intentional gaps, not hypotheticals:
 - `Maintenance` is retained but unrouted; it is plain Tailwind, not a route.
 - `/` is the résumé landing page and renders **outside** the dashboard shell. The
   shell owns the empty path too, so the landing route must stay declared first
-  with `pathMatch: 'full'`. `/` no longer redirects to `/dashboard`.
+  with `pathMatch: 'full'`. `/` no longer redirects to `/dashboard`; the sidebar
+  footer links to `/`, and both résumé pages link back to `/dashboard`.
 - `github/repos` is not implemented in the .NET API yet; the projects page shows
   its empty state until it is. The GitHub token lives on the API — never put one
   in the frontend environment.
