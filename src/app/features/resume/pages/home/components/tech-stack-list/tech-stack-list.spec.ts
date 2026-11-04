@@ -6,7 +6,7 @@ import { TechStackList } from './tech-stack-list';
 describe('TechStackList', () => {
   let http: HttpTestingController;
 
-  const skillsRequest = () => http.expectOne((request) => request.url.endsWith('/v1/skills'));
+  const skillsRequest = () => http.expectOne((request) => request.url.endsWith('/v1/skill'));
 
   const render = () => {
     const fixture = TestBed.createComponent(TechStackList);
@@ -46,6 +46,23 @@ describe('TechStackList', () => {
     expect(element.textContent).toContain('Angular');
     expect(element.textContent).toContain('ASP.NET');
     expect(element.textContent).toContain('TypeScript');
+  });
+
+  it('matches the Recent Projects content height and keeps the full skill list scrollable', async () => {
+    const fixture = render();
+    skillsRequest().flush([
+      { id: 1, category: 'Frontend', createdAt: '', imgSrc: '', stackName: 'Angular' },
+      { id: 2, category: 'Backend', createdAt: '', imgSrc: '', stackName: 'ASP.NET' },
+    ]);
+
+    await settle(fixture);
+
+    const element = fixture.nativeElement as HTMLElement;
+    const skillList = element.querySelector('.tech-stack');
+    expect(skillList?.classList.contains('h-64')).toBe(true);
+    expect(skillList?.classList.contains('overflow-y-auto')).toBe(true);
+    expect(element.querySelectorAll('.tech-stack__group')).toHaveLength(2);
+    expect(element.querySelector('a')).toBeNull();
   });
 
   it('shows an empty state when no skills are returned', async () => {

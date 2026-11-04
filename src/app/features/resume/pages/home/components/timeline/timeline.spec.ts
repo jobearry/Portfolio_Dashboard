@@ -7,7 +7,9 @@ describe('Resume Timeline', () => {
   let http: HttpTestingController;
 
   const experiencesRequest = () =>
-    http.expectOne((request) => request.url.endsWith('/v1/experience'));
+    http.expectOne((request) =>
+      request.urlWithParams.endsWith('/v1/experience?includeProjects=false'),
+    );
 
   const render = () => {
     const fixture = TestBed.createComponent(Timeline);
@@ -20,7 +22,7 @@ describe('Resume Timeline', () => {
     fixture.detectChanges();
   };
 
-  const experience = (id: number, company: string, role: string) => ({
+  const experience = (id: number, company: string, role: string, startedAt = '2024-01-01') => ({
     id,
     company,
     description: 'This detail should not appear',
@@ -28,7 +30,7 @@ describe('Resume Timeline', () => {
     finishedAt: null,
     responsibility: 'This responsibility should not appear',
     role,
-    startedAt: '2024-01-01',
+    startedAt,
     type: 'Full time',
   });
 
@@ -45,8 +47,8 @@ describe('Resume Timeline', () => {
   it('loads experiences and displays only company names and roles', async () => {
     const fixture = render();
     experiencesRequest().flush([
-      experience(1, 'Acme', 'Software Engineer'),
-      experience(2, 'Globex', 'Developer'),
+      experience(1, 'Acme', 'Software Engineer', '2022-01-01'),
+      experience(2, 'Globex', 'Developer', '2024-01-01'),
     ]);
 
     await settle(fixture);
@@ -61,6 +63,10 @@ describe('Resume Timeline', () => {
     expect(element.textContent).not.toContain('This responsibility should not appear');
     expect(element.textContent).not.toContain('Full time');
     expect(element.querySelector('h3')?.classList.contains('text-accent-brand')).toBe(true);
+    expect([...element.querySelectorAll('li')].map((item) => item.textContent?.trim())).toEqual([
+      '2024 GlobexDeveloper',
+      '2022 AcmeSoftware Engineer',
+    ]);
   });
 
   it('shows a loading state while the request is pending', () => {

@@ -92,7 +92,7 @@ redirects to `/`.
 
 - **File:** `pages/timeline/timeline.ts` (inline template, no HTML file)
 - **Reach:** sidebar "Timeline" or direct URL.
-- **Data:** `GET v1/experience?includeProjects=true` → `ExperienceTimeline[]`.
+- **Data:** `GET v1/experience?includeProjects=false` → `ExperienceTimeline[]`.
 - **Ordering:** experiences are ordered by `startedAt` newest to oldest.
 - **States:** `app-skeleton` (`text` + `list` variants) while loading; shared
   error block with **Try again** on failure; empty message when there is no
@@ -172,17 +172,21 @@ redirects to `/`.
   - Footer with the current year and a red `DEV` marker when
     `environment.title` is non-empty (development builds only).
 - **Data:** About and Certifications are static. Timeline loads
-  `ExperienceTimeline[]` from `v1/experience` and keeps the year badge and
-  vertical-list layout, displaying the start year, company, and role. The year
-  uses the `accent-brand` theme token. Technical Stack loads `TechStackItem[]`
-  from `v1/skills` and groups skills by their API category. Recent Projects
-  loads the first two public repositories from
+  `ExperienceTimeline[]` from `v1/experience?includeProjects=false` and keeps
+  the year badge and vertical-list layout, displaying the start year, company,
+  and role, ordered newest to oldest by start date. The year uses the
+  `accent-brand` theme token. Technical Stack loads `TechStackItem[]` from
+  `v1/skill` and groups skills by their API category. Its scrollable content
+  area is the same fixed height as Recent Projects. Recent Projects loads the
+  first two public repositories from
   `v1/github/owner/{username}/repositories`.
 - **Title:** `Jonathan Golimlim | Software Engineer`.
 - **Interactions:** _View more_ inside Recent Projects uses a normal `/projects`
   link, reloading the application and project data on each click; **View
   dashboard** navigates to `/dashboard`; the theme toggle uses the shared
   `ThemeService`.
+- Technical Stack has no View more link until a destination is defined; the
+  full skill list is available by scrolling within its content area.
 - **Data states:** Timeline, Technical Stack, and Recent Projects each show
   loading, empty, and retryable error states for their API requests.
 
@@ -199,7 +203,7 @@ redirects to `/`.
   a **Github Repos** block listing public repositories.
 - **Data:** `GithubRepoSignalService` →
   `ApiClient.get('v1/github/owner/{username}/repositories')`;
-  `ResumeProjectSignalService` → `ApiClient.get('v1/project?includeTools=true')`.
+  `ResumeProjectSignalService` → `ApiClient.get('v1/project?includeTools=false')`.
 - The GitHub repository block shows the full result here; the home page shows
   the first two returned repositories as its Recent Projects preview.
 - **States:**

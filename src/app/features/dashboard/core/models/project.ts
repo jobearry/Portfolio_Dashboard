@@ -8,5 +8,5 @@ export interface Project {
   duration: number;
   contribution: string;
 
-  techStackSpecs: TechStack[];
+  techStackSpecs?: TechStack[] | null;
 }

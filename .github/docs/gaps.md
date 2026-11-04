@@ -120,7 +120,7 @@ Known issues in the current app after the Tailwind rewrite.
   `v1/github/owner/{username}/repositories`; the dashboard count uses the same
   route with `/count`.
 - The resume Projects page reads client projects from
-  `v1/project?includeTools=true`; the home page's Recent Projects preview is
+  `v1/project?includeTools=false`; the home page's Recent Projects preview is
   limited to the first two repositories returned by the GitHub list endpoint.
 
 ## Resume import (020)

@@ -54,10 +54,13 @@ describe('RecentRepositories', () => {
 
   it('uses a full-page link to reload the projects page', () => {
     const fixture = render();
-    const link = (fixture.nativeElement as HTMLElement).querySelector('a');
+    const element = fixture.nativeElement as HTMLElement;
+    const link = element.querySelector('a');
 
     expect(link?.getAttribute('href')).toBe('/projects');
     expect(link?.hasAttribute('routerLink')).toBe(false);
+    expect(element.querySelector('section')?.classList.contains('h-64')).toBe(true);
+    expect(element.querySelector('section')?.classList.contains('overflow-y-auto')).toBe(true);
     request().flush([]);
   });
 
