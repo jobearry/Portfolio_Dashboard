@@ -2,7 +2,11 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePanelLeftClose, lucidePanelLeftOpen, lucideX } from '@ng-icons/lucide';
 import { Component, ElementRef, effect, inject, viewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { SIDEBAR_ICONS, sidebarContent } from '../../../../core/constants/sidebar-sections';
+import {
+  SIDEBAR_ICONS,
+  resumeProfileLink,
+  sidebarContent,
+} from '../../../../core/constants/sidebar-sections';
 import { ShellStateService } from '../shell-state.service';
 import { UserMenu } from '../user-menu/user-menu';
 
@@ -62,6 +66,20 @@ import { UserMenu } from '../user-menu/user-menu';
       </nav>
 
       <div class="border-t border-sidebar-border p-2">
+        <a
+          [routerLink]="profileLink.url"
+          class="mb-1 flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+          [class.justify-center]="!state.showLabels()"
+          (click)="closeMobile()"
+        >
+          <ng-icon [name]="profileLink.icon" size="18" />
+          @if (state.showLabels()) {
+            <span>{{ profileLink.title }}</span>
+          } @else {
+            <span class="sr-only">{{ profileLink.title }}</span>
+          }
+        </a>
+
         <button
           type="button"
           class="hidden w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring md:flex"
@@ -86,6 +104,7 @@ import { UserMenu } from '../user-menu/user-menu';
 export class ShellSidebar {
   protected readonly state = inject(ShellStateService);
   protected readonly sections = sidebarContent;
+  protected readonly profileLink = resumeProfileLink;
 
   private readonly closeButton = viewChild<ElementRef<HTMLButtonElement>>('closeButton');
 

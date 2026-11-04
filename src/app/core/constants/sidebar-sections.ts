@@ -1,4 +1,4 @@
-import { lucideChartGantt, lucideLayoutDashboard, lucideRss } from '@ng-icons/lucide';
+import { lucideChartGantt, lucideLayoutDashboard, lucideRss, lucideUser } from '@ng-icons/lucide';
 
 export interface SidebarGroupMenu {
   title: string;
@@ -10,6 +10,7 @@ export const SIDEBAR_ICONS: Record<string, string> = {
   lucideRss,
   lucideLayoutDashboard,
   lucideChartGantt,
+  lucideUser,
 };
 
 export const sidebarContent: SidebarGroupMenu[] = [
@@ -29,3 +30,15 @@ export const sidebarContent: SidebarGroupMenu[] = [
     icon: 'lucideRss',
   },
 ];
+
+/**
+ * Sidebar link to the résumé profile outside the dashboard shell.
+ *
+ * Deliberately outside `sidebarContent`: the résumé renders outside the shell,
+ * so this link cannot match an active dashboard destination.
+ */
+export const resumeProfileLink: SidebarGroupMenu = {
+  title: 'Profile',
+  url: '/',
+  icon: 'lucideUser',
+};

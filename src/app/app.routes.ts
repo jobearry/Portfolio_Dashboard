@@ -9,6 +9,23 @@ const page = (label: string) => ({
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./features/resume/pages/home/ui/home').then((m) => m.Home),
+    title: `${site.profile.name} | ${site.profile.role}`,
+  },
+  {
+    path: 'projects',
+    loadComponent: () =>
+      import('./features/resume/pages/projects/ui/projects').then((m) => m.Projects),
+    ...page('Projects'),
+  },
+  {
+    path: 'profile',
+    pathMatch: 'full',
+    redirectTo: '',
+  },
+  {
+    path: '',
     loadComponent: () => import('./features/dashboard/shell/dashboard').then((m) => m.Dashboard),
     title: `Dashboard | ${site.profile.name}`,
     children: [
@@ -23,12 +40,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/dashboard/pages/timeline/timeline').then((m) => m.Timeline),
         ...page('Timeline'),
-      },
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./features/dashboard/pages/profile/profile').then((m) => m.Profile),
-        ...page('Profile'),
       },
       {
         path: 'blog',

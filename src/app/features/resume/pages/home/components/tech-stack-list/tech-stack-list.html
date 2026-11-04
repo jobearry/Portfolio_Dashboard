@@ -1,0 +1,20 @@
+<section class="tech-stack m-6 flex flex-col gap-2">
+  @if (state().loading) {
+    <app-skeleton variant="grid" [rows]="4" />
+  } @else if (state().error) {
+    <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
+  } @else if (groups().length === 0) {
+    <app-state-message kind="empty" message="No skills have been published yet." />
+  } @else {
+    @for (group of groups(); track group.category) {
+      <section class="tech-stack__group" [attr.aria-labelledby]="'skills-' + $index">
+        <h3 [id]="'skills-' + $index">{{ group.category }}</h3>
+        <ul class="m-2 flex flex-wrap items-center gap-2">
+          @for (skill of group.skills; track skill.id) {
+            <li><app-pill [label]="skill.stackName" size="sm" /></li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</section>

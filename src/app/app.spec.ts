@@ -30,6 +30,10 @@ describe('App shell', () => {
     expect(element.querySelector('app-shell-sidebar')).toBeTruthy();
     expect(element.querySelector('app-shell-header')).toBeTruthy();
     expect(router.url).toBe('/dashboard');
+
+    const resumeProfile = element.querySelector('app-shell-sidebar a[href="/"]');
+    expect(resumeProfile?.textContent).toContain('Profile');
+    expect(element.textContent).not.toContain('Public site');
   });
 
   it('redirects unknown paths to /dashboard', async () => {
@@ -40,18 +44,56 @@ describe('App shell', () => {
     expect(router.url).toBe('/dashboard');
   });
 
-  it('redirects the empty path to /dashboard', async () => {
+  it('serves the resume landing page at /', async () => {
+    const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
 
     await router.navigateByUrl('/');
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-    expect(router.url).toBe('/dashboard');
+    const element = fixture.nativeElement as HTMLElement;
+    expect(router.url).toBe('/');
+    expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+    expect(element.querySelector('app-profile')).toBeTruthy();
+    expect(element.querySelector('app-footer')).toBeTruthy();
+    expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
+  });
+
+  it('serves the projects page at /projects', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/projects');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(router.url).toBe('/projects');
+    expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+    expect(element.querySelectorAll('app-block').length).toBeGreaterThanOrEqual(2);
+    expect(element.querySelector('app-github')).toBeTruthy();
+    expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
+  });
+
+  it('redirects the legacy /profile path to the résumé at /', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/profile');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(router.url).toBe('/');
+    expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+    expect(element.querySelector('app-profile')).toBeTruthy();
   });
 
   it('keeps every live route reachable', async () => {
     const router = TestBed.inject(Router);
 
-    for (const path of ['/timeline', '/profile', '/blog']) {
+    for (const path of ['/timeline', '/blog']) {
       await router.navigateByUrl(path);
       expect(router.url).toBe(path);
     }

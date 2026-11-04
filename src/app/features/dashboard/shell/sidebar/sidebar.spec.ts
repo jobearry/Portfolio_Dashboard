@@ -33,4 +33,13 @@ describe('ShellSidebar', () => {
 
     expect(document.activeElement?.getAttribute('aria-label')).toBe('Close navigation');
   });
+
+  it('links to the résumé Profile page from the footer instead of a Public site link', () => {
+    const fixture = TestBed.createComponent(ShellSidebar);
+    fixture.detectChanges();
+
+    const link = (fixture.nativeElement as HTMLElement).querySelector('a[href="/"]');
+    expect(link?.textContent).toContain('Profile');
+    expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Public site');
+  });
 });

@@ -1,0 +1,62 @@
+<section class="m-6 text-start flex flex-col">
+  <div class="grid grid-cols-3 w-full">
+    <button
+      (click)="goHome()"
+      class="flex items-center gap-4 h-8 m-2 cursor-pointer w-fit transition-all duration-300 hover:transform-[translateY(-.2rem)]"
+    >
+      <ng-icon name="lucideArrowLeft" />
+      Go back
+    </button>
+    <app-pill label="Projects" size="md" class="self-center justify-self-center"></app-pill>
+
+    <div class="flex items-center gap-1 self-center justify-self-end">
+      <app-dashboard-link />
+      <app-theme-toggler />
+    </div>
+  </div>
+
+  <app-block
+    [id]="'pj_block_1'"
+    [loading]="projectState().loading"
+    [title]="'Client Projects'"
+    [class]="'border-0 [--card:var(--color-background)] [--card-foreground:var(--type-color)]'"
+  >
+    <ng-icon slot="icon" name="lucideBlocks" />
+
+    <ng-container slot="content">
+      <app-highlights [gridStyle]="'md:grid-cols-2'" [data]="corpoProjects()" class="w-[90%]" />
+      @if (!projectState().loading && !projectState().error && !corpoProjects().length) {
+        <p class="m-6 text-start text-sm" role="status" style="color: var(--muted-foreground)">
+          No client projects to show yet.
+        </p>
+      }
+    </ng-container>
+  </app-block>
+
+  @if (projectState().error) {
+    <div class="m-6 flex items-center gap-3 text-sm" role="alert" style="color: var(--destructive)">
+      <p>{{ projectState().error }}</p>
+      <button
+        type="button"
+        class="underline focus-visible:outline-2 focus-visible:outline-offset-2"
+        (click)="loadProjects()"
+      >
+        Try again
+      </button>
+    </div>
+  }
+
+  <app-github
+    class="[--card:var(--color-background)] [--card-foreground:var(--type-color)]"
+    [loading]="githubState().loading"
+    [data]="githubState().content"
+  />
+
+  @if (githubState().error) {
+    <p class="m-6 text-sm" role="alert" style="color: var(--destructive)">
+      {{ githubState().error }}
+    </p>
+  }
+
+  <app-footer />
+</section>

@@ -53,7 +53,7 @@ import { ShellStateService } from '../shell-state.service';
           (keydown)="onMenuKeydown($event)"
         >
           <a
-            routerLink="/profile"
+            routerLink="/"
             role="menuitem"
             class="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:outline-none"
             (click)="close()"
