@@ -52,6 +52,15 @@ describe('RecentRepositories', () => {
     ).toEqual(['repo-1', 'repo-2']);
   });
 
+  it('uses a full-page link to reload the projects page', () => {
+    const fixture = render();
+    const link = (fixture.nativeElement as HTMLElement).querySelector('a');
+
+    expect(link?.getAttribute('href')).toBe('/projects');
+    expect(link?.hasAttribute('routerLink')).toBe(false);
+    request().flush([]);
+  });
+
   it('shows an empty message when no repositories are returned', async () => {
     const fixture = render();
     request().flush([]);

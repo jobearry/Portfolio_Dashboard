@@ -171,15 +171,20 @@ redirects to `/`.
     Technical Stack, and a `Maintenance` placeholder.
   - Footer with the current year and a red `DEV` marker when
     `environment.title` is non-empty (development builds only).
-- **Data:** About, Timeline, Certifications, and Technical Stack are static.
-  Recent Projects loads the first two public repositories from
+- **Data:** About and Certifications are static. Timeline loads
+  `ExperienceTimeline[]` from `v1/experience` and keeps the year badge and
+  vertical-list layout, displaying the start year, company, and role. The year
+  uses the `accent-brand` theme token. Technical Stack loads `TechStackItem[]`
+  from `v1/skills` and groups skills by their API category. Recent Projects
+  loads the first two public repositories from
   `v1/github/owner/{username}/repositories`.
 - **Title:** `Jonathan Golimlim | Software Engineer`.
-- **Interactions:** _View more_ inside Recent Projects navigates to `/projects`;
-  **View dashboard** navigates to `/dashboard`; the theme toggle uses the shared
+- **Interactions:** _View more_ inside Recent Projects uses a normal `/projects`
+  link, reloading the application and project data on each click; **View
+  dashboard** navigates to `/dashboard`; the theme toggle uses the shared
   `ThemeService`.
-- **Recent Projects states:** loading, empty, and retryable error states are
-  shown for the GitHub request.
+- **Data states:** Timeline, Technical Stack, and Recent Projects each show
+  loading, empty, and retryable error states for their API requests.
 
 ---
 

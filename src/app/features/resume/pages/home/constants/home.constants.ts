@@ -1,6 +1,5 @@
 import { About } from '../components/about';
 import { Timeline } from '../components/timeline/timeline';
-import { TIMELINE_EVENTS } from '../components/timeline/timeline.constants';
 import { RecentRepositories } from '../components/recent-repositories/recent-repositories';
 import { BlockContent } from '../types/block.type';
 import { Maintenance } from '../../../components/maintenance';
@@ -21,7 +20,6 @@ export const SIDE_BLOCK_CONTENT: BlockContent[] = [
     class: 'md:col-span-2',
     icon: 'lucideHistory',
     content: Timeline,
-    inputs: { data: TIMELINE_EVENTS },
   },
   {
     id: 'side_block_3',

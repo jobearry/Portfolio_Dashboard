@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Card } from '../../../../components/card';
 import { Spinner } from '../../../../components/spinner';
 import { GithubRepoSignalService } from '../../../../github/github-repo.service';
 
 @Component({
   selector: 'app-recent-repositories',
-  imports: [Card, RouterLink, Spinner],
+  imports: [Card, Spinner],
   templateUrl: './recent-repositories.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

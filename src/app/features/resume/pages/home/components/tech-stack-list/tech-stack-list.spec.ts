@@ -1,0 +1,80 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { TechStackList } from './tech-stack-list';
+
+describe('TechStackList', () => {
+  let http: HttpTestingController;
+
+  const skillsRequest = () => http.expectOne((request) => request.url.endsWith('/v1/skills'));
+
+  const render = () => {
+    const fixture = TestBed.createComponent(TechStackList);
+    fixture.detectChanges();
+    return fixture;
+  };
+
+  const settle = async (fixture: ReturnType<typeof render>) => {
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    fixture.detectChanges();
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+
+    http = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => http.verify());
+
+  it('loads skills and groups them by API category', async () => {
+    const fixture = render();
+    skillsRequest().flush([
+      { id: 1, category: 'Frontend', createdAt: '', imgSrc: '', stackName: 'Angular' },
+      { id: 2, category: 'Backend', createdAt: '', imgSrc: '', stackName: 'ASP.NET' },
+      { id: 3, category: 'Frontend', createdAt: '', imgSrc: '', stackName: 'TypeScript' },
+    ]);
+
+    await settle(fixture);
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelectorAll('.tech-stack__group')).toHaveLength(2);
+    expect(element.textContent).toContain('Frontend');
+    expect(element.textContent).toContain('Backend');
+    expect(element.textContent).toContain('Angular');
+    expect(element.textContent).toContain('ASP.NET');
+    expect(element.textContent).toContain('TypeScript');
+  });
+
+  it('shows an empty state when no skills are returned', async () => {
+    const fixture = render();
+    skillsRequest().flush([]);
+
+    await settle(fixture);
+
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('[role="status"]')?.textContent,
+    ).toContain('No skills have been published');
+  });
+
+  it('shows an error and retries the skills request', async () => {
+    const fixture = render();
+    skillsRequest().flush('boom', { status: 503, statusText: 'Unavailable' });
+
+    await settle(fixture);
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('[role="alert"]')?.textContent).toContain('503');
+    (element.querySelector('[role="alert"] button') as HTMLButtonElement).click();
+    fixture.detectChanges();
+    skillsRequest().flush([
+      { id: 1, category: 'Frontend', createdAt: '', imgSrc: '', stackName: 'Angular' },
+    ]);
+
+    await settle(fixture);
+
+    expect(element.textContent).toContain('Angular');
+  });
+});

@@ -1,25 +1,20 @@
 <section class="tech-stack m-6 flex flex-col gap-2">
-  <section class="tech-stack__group" aria-labelledby="frontend-heading">
-    <h3 id="frontend-heading">Frontend</h3>
-    <ul class="flex flex-wrap gap-2 items-center m-2">
-      <li><app-pill label="HTML" size="sm"></app-pill></li>
-      <li><app-pill label="CSS" size="sm"></app-pill></li>
-      <li><app-pill label="JavaScript" size="sm"></app-pill></li>
-      <li><app-pill label="TypeScript" size="sm"></app-pill></li>
-      <li><app-pill label="Angular" size="sm"></app-pill></li>
-      <li><app-pill label="React" size="sm"></app-pill></li>
-      <li><app-pill label="Vite" size="sm"></app-pill></li>
-      <li><app-pill label="Tailwind" size="sm"></app-pill></li>
-    </ul>
-  </section>
-
-  <section class="tech-stack__group" aria-labelledby="backend-heading">
-    <h3 id="backend-heading">Backend</h3>
-    <ul class="flex flex-wrap gap-2 items-center m-2">
-      <li><app-pill label="Node.js" size="sm"></app-pill></li>
-      <li><app-pill label="PostgreSQL" size="sm"></app-pill></li>
-      <li><app-pill label="ASP.NET" size="sm"></app-pill></li>
-      <li><app-pill label="Entity Framework Core" size="sm"></app-pill></li>
-    </ul>
-  </section>
+  @if (state().loading) {
+    <app-skeleton variant="grid" [rows]="4" />
+  } @else if (state().error) {
+    <app-state-message kind="error" [message]="state().error ?? ''" (retry)="load()" />
+  } @else if (groups().length === 0) {
+    <app-state-message kind="empty" message="No skills have been published yet." />
+  } @else {
+    @for (group of groups(); track group.category) {
+      <section class="tech-stack__group" [attr.aria-labelledby]="'skills-' + $index">
+        <h3 [id]="'skills-' + $index">{{ group.category }}</h3>
+        <ul class="m-2 flex flex-wrap items-center gap-2">
+          @for (skill of group.skills; track skill.id) {
+            <li><app-pill [label]="skill.stackName" size="sm" /></li>
+          }
+        </ul>
+      </section>
+    }
+  }
 </section>

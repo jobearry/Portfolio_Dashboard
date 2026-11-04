@@ -231,15 +231,19 @@ Live:
 | `v1/github/owner/{username}/repositories/count` | Overview                 | `OverviewItem`         |
 | `v1/github/owner/{username}/repositories`       | Resume → Home + Projects | `GithubRepo[]`         |
 | `v1/notion/{pageId}/count`                      | Overview                 | `OverviewItem`         |
-| `v1/experience?includeProjects=true`            | Timeline                 | `ExperienceTimeline[]` |
+| `v1/experience?includeProjects=false`           | Dashboard → Timeline     | `ExperienceTimeline[]` |
+| `v1/experience`                                 | Resume → Home            | `ExperienceTimeline[]` |
+| `v1/skills`                                     | Resume → Home            | `TechStackItem[]`      |
 | `v1/notion/{site.notion.pageId}`                | Blog                     | `NotionPageCard[]`     |
 
 The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
 screens are deleted.
 
-The former dashboard profile page is parked and unrouted; its
-`v1/skill` and `v1/recommendation` calls are not used by a live route.
+The résumé timeline requests `v1/experience` and displays only company and
+role. The former dashboard profile page is parked and unrouted; its
+`v1/skill` and `v1/recommendation` calls are not used by a live route. The
+résumé Technical Stack section uses `v1/skills`.
 
 `GithubRepoSignalService` uses the owner/repositories endpoint without the
 `/count` suffix. The résumé home page displays its first two results; `/projects`
