@@ -8,26 +8,25 @@ plans in `.github/plans/`.** When this file and a rule disagree, the rule wins.
 
 A portfolio and résumé dashboard for a software engineer (Jonathan Golimlim).
 The public entry point at `/` is a single-page résumé/CV site; the dashboard
-lives under `/dashboard` and shows an overview, career timeline, profile with
-recommendations/skills, and a Notion-backed blog. The app is **read-only**.
+lives under `/dashboard` and shows an overview, career timeline, and a
+Notion-backed blog. The résumé at `/` is the profile page. The app is **read-only**.
 
 Angular SPA that consumes an external **C# / .NET REST API**; no server code
 lives in this repository.
 
-The UI is **plain Tailwind CSS**; the Spartan-to-Tailwind rewrite completed in
-008. The agreed approach and locked decisions are in `.github/plans/`.
+The UI is **plain Tailwind CSS**; the Spartan-to-Tailwind rewrite completed in 008. The agreed approach and locked decisions are in `.github/plans/`.
 
 ## 2. Stack and commands
 
-| Concern | Choice |
-| --- | --- |
-| Framework | Angular 21 — standalone, signals, lazy routes |
-| Language | TypeScript 5.9 |
-| Styling | Tailwind CSS v4 (PostCSS), dark by default |
-| Icons | `@ng-icons/core` + `@ng-icons/lucide` |
-| Tests | Vitest via `@angular/build:unit-test` |
-| Hosting | Vercel |
-| Backend | C# / .NET REST API at `environment.portfolioApi` |
+| Concern   | Choice                                           |
+| --------- | ------------------------------------------------ |
+| Framework | Angular 21 — standalone, signals, lazy routes    |
+| Language  | TypeScript 5.9                                   |
+| Styling   | Tailwind CSS v4 (PostCSS), dark by default       |
+| Icons     | `@ng-icons/core` + `@ng-icons/lucide`            |
+| Tests     | Vitest via `@angular/build:unit-test`            |
+| Hosting   | Vercel                                           |
+| Backend   | C# / .NET REST API at `environment.portfolioApi` |
 
 ```bash
 npm start          # generate env + dev server (development)
@@ -76,9 +75,9 @@ files. Never commit secrets.
 5. **Type everything.** API responses live in `core/models`; no `any`, no inline
    response shapes. Handle loading, empty, and error states — never leave a
    skeleton running forever.
-6. **Keep the routes.** `/` (résumé landing), `/projects`, `/dashboard`,
-   `/timeline`, `/profile`, `/blog`, and wildcard → `/dashboard`. Titles and
-   active states come from the router.
+6. **Keep the routes.** `/` (résumé/profile), `/projects`, `/dashboard`,
+   `/timeline`, `/blog`, legacy `/profile` → `/`, and wildcard → `/dashboard`.
+   Titles and active states come from the router.
 7. **Tailwind only.** Reuse design tokens; accent `#912F56`; never build class
    names dynamically (`bg-${color}`); mobile-first.
 8. **Accessibility and valid HTML.** Landmarks, heading order, `aria-label` on
@@ -92,10 +91,11 @@ files. Never commit secrets.
 These are real constraints and intentional gaps, not hypotheticals:
 
 - `Maintenance` is retained but unrouted; it is plain Tailwind, not a route.
-- `/` is the résumé landing page and renders **outside** the dashboard shell. The
-  shell owns the empty path too, so the landing route must stay declared first
-  with `pathMatch: 'full'`. `/` no longer redirects to `/dashboard`; the sidebar
-  footer links to `/`, and both résumé pages link back to `/dashboard`.
+- `/` is the résumé/profile page and renders **outside** the dashboard shell.
+  The shell owns the empty path too, so the landing route must stay declared
+  first with `pathMatch: 'full'`. `/` no longer redirects to `/dashboard`; the
+  sidebar footer's Profile link points to `/`, and both résumé pages link back
+  to `/dashboard`. Legacy `/profile` redirects to `/`.
 - `github/repos` is not implemented in the .NET API yet; the projects page shows
   its empty state until it is. The GitHub token lives on the API — never put one
   in the frontend environment.

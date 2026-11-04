@@ -33,6 +33,16 @@ describe('UserMenu', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
   });
 
+  it('links View profile to the résumé at /', () => {
+    const { fixture, element, trigger } = create();
+
+    trigger.click();
+    fixture.detectChanges();
+
+    const profileLink = element.querySelector('a[role="menuitem"]');
+    expect(profileLink?.getAttribute('href')).toBe('/');
+  });
+
   it('switches the theme, then closes the menu', () => {
     const { fixture, element, trigger } = create();
     trigger.click();

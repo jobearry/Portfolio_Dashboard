@@ -5,8 +5,9 @@ its data comes from, and what can be interacted with.
 
 ## Shell (dashboard routes only)
 
-The shell wraps `/dashboard`, `/timeline`, `/profile`, and `/blog`. The public
-resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
+The shell wraps `/dashboard`, `/timeline`, and `/blog`. The résumé/profile at
+`/` and `/projects` render outside it — see screens 5 and 6. Legacy `/profile`
+redirects to `/`.
 
 - **Files:** `shell/dashboard.{ts,html}`, `shell/sidebar/sidebar.ts`,
   `shell/header/header.ts`, `shell/user-menu/user-menu.ts`,
@@ -17,9 +18,9 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
     - User menu trigger: `grad_1.jpeg` avatar + name + role. It is a real
       disclosure button, not a link.
     - Menu: Dashboard, Timeline, Blog (icon + label, `sr-only` label in rail).
-    - Footer: **Public site** link (`/`, `lucideGlobe`) above the collapse/expand
-      button. It is a regular `routerLink`, not a new tab; the resume landing
-      page has a matching **View dashboard** button so the trip is reversible.
+    - Footer: **Profile** link (`/`, `lucideUser`) above the collapse/expand
+      button. It is a regular `routerLink`, not a new tab; the résumé page has a
+      matching **View dashboard** button so the trip is reversible.
       The collapse/expand button is desktop only.
   - Sticky header (`h-14`, border, `z-30`): mobile menu trigger below `md`, then
     the route page title (`h1`).
@@ -35,18 +36,17 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
   closes on navigation, overlay click, close button, or Escape; body scroll is
   locked while open; focus moves to the close button and returns to the header
   trigger on close.
-- **Dropdown:** `role="menu"` with **View profile** (`/profile`), **Download
+- **Dropdown:** `role="menu"` with **View profile** (`/`), **Download
   CV** (`site.links.cv`, new tab), and a theme toggle whose label states the next
   action. Mouse and keyboard (ArrowUp/Down, Home/End, Escape); outside click
   closes; focus returns to the trigger.
 - **Theme:** light/dark is applied to `<html>` before first paint (stored choice,
   otherwise `prefers-color-scheme`). The only toggle is inside the dropdown.
-- **Locked decision:** Profile is reachable from the dropdown, not the sidebar
-  menu.
-- **Cross-links (021):** the Public site entry lives in the sidebar *footer*,
-  outside `sidebarContent`, because it is not a dashboard destination and must
-  never take an active state. `/` and `/projects` each render a **View
-  dashboard** icon link that returns to `/dashboard` in the same tab.
+- **Profile navigation (025):** the sidebar footer's Profile link and account
+  menu's View profile item both navigate to `/`, which renders the résumé
+  outside the shell. The old dashboard profile page is parked and unrouted;
+  legacy `/profile` requests redirect to `/`. `/` and `/projects` each render a
+  **View dashboard** icon link that returns to `/dashboard` in the same tab.
 
 ---
 
@@ -118,36 +118,13 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
 
 ---
 
-## 3. Profile — `/profile`
+## 3. Legacy Profile URL — `/profile`
 
-- **Files:** `pages/profile/profile.ts` plus
-  `pages/profile/components/{recommendations,skill}.ts`
-- **Reach:** sidebar header avatar card or direct URL (no menu item).
-- **Data:**
-  - `GET v1/recommendation` → `FeedbackItem[]`
-  - `GET v1/skill` → `TechStackItem[]`
-- **Loading:** `app-skeleton` per fetched section (`list` for recommendations,
-  `grid` for skills), with a shared error block (**Try again**) and an empty
-  message per section.
-- **Shows:**
-  1. Hero card (`border`, stacked on mobile, side-by-side from `sm`):
-     - Round avatar from `site.assets.profileAvatar` (background
-       `accent-brand/20`).
-     - Name (`h2`) and handle from `site.profile`; bio from
-       `site.profile.bio`.
-     - Social/resume links rendered as buttons:
-       - **View GitHub** → `site.links.github` (outline button, new tab)
-       - **Download CV** → `site.links.cv` (accent button, new tab)
-       - Icons come from `@ng-icons/lucide`; shields.io badges were removed.
-  2. Two-column section (`border`, stacked on mobile, side-by-side from `sm`):
-     - **Recommendations:** heading **FEEDBACK** (`h3`) with accent dot; cards
-       showing `personName`, `careerPosition.value`, and the quoted
-       `description`.
-     - **Skills:** heading **SKILL** (`h3`) with accent dot; one column on
-       narrow screens, two columns from `380px`, and three columns from `lg`;
-       tiles show `stackName` and `category` (`break-words` prevents clipping).
-- **Interactions:** only the two external links.
-- **Note:** despite the README, there is no editing/CRUD on this page.
+- **Reach:** direct URL or an old bookmark.
+- **Behavior:** redirects to `/`, which renders the résumé profile outside the
+  dashboard shell.
+- **Parked code:** the former dashboard profile page and its recommendation and
+  skills components remain in the source but are not routed.
 
 ---
 
@@ -194,33 +171,39 @@ resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
     Technical Stack, and a `Maintenance` placeholder.
   - Footer with the current year and a red `DEV` marker when
     `environment.title` is non-empty (development builds only).
-- **Data:** fully static — `home.constants.ts`, `timeline.constants.ts`, and
-  `project.constant.ts`. No API call on this screen.
+- **Data:** About, Timeline, Certifications, and Technical Stack are static.
+  Recent Projects loads the first two public repositories from
+  `v1/github/owner/{username}/repositories`.
 - **Title:** `Jonathan Golimlim | Software Engineer`.
-- **Interactions:** *View more* inside Recent Projects navigates to `/projects`;
+- **Interactions:** _View more_ inside Recent Projects navigates to `/projects`;
   **View dashboard** navigates to `/dashboard`; the theme toggle uses the shared
   `ThemeService`.
-- **States:** no loading/empty/error states, because nothing is fetched.
+- **Recent Projects states:** loading, empty, and retryable error states are
+  shown for the GitHub request.
 
 ---
 
 ## 6. Projects — `/projects`
 
 - **Files:** `features/resume/pages/projects/ui/projects.{ts,html}`,
-  `pages/projects/components/highlights.ts`, `pages/projects/constants/project.constant.ts`
+  `pages/projects/components/highlights.ts`, `features/resume/projects/project.service.ts`
 - **Reach:** top-level `projects` route, above the shell.
 - **Shows:** a back button (`/`), a **Projects** pill, the **View dashboard**
   link and the public theme toggle at the right,
-  a **Client Projects** block built from the static `PROJECT_HIGHLIGHT` list, and
+  a **Client Projects** block built from the API, and
   a **Github Repos** block listing public repositories.
-- **Data:** `GithubRepoSignalService` → `ApiClient.get('github/repos')`.
+- **Data:** `GithubRepoSignalService` →
+  `ApiClient.get('v1/github/owner/{username}/repositories')`;
+  `ResumeProjectSignalService` → `ApiClient.get('v1/project?includeTools=true')`.
+- The GitHub repository block shows the full result here; the home page shows
+  the first two returned repositories as its Recent Projects preview.
 - **States:**
-  - Loading — spinner in the Github block header; the static highlights stay
-    visible.
-  - Empty — "No public repositories to show yet."
-  - Error — a `role="alert"` message rendered from `getErrorMessage()`.
-- **Note:** the endpoint is not implemented in the API yet, so this screen
-  currently settles into its empty or error state.
+  - Loading — spinner in the Client Projects and GitHub block headers.
+  - Empty — separate messages for client projects and GitHub repositories.
+  - Error — client projects show a `role="alert"` message with **Try again**;
+    GitHub repositories show an independent `role="alert"` message.
+- **Note:** the list uses the same owner/repositories route as the dashboard's
+  GitHub count, without the `/count` suffix.
 
 ---
 

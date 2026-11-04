@@ -27,10 +27,10 @@ src/main.ts
        └─ src/app/app.routes.ts
             ├─ /           → Home      (public landing page, no shell)
             ├─ /projects   → Projects  (public, no shell)
+            ├─ /profile    → redirect to résumé at /
             └─ Dashboard shell ("")    → app-shell-sidebar + app-shell-header + <router-outlet/>
                  ├─ /dashboard  → Overview
                  ├─ /timeline   → Timeline
-                 ├─ /profile    → Profile → Recommendations + SkillComponent
                  ├─ /blog       → Blog
                  └─ **          → redirectTo: dashboard
 ```
@@ -61,24 +61,25 @@ lucide icons it uses through its own `provideIcons()`.
 
 ## 3. Routes
 
-| Path        | Component              | Title                                     | Notes                            |
-| ----------- | ---------------------- | ----------------------------------------- | -------------------------------- |
-| `""` (full) | `Home` (resume)        | `Jonathan Golimlim \| Software Engineer`  | Public landing page, no shell    |
-| `projects`  | `Projects` (resume)    | `Projects \| Jonathan Golimlim`           | Public, no shell                 |
-| `""`        | `Dashboard` (shell)    | `Dashboard \| Jonathan Golimlim`          | Always mounted                   |
-| `dashboard` | `Overview`             | `Dashboard \| Jonathan Golimlim`          | Default destination              |
-| `timeline`  | `Timeline`             | `Timeline \| Jonathan Golimlim`           |                                  |
-| `profile`   | `Profile`              | `Profile \| Jonathan Golimlim`            | Not linked from the sidebar menu |
-| `blog`      | `Blog`                 | `Blog \| Jonathan Golimlim`               |                                  |
-| `**`        | redirect → `dashboard` | —                                         | Child wildcard                   |
+| Path        | Component              | Title                                    | Notes                         |
+| ----------- | ---------------------- | ---------------------------------------- | ----------------------------- |
+| `""` (full) | `Home` (resume)        | `Jonathan Golimlim \| Software Engineer` | Public landing page, no shell |
+| `projects`  | `Projects` (resume)    | `Projects \| Jonathan Golimlim`          | Public, no shell              |
+| `""`        | `Dashboard` (shell)    | `Dashboard \| Jonathan Golimlim`         | Always mounted                |
+| `dashboard` | `Overview`             | `Dashboard \| Jonathan Golimlim`         | Default destination           |
+| `timeline`  | `Timeline`             | `Timeline \| Jonathan Golimlim`          |                               |
+| `profile`   | redirect → `""`        | —                                        | Legacy URL; résumé profile    |
+| `blog`      | `Blog`                 | `Blog \| Jonathan Golimlim`              |                               |
+| `**`        | redirect → `dashboard` | —                                        | Child wildcard                |
 
-The two public routes are declared **above** the dashboard shell route. Both the
-resume landing page and the shell match the empty path; `pathMatch: 'full'` on
-the landing route decides it, so declaration order matters. Navigation between
-the halves is explicit and in-tab (021): the sidebar footer links to `/`, and
-both résumé pages link back to `/dashboard`. Each dashboard child
-route sets both `title` (document tab) and `data.pageTitle` (header `h1`) through
-the `page()` helper in `app.routes.ts`.
+The public routes and `/profile` compatibility redirect are declared **above**
+the dashboard shell route. Both the résumé landing page and the shell match the
+empty path; `pathMatch: 'full'` on the landing route decides it, so declaration
+order matters. Navigation between the halves is explicit and in-tab: the
+sidebar footer's Profile link and the account menu's View profile link navigate
+to `/`; both résumé pages link back to `/dashboard`. Each dashboard child route
+sets both `title` (document tab) and `data.pageTitle` (header `h1`) through the
+`page()` helper in `app.routes.ts`.
 
 ## 4. Shell layout
 
@@ -113,12 +114,12 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
 | Timeline  | `/timeline`  | `lucideChartGantt`      |
 | Blog      | `/blog`      | `lucideRss`             |
 
-- A separate **Public site** entry (`/`, `lucideGlobe`) renders in the sidebar
-  footer above the collapse button, sourced from `publicSiteLink` rather than
-  `sidebarContent`. It is deliberately outside the primary `<nav>` because the
-  landing page renders outside the shell and can never be an active
-  destination. Added in 021, together with the **View dashboard** link on the
-  public pages.
+- A **Profile** entry (`/`, `lucideUser`) renders in the sidebar footer above
+  the collapse button. It is outside the primary `<nav>` because the résumé
+  renders outside the shell and cannot be an active dashboard destination.
+  The avatar menu's **View profile** item also links to `/`. The former
+  dashboard profile screen remains in the source but is unrouted; legacy
+  `/profile` requests redirect to the résumé.
 
 - Active links use `routerLinkActive` with exact matching and
   `aria-current="page"`.
@@ -145,12 +146,11 @@ shell — no sidebar, no header — and share the same design tokens.
 
 ```
 pages/home/         landing page: profile, about, timeline, certifications,
-                    recent projects, tech stack
+                    recent projects, tech stack list
 pages/projects/     client-project highlights + public GitHub repos
-components/         card, footer, maintenance, marquee, pill, spinner,
-                    theme-toggler, dashboard-link
+components/         card, footer, maintenance, pill, spinner, theme-toggler,
+                    dashboard-link
 github/             GithubRepoSignalService + presentational repo list
-terminal/           terminal widget
 shared/constants/   TRANSITION_MOVE_UP
 core/models/        GithubRepo
 ```
@@ -176,7 +176,7 @@ Single typed source of truth for personal content and public integrations:
 - `site.links` — GitHub and CV URLs.
 - `site.assets` — sidebar and profile avatar filenames (served from `public/`).
 - `site.notion` — page ID and public domain.
-- `site.github` — GitHub username used by the repository count endpoint.
+- `site.github` — GitHub username used by the repository list and count endpoints.
 
 The object is `as const satisfies SiteConfig`. Consumers: shell (title/subtitle),
 sidebar (avatar), profile (hero + links), blog (page ID/domain), and the root
@@ -211,8 +211,8 @@ Single-object counterpart to `PortfolioSignalService`, used by count endpoints.
 
 `OverviewSignalService`, `ExperienceSignalService`, `SkillsSignalService`,
 `RecommendationService`, `GithubCountSignalService`,
-`NotionCountSignalService`, and `GithubRepoSignalService` (resume projects page,
-added in 020).
+`NotionCountSignalService`, `GithubRepoSignalService`, and
+`ResumeProjectSignalService` (résumé Projects page).
 
 ### Notion service
 
@@ -224,30 +224,27 @@ added in 020).
 
 Live:
 
-| Endpoint                                        | Used by                   | Response type          |
-| ----------------------------------------------- | ------------------------- | ---------------------- |
-| `v1/overview`                                   | Overview                  | `OverviewItem[]`       |
-| `v1/github/owner/{username}/repositories/count` | Overview                  | `OverviewItem`         |
-| `v1/notion/{pageId}/count`                      | Overview                  | `OverviewItem`         |
-| `v1/experience?includeProjects=true`            | Timeline                  | `ExperienceTimeline[]` |
-| `v1/skill`                                      | Profile → Skills          | `TechStackItem[]`      |
-| `v1/recommendation`                             | Profile → Recommendations | `FeedbackItem[]`       |
-| `v1/notion/{site.notion.pageId}`                | Blog                      | `NotionPageCard[]`     |
+| Endpoint                                        | Used by                  | Response type          |
+| ----------------------------------------------- | ------------------------ | ---------------------- |
+| `v1/overview`                                   | Overview                 | `OverviewItem[]`       |
+| `v1/project?includeTools=true`                  | Resume → Projects        | `Project[]`            |
+| `v1/github/owner/{username}/repositories/count` | Overview                 | `OverviewItem`         |
+| `v1/github/owner/{username}/repositories`       | Resume → Home + Projects | `GithubRepo[]`         |
+| `v1/notion/{pageId}/count`                      | Overview                 | `OverviewItem`         |
+| `v1/experience?includeProjects=true`            | Timeline                 | `ExperienceTimeline[]` |
+| `v1/notion/{site.notion.pageId}`                | Blog                     | `NotionPageCard[]`     |
 
 The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
 screens are deleted.
 
-Planned (not yet implemented in the API):
+The former dashboard profile page is parked and unrouted; its
+`v1/skill` and `v1/recommendation` calls are not used by a live route.
 
-| Endpoint       | Used by            | Response type |
-| -------------- | ------------------ | ------------- |
-| `github/repos` | Resume → Projects  | `GithubRepo[]` |
-
-`GithubRepoSignalService` calls this path through `ApiClient`. Until the
-endpoint exists, `/projects` renders the repo block's empty state. The GitHub
-token deliberately lives on the API: the imported `web_resume` shipped it in the
-browser bundle, which plan 020 removed.
+`GithubRepoSignalService` uses the owner/repositories endpoint without the
+`/count` suffix. The résumé home page displays its first two results; `/projects`
+displays the full list. The GitHub token deliberately lives on the API: the
+imported `web_resume` shipped it in the browser bundle, which plan 020 removed.
 
 ### Models
 
@@ -271,6 +268,10 @@ browser bundle, which plan 020 removed.
 - `GithubRepo { id, name, fullName, htmlUrl, description, language, topics }` —
   the API normalises `description`/`language` to empty strings and returns only
   public repositories.
+
+The résumé Projects page uses the dashboard `Project` model from
+`v1/project?includeTools=true`; the résumé home's Recent Projects preview uses
+the first two results from the GitHub repository list.
 
 The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 
@@ -305,7 +306,7 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 ## 7. Functional inventory
 
 - [x] Router shell + lazy children + wildcard redirect to `/dashboard`.
-- [x] Sidebar with three menu items and icons; avatar header linking to `/profile`.
+- [x] Sidebar with three dashboard menu items and a footer Profile link to `/`.
 - [x] Collapsible sidebar on desktop; off-canvas/mobile behavior via the sidebar trigger.
 - [x] Sticky top header with sidebar trigger and current page title.
 - [x] Content wrapper: centered, max-width ~1200px, padding.
@@ -315,8 +316,7 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
       GitHub repository and Notion page counts with independent retry states.
 - [x] Timeline experience cards with year badge, role/description, responsibility,
       nested projects, and technology chips.
-- [x] Profile hero (avatar, name, handle, bio), GitHub and CV external links.
-- [x] Recommendations list and skills grid on Profile.
+- [x] Résumé profile hero (avatar, name, handle, bio), GitHub and CV links.
 - [x] Blog list: numbered entries, title, date, external link icon, URL rewrite
       to the public Notion domain, new-tab links.
 - [x] Hover/focus lift transition on blog cards.

@@ -36,8 +36,8 @@ Known issues in the current app after the Tailwind rewrite.
 - **Route-level titles** — every child sets a branded document title.
 - **Default redirect** — explicit empty-path redirect to `/dashboard`.
 - **Sidebar footer** — now holds the desktop collapse/expand control.
-- **Profile access** — avatar dropdown with View profile, Download CV, and the
-  theme toggle.
+- **Profile access** — sidebar Profile and avatar menu View profile both open
+  the résumé at `/`; the old dashboard profile screen is parked.
 - **Mobile navigation** — off-canvas panel with overlay, close on navigate,
   overlay click, Escape, body scroll lock, and focus return to the trigger.
 - **Collapse persistence** — desktop rail state survives reloads
@@ -45,16 +45,15 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Resolved in 007 (screens)
 
-- **Spartan removed from the four screens** — `hlmH1`, `hlmH3`, `HlmIcon`, and
-  `SkeletonItem` are no longer used by Overview, Timeline, Profile, or Blog.
+- **Spartan removed from the dashboard screens** — `hlmH1`, `hlmH3`, `HlmIcon`,
+  and `SkeletonItem` are no longer used by Overview, Timeline, the parked
+  dashboard Profile, or Blog.
 - **Overview header** — the name comes from `site.profile.name`; no hardcoded
   "Than" copy.
 - **Timeline dates** — `startedAt` is parsed defensively; a missing or invalid
   date hides the year pill instead of rendering an empty/`Invalid Date` value.
-- **Profile links** — shields.io badges replaced by themed icon + text buttons
-  (GitHub outline, CV accent), so they work offline and in both themes.
-- **Profile skills** — responsive one/two-column layout with `break-words`; no
-  more clipped "TailwindCSS" at narrow widths.
+- **Former dashboard Profile UI** — retained but unrouted in plan 025; `/profile`
+  redirects to the résumé at `/`.
 - **Blog entries** — plain `ng-icon`, Tailwind hover/focus lift with a
   `motion-reduce` fallback, and a screen-reader new-tab hint.
 - **Loading** — one shared `app-skeleton` with `text`, `card`, `list`, `grid`, and
@@ -82,8 +81,9 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Navigation and layout
 
-- **Profile is not in the sidebar menu** — intentional; it is reachable from the
-  avatar dropdown (locked decision).
+- The former dashboard Profile screen is retained but unrouted. Both the
+  sidebar Profile link and avatar menu link open the résumé at `/`; legacy
+  `/profile` requests redirect there.
 - **No sidebar keyboard shortcut** — the Spartan version registered one; the
   plain shell does not. Not planned unless requested.
 - **Desktop collapse only** — the mobile panel always opens full width.
@@ -100,7 +100,8 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Profile
 
-- No link to email/LinkedIn or any contact form.
+- The résumé is the profile experience. The former dashboard profile with
+  recommendations and skills is parked but its source remains available.
 
 ## Blog
 
@@ -114,9 +115,13 @@ Known issues in the current app after the Tailwind rewrite.
   pages re-fetch on every visit.
 - No cache or shared store; each component fetches independently.
 - No request/response typing beyond generics; runtime shape is assumed.
-- **`github/repos` is not implemented in the API yet.** The resume projects page
-  (`GithubRepoSignalService`) calls it through `ApiClient` and settles into its
-  empty or error state until the C# API exposes it (plan 020).
+- **GitHub repository listing uses the existing owner/repositories API route.**
+  The resume projects page calls
+  `v1/github/owner/{username}/repositories`; the dashboard count uses the same
+  route with `/count`.
+- The resume Projects page reads client projects from
+  `v1/project?includeTools=true`; the home page's Recent Projects preview is
+  limited to the first two repositories returned by the GitHub list endpoint.
 
 ## Resume import (020)
 
@@ -139,8 +144,10 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Dead code
 
-- No known Spartan or rewrite dead code remains. `Maintenance` is intentionally
-  retained (unrouted) for future placeholder use.
+- The unused resume terminal widget and the older marquee-based tech-stack
+  component were removed in plan 022. The landing page's active tech-stack list
+  and maintenance block remain in use.
+- No known Spartan or rewrite dead code remains.
 
 ## Tooling / fixtures
 
@@ -180,7 +187,8 @@ Known issues in the current app after the Tailwind rewrite.
 
 1. **Legacy features:** dropped permanently (`bak` screens and dialog deleted).
 2. **Routes:** unchanged URLs; light refresh only.
-3. **Profile:** reachable from the avatar dropdown; not a sidebar menu item.
+3. **Profile:** the résumé at `/` is the profile; sidebar and avatar menu both
+   link there. Legacy `/profile` redirects to `/`.
 4. **Header title:** derived from the route, with active-link styling. (006)
 5. **Overview "View Details":** removed. (002)
 6. **Error/empty states:** introduced in 002 and applied to every data screen;

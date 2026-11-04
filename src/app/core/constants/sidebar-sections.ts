@@ -1,4 +1,4 @@
-import { lucideChartGantt, lucideGlobe, lucideLayoutDashboard, lucideRss } from '@ng-icons/lucide';
+import { lucideChartGantt, lucideLayoutDashboard, lucideRss, lucideUser } from '@ng-icons/lucide';
 
 export interface SidebarGroupMenu {
   title: string;
@@ -10,7 +10,7 @@ export const SIDEBAR_ICONS: Record<string, string> = {
   lucideRss,
   lucideLayoutDashboard,
   lucideChartGantt,
-  lucideGlobe,
+  lucideUser,
 };
 
 export const sidebarContent: SidebarGroupMenu[] = [
@@ -32,15 +32,13 @@ export const sidebarContent: SidebarGroupMenu[] = [
 ];
 
 /**
- * Cross-link out of the dashboard into the public résumé landing page.
+ * Sidebar link to the résumé profile outside the dashboard shell.
  *
- * Deliberately outside `sidebarContent`: that array drives the primary `<nav>`
- * and every entry takes an active state. The public site renders outside the
- * dashboard shell, so it can never be active, and it is not a dashboard
- * destination.
+ * Deliberately outside `sidebarContent`: the résumé renders outside the shell,
+ * so this link cannot match an active dashboard destination.
  */
-export const publicSiteLink: SidebarGroupMenu = {
-  title: 'Public site',
+export const resumeProfileLink: SidebarGroupMenu = {
+  title: 'Profile',
   url: '/',
-  icon: 'lucideGlobe',
+  icon: 'lucideUser',
 };

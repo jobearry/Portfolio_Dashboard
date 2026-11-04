@@ -20,6 +20,11 @@ export const routes: Routes = [
     ...page('Projects'),
   },
   {
+    path: 'profile',
+    pathMatch: 'full',
+    redirectTo: '',
+  },
+  {
     path: '',
     loadComponent: () => import('./features/dashboard/shell/dashboard').then((m) => m.Dashboard),
     title: `Dashboard | ${site.profile.name}`,
@@ -35,12 +40,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/dashboard/pages/timeline/timeline').then((m) => m.Timeline),
         ...page('Timeline'),
-      },
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./features/dashboard/pages/profile/profile').then((m) => m.Profile),
-        ...page('Profile'),
       },
       {
         path: 'blog',

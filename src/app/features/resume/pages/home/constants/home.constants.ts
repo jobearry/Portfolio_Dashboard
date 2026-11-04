@@ -1,8 +1,7 @@
 import { About } from '../components/about';
 import { Timeline } from '../components/timeline/timeline';
 import { TIMELINE_EVENTS } from '../components/timeline/timeline.constants';
-import { Highlights } from '../../projects/components/highlights';
-import { PROJECT_HIGHLIGHT } from '../../projects/constants/project.constant';
+import { RecentRepositories } from '../components/recent-repositories/recent-repositories';
 import { BlockContent } from '../types/block.type';
 import { Maintenance } from '../../../components/maintenance';
 import { TechStackList } from '../components/tech-stack-list/tech-stack-list';
@@ -39,8 +38,7 @@ export const MAIN_BLOCK_CONTENT: BlockContent[] = [
     title: 'Recent Projects',
     class: 'md:col-span-2 md:bg-transparent ',
     icon: 'lucideBlocks',
-    content: Highlights,
-    inputs: { data: PROJECT_HIGHLIGHT.slice(0, 2), style: '' },
+    content: RecentRepositories,
   },
   {
     id: 'main_block_2',
