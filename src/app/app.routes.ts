@@ -9,6 +9,18 @@ const page = (label: string) => ({
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./features/resume/pages/home/ui/home').then((m) => m.Home),
+    title: `${site.profile.name} | ${site.profile.role}`,
+  },
+  {
+    path: 'projects',
+    loadComponent: () =>
+      import('./features/resume/pages/projects/ui/projects').then((m) => m.Projects),
+    ...page('Projects'),
+  },
+  {
+    path: '',
     loadComponent: () => import('./features/dashboard/shell/dashboard').then((m) => m.Dashboard),
     title: `Dashboard | ${site.profile.name}`,
     children: [

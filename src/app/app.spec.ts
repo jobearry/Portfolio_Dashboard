@@ -40,12 +40,25 @@ describe('App shell', () => {
     expect(router.url).toBe('/dashboard');
   });
 
-  it('redirects the empty path to /dashboard', async () => {
+  it('serves the resume landing page at /', async () => {
+    const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
 
     await router.navigateByUrl('/');
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-    expect(router.url).toBe('/dashboard');
+    const element = fixture.nativeElement as HTMLElement;
+    expect(router.url).toBe('/');
+    expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+  });
+
+  it('serves the projects page at /projects', async () => {
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/projects');
+
+    expect(router.url).toBe('/projects');
   });
 
   it('keeps every live route reachable', async () => {
