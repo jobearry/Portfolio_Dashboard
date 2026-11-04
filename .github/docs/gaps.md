@@ -114,6 +114,28 @@ Known issues in the current app after the Tailwind rewrite.
   pages re-fetch on every visit.
 - No cache or shared store; each component fetches independently.
 - No request/response typing beyond generics; runtime shape is assumed.
+- **`github/repos` is not implemented in the API yet.** The resume projects page
+  (`GithubRepoSignalService`) calls it through `ApiClient` and settles into its
+  empty or error state until the C# API exposes it (plan 020).
+
+## Resume import (020)
+
+- **Heatmap, ECharts wrapper, and commits pipeline were dropped.** In
+  `web_resume` the heatmap was referenced nowhere and the chart wrapper only
+  inside a commented-out line, so the whole ECharts dependency and the
+  commit-aggregation effects were unreachable. They remain in git history via
+  the import merge and can be resurrected from there.
+- **Two `Maintenance` components exist** — the dashboard's
+  `src/app/components/maintenance.ts` and
+  `src/app/features/resume/components/maintenance.ts`. Both stay inside their
+  own feature; unifying them is optional cleanup.
+- **`devicon.min.css` loads from jsDelivr** in `src/index.html` to render the
+  tech-stack logos on the landing page. It is the one external runtime asset;
+  vendoring it would remove the third-party request.
+- **`--type-color` is an alias** for `--foreground`, kept only because the
+  imported resume templates use it. New code should use the foreground token.
+- **Landing-page images** are `public/profile.png` and `public/profile_dark.png`,
+  separate from the dashboard's `jg-profile.png`.
 
 ## Dead code
 

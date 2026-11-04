@@ -25,7 +25,9 @@ the Tailwind rewrite (002–008).
 src/main.ts
   └─ App (src/app/app.ts)                 → <router-outlet/>
        └─ src/app/app.routes.ts
-            └─ Dashboard shell ("")       → app-shell-sidebar + app-shell-header + <router-outlet/>
+            ├─ /           → Home      (public landing page, no shell)
+            ├─ /projects   → Projects  (public, no shell)
+            └─ Dashboard shell ("")    → app-shell-sidebar + app-shell-header + <router-outlet/>
                  ├─ /dashboard  → Overview
                  ├─ /timeline   → Timeline
                  ├─ /profile    → Profile → Recommendations + SkillComponent
@@ -59,18 +61,22 @@ lucide icons it uses through its own `provideIcons()`.
 
 ## 3. Routes
 
-| Path        | Component              | Title                            | Notes                            |
-| ----------- | ---------------------- | -------------------------------- | -------------------------------- |
-| `""`        | `Dashboard` (shell)    | `Dashboard \| Jonathan Golimlim` | Always mounted                   |
-| `dashboard` | `Overview`             | `Dashboard \| Jonathan Golimlim` | Default destination              |
-| `timeline`  | `Timeline`             | `Timeline \| Jonathan Golimlim`  |                                  |
-| `profile`   | `Profile`              | `Profile \| Jonathan Golimlim`   | Not linked from the sidebar menu |
-| `blog`      | `Blog`                 | `Blog \| Jonathan Golimlim`      |                                  |
-| `**`        | redirect → `dashboard` | —                                | Child wildcard                   |
+| Path        | Component              | Title                                     | Notes                            |
+| ----------- | ---------------------- | ----------------------------------------- | -------------------------------- |
+| `""` (full) | `Home` (resume)        | `Jonathan Golimlim \| Software Engineer`  | Public landing page, no shell    |
+| `projects`  | `Projects` (resume)    | `Projects \| Jonathan Golimlim`           | Public, no shell                 |
+| `""`        | `Dashboard` (shell)    | `Dashboard \| Jonathan Golimlim`          | Always mounted                   |
+| `dashboard` | `Overview`             | `Dashboard \| Jonathan Golimlim`          | Default destination              |
+| `timeline`  | `Timeline`             | `Timeline \| Jonathan Golimlim`           |                                  |
+| `profile`   | `Profile`              | `Profile \| Jonathan Golimlim`            | Not linked from the sidebar menu |
+| `blog`      | `Blog`                 | `Blog \| Jonathan Golimlim`               |                                  |
+| `**`        | redirect → `dashboard` | —                                         | Child wildcard                   |
 
-Each child route sets both `title` (document tab) and `data.pageTitle` (header
-`h1`) through the `page()` helper in `app.routes.ts`. An explicit empty-path
-redirect handles `/`.
+The two public routes are declared **above** the dashboard shell route. Both the
+resume landing page and the shell match the empty path; `pathMatch: 'full'` on
+the landing route decides it, so declaration order matters. Each dashboard child
+route sets both `title` (document tab) and `data.pageTitle` (header `h1`) through
+the `page()` helper in `app.routes.ts`.
 
 ## 4. Shell layout
 
@@ -123,6 +129,34 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
   final layout, exposes `role="status"` with visually hidden "Loading…", and
   marks the visual blocks `aria-hidden`.
 
+### Public pages — `src/app/features/resume/`
+
+Imported from `web_resume` in plan 020. These render **outside** the dashboard
+shell — no sidebar, no header — and share the same design tokens.
+
+```
+pages/home/         landing page: profile, about, timeline, certifications,
+                    recent projects, tech stack
+pages/projects/     client-project highlights + public GitHub repos
+components/         card, footer, maintenance, marquee, pill, spinner,
+                    theme-toggler
+github/             GithubRepoSignalService + presentational repo list
+terminal/           terminal widget
+shared/constants/   TRANSITION_MOVE_UP
+core/models/        GithubRepo
+```
+
+- `pages/home/constants/home.constants.ts` drives the landing page:
+  `BlockContent` entries pair a title, icon name, and component class, which
+  `DynamicHostComponent` (`pages/home/components/host.ts`) instantiates.
+- Icons are registered per component with `provideIcons()`; the landing page
+  registers `lucideIdCard`, `lucideHistory`, `lucideAward`, `lucideBlocks`, and
+  `lucideToolbox`.
+- `ThemeToggler` delegates to the shared `ThemeService`, so the public pages and
+  the dashboard share one stored preference and one `.dark` class.
+- `pages/home/components/profile` swaps between `/profile.png` and
+  `/profile_dark.png` by observing the `<html>` class.
+
 ## 5. Data layer
 
 ### Site config — `src/app/core/config/site.config.ts`
@@ -168,7 +202,8 @@ Single-object counterpart to `PortfolioSignalService`, used by count endpoints.
 
 `OverviewSignalService`, `ExperienceSignalService`, `SkillsSignalService`,
 `RecommendationService`, `GithubCountSignalService`,
-`NotionCountSignalService`.
+`NotionCountSignalService`, and `GithubRepoSignalService` (resume projects page,
+added in 020).
 
 ### Notion service
 
@@ -194,6 +229,17 @@ The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
 screens are deleted.
 
+Planned (not yet implemented in the API):
+
+| Endpoint       | Used by            | Response type |
+| -------------- | ------------------ | ------------- |
+| `github/repos` | Resume → Projects  | `GithubRepo[]` |
+
+`GithubRepoSignalService` calls this path through `ApiClient`. Until the
+endpoint exists, `/projects` renders the repo block's empty state. The GitHub
+token deliberately lives on the API: the imported `web_resume` shipped it in the
+browser bundle, which plan 020 removed.
+
 ### Models
 
 `src/app/features/dashboard/core/models/`
@@ -211,12 +257,19 @@ screens are deleted.
   `Role { value }`
 - `NotionPageCard { url, date, title }`
 
+`src/app/features/resume/core/models/` (plan 020):
+
+- `GithubRepo { id, name, fullName, htmlUrl, description, language, topics }` —
+  the API normalises `description`/`language` to empty strings and returns only
+  public repositories.
+
 The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 
 ## 6. Asset and environment notes
 
 - Public assets: `public/favicon.ico`, `public/grad_1.jpeg` (sidebar avatar),
-  `public/jg-profile.png` (profile avatar).
+  `public/jg-profile.png` (profile avatar), `public/profile.png` and
+  `public/profile_dark.png` (resume landing page, plan 020).
 - `scripts/genenv.js` rewrites `src/environments/environment*.ts` from `.env`
   (`PORTFOLIO_API_HOST`, etc.) on every `npm start` / `npm run build*`. It uses
   `dotenv`, now an explicit dev dependency; without `.env` the API base is empty

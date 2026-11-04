@@ -1,6 +1,6 @@
 # 020 — Resume landing page imported from web_resume
 
-Status: Draft
+Status: Done
 Owner: agent
 Related docs: `.github/docs/current-state.md`, `.github/docs/screens.md`,
 `.github/docs/gaps.md`, `AGENTS.md`, `.github/rules/angular.md`,
@@ -131,58 +131,58 @@ Out:
 
 ### Phase 1 — Import history
 
-- [ ] Clone outside the working tree:
+- [x] Clone outside the working tree:
       `git clone https://github.com/jobearry/web_resume.git /tmp/opencode/resume-import`
-- [ ] Rewrite paths in the clone (no `--force`):
+- [x] Rewrite paths in the clone (no `--force`):
       `git filter-repo --to-subdirectory-filter resume-web`
-- [ ] Verify: all paths under `resume-web/`, 88 commits preserved.
-- [ ] Add a temporary remote, fetch `main` only, without tags.
-- [ ] `git merge --allow-unrelated-histories resume-import/main`
-- [ ] Remove the temporary remote.
-- [ ] Drop the now-inert `resume-web/.github/` in its own commit.
+- [x] Verify: all paths under `resume-web/`, 88 commits preserved.
+- [x] Add a temporary remote, fetch `main` only, without tags.
+- [x] `git merge --allow-unrelated-histories resume-import/main`
+- [x] Remove the temporary remote.
+- [x] Drop the now-inert `resume-web/.github/` in its own commit.
 
 ### Phase 2 — Reflow into the feature folder
 
-- [ ] `git mv` per the file-mapping table above.
-- [ ] Delete dropped files: `chart*`, `heatmap*`, `store.provider.ts`,
+- [x] `git mv` per the file-mapping table above.
+- [x] Delete dropped files: `chart*`, `heatmap*`, `store.provider.ts`,
       `features/github/store/**`, and all app scaffolding.
-- [ ] Delete the empty `resume-web/` staging folder.
+- [x] Delete the empty `resume-web/` staging folder.
 
 ### Phase 3 — NgRx to signals
 
-- [ ] Add the repo model to `src/app/core/models`.
-- [ ] Write `GithubService` with `inject(ApiClient)`, a `signal` for the repos,
+- [x] Add the repo model to `src/app/core/models`.
+- [x] Write `GithubService` with `inject(ApiClient)`, a `signal` for the repos,
       and a `loading`/`error` signal. Follow the existing entity-service
       pattern; no `HttpClient` in the service, no `any`.
-- [ ] Rewrite `projects.ts`: remove `Store`, `State`, `GithubAPIActions`, and
+- [x] Rewrite `projects.ts`: remove `Store`, `State`, `GithubAPIActions`, and
       the `Observable`; read signals directly.
-- [ ] Rewrite `projects.html`: replace `projectState$ | async` with signal
+- [x] Rewrite `projects.html`: replace `projectState$ | async` with signal
       reads; handle loading, empty, and error states.
-- [ ] Leave the endpoint path as a named constant with a TODO and record the
+- [x] Leave the endpoint path as a named constant with a TODO and record the
       missing endpoint in `gaps.md`.
 
 ### Phase 4 — Icons, theme, and tokens
 
-- [ ] Convert every `<lucide-icon>` / `<lucide-angular>` to `<ng-icon>` with
+- [x] Convert every `<lucide-icon>` / `<lucide-angular>` to `<ng-icon>` with
       `provideIcons` per component, matching the dashboard's pattern.
-- [ ] Replace their `ThemeToggler` internals with `inject(ThemeService)`;
+- [x] Replace their `ThemeToggler` internals with `inject(ThemeService)`;
       keep the bulb visual.
-- [ ] Add `--type-color` and, if still referenced, the `--chart-*` tokens to
+- [x] Add `--type-color` and, if still referenced, the `--chart-*` tokens to
       `src/styles.css`; remove references that are only used by dropped code.
-- [ ] Normalise `html[data-theme=...]` selectors to the existing `.dark`
+- [x] Normalise `html[data-theme=...]` selectors to the existing `.dark`
       convention, or extend `ThemeService` and the `index.html` bootstrap to
       set `data-theme`. Choose one and record it.
-- [ ] Keep their footer; do not import their global `:root` font/line-height
+- [x] Keep their footer; do not import their global `:root` font/line-height
       rules.
 
 ### Phase 5 — Routes and docs
 
-- [ ] Add `/` and `/projects` above the dashboard shell route, with
+- [x] Add `/` and `/projects` above the dashboard shell route, with
       `title` values from `site.config`.
-- [ ] Confirm the public pages render without the dashboard shell.
-- [ ] `AGENTS.md`: routes, repository map, landmines.
-- [ ] `.github/docs/current-state.md`, `screens.md`, `gaps.md`.
-- [ ] Mark this plan `Done`.
+- [x] Confirm the public pages render without the dashboard shell.
+- [x] `AGENTS.md`: routes, repository map, landmines.
+- [x] `.github/docs/current-state.md`, `screens.md`, `gaps.md`.
+- [x] Mark this plan `Done`.
 
 ## Risks / decisions
 
@@ -204,15 +204,41 @@ Out:
 - **Rollback.** All work is on the feature branch; `main` is untouched until
   merged.
 
+## Deviations from the plan
+
+- `web_resume` has **no `.github/` directory**, so the "drop imported CI config"
+  task was a no-op.
+- `features/github/types/github.type.ts` was deleted rather than moved; the new
+  `core/models/github-repo.ts` replaces it so there is one repo model.
+- `features/resume/shared/constants/` kept its relative depth, so the
+  `TRANSITION_MOVE_UP` imports did not change.
+- The theme toggler was normalised onto the existing `.dark` class instead of
+  extending `ThemeService` to also set `data-theme`. `profile.ts` already falls
+  back to the class when the attribute is absent.
+- `--chart-*` tokens were **not** added — they only served ECharts, which is
+  gone. `--type-color` was added as an alias for `--foreground`.
+- The footer moved from the dropped `app.html` shell into `home.html` and
+  `projects.html`; the first reflow silently lost it and the routing spec caught
+  it.
+- The old "`/` redirects to `/dashboard`" routing test was replaced with
+  assertions for the two public screens.
+
+## Manual verification status
+
+Automated checks pass. The manual browser checks below are still open: Browser
+MCP had no connected browser, so `/` and `/projects` were verified only through
+the routing spec's rendered DOM. A dev server is available at
+`http://localhost:4300/` for the visual and keyboard pass.
+
 ## Verification
 
-- [ ] `git log --oneline --graph --all` shows one merge joining both histories.
-- [ ] `git log --follow -- src/app/features/resume/pages/home/ui/home.ts` shows
+- [x] `git log --oneline --graph --all` shows one merge joining both histories.
+- [x] `git log --follow -- src/app/features/resume/pages/home/ui/home.ts` shows
       the imported history through the reflow.
-- [ ] `npm run build` and `npm run build:prod` succeed; budgets not exceeded.
-- [ ] `npm test` passes.
-- [ ] `npm run lint` passes — no `any`, no `console.*`.
-- [ ] `grep -r "@ngrx\|echarts\|lucide-angular" src` returns nothing.
+- [x] `npm run build` and `npm run build:prod` succeed; budgets not exceeded.
+- [x] `npm test` passes.
+- [x] `npm run lint` passes — no `any`, no `console.*`.
+- [x] `grep -r "@ngrx\|echarts\|lucide-angular" src` returns nothing.
 - [ ] Manual: `/` renders the CV landing page with no dashboard chrome.
 - [ ] Manual: `/projects` renders highlights, the repo block, and its empty and
       error states.

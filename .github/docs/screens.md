@@ -3,12 +3,15 @@
 Detailed trace of every live screen: how it is reached, what it renders, where
 its data comes from, and what can be interacted with.
 
-## Shell (all routes)
+## Shell (dashboard routes only)
+
+The shell wraps `/dashboard`, `/timeline`, `/profile`, and `/blog`. The public
+resume pages at `/` and `/projects` render outside it — see screens 6 and 7.
 
 - **Files:** `shell/dashboard.{ts,html}`, `shell/sidebar/sidebar.ts`,
   `shell/header/header.ts`, `shell/user-menu/user-menu.ts`,
   `shell/shell-state.service.ts`
-- **Reach:** mounted for every path under `/`.
+- **Reach:** mounted for every dashboard path.
 - **Shows:**
   - Sidebar (plain Tailwind, semantic tokens):
     - User menu trigger: `grad_1.jpeg` avatar + name + role. It is a real
@@ -168,6 +171,50 @@ its data comes from, and what can be interacted with.
 
 ---
 
-## 5. Fallback
+## 5. Resume landing — `/`
+
+- **Files:** `features/resume/pages/home/ui/home.{ts,html}`,
+  `pages/home/constants/home.constants.ts`, `pages/home/components/**`,
+  `components/**`
+- **Reach:** the empty path with `pathMatch: 'full'`, declared directly above the
+  dashboard shell route. Renders **without** the dashboard shell.
+- **Shows:**
+  - Profile header: photo (`/profile_dark.png`, swapping to `/profile.png` in
+    light mode), name, `lucideMapPin` + location, two role pills, GitHub and CV
+    links, and the public theme toggle.
+  - Two-column responsive grid built from `SIDE_BLOCK_CONTENT` and
+    `MAIN_BLOCK_CONTENT`: About, Timeline, Certifications, Recent Projects,
+    Technical Stack, and a `Maintenance` placeholder.
+  - Footer with the current year and a red `DEV` marker when
+    `environment.title` is non-empty (development builds only).
+- **Data:** fully static — `home.constants.ts`, `timeline.constants.ts`, and
+  `project.constant.ts`. No API call on this screen.
+- **Title:** `Jonathan Golimlim | Software Engineer`.
+- **Interactions:** *View more* inside Recent Projects navigates to `/projects`;
+  the theme toggle uses the shared `ThemeService`.
+- **States:** no loading/empty/error states, because nothing is fetched.
+
+---
+
+## 6. Projects — `/projects`
+
+- **Files:** `features/resume/pages/projects/ui/projects.{ts,html}`,
+  `pages/projects/components/highlights.ts`, `pages/projects/constants/project.constant.ts`
+- **Reach:** top-level `projects` route, above the shell.
+- **Shows:** a back button (`/`), a **Projects** pill, the public theme toggle,
+  a **Client Projects** block built from the static `PROJECT_HIGHLIGHT` list, and
+  a **Github Repos** block listing public repositories.
+- **Data:** `GithubRepoSignalService` → `ApiClient.get('github/repos')`.
+- **States:**
+  - Loading — spinner in the Github block header; the static highlights stay
+    visible.
+  - Empty — "No public repositories to show yet."
+  - Error — a `role="alert"` message rendered from `getErrorMessage()`.
+- **Note:** the endpoint is not implemented in the API yet, so this screen
+  currently settles into its empty or error state.
+
+---
+
+## 7. Fallback
 
 - Unknown child path → `redirectTo: "dashboard"`.
