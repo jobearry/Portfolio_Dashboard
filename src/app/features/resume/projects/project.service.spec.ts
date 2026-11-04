@@ -18,7 +18,7 @@ describe('ResumeProjectSignalService', () => {
 
   afterEach(() => http.verify());
 
-  it('loads projects with their tools from the portfolio API', async () => {
+  it('loads projects without tools from the portfolio API', async () => {
     const projects = [
       {
         projectId: 7,
@@ -27,22 +27,12 @@ describe('ResumeProjectSignalService', () => {
         coverImg: '',
         duration: 12,
         contribution: 'Delivered the portal',
-        techStackSpecs: [
-          {
-            specId: 4,
-            toolName: 'Angular',
-            imgSrc: '',
-            createdAt: '',
-            stackId: 2,
-            stack: 'Frontend',
-          },
-        ],
       },
     ];
 
     const request = service.load();
 
-    http.expectOne((req) => req.url.endsWith('/v1/project?includeTools=true')).flush(projects);
+    http.expectOne((req) => req.url.endsWith('/v1/project?includeTools=false')).flush(projects);
     await request;
 
     expect(service.getState()).toEqual({

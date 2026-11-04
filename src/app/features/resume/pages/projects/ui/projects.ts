@@ -47,6 +47,6 @@ export class Projects implements OnInit {
     id: project.projectId,
     title: project.projectName,
     contribution: project.contribution || project.description,
-    tags: project.techStackSpecs.map((spec) => spec.toolName),
+    tags: project.techStackSpecs?.map((spec) => spec.toolName) ?? [],
   });
 }

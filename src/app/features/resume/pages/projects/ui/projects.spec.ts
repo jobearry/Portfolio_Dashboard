@@ -9,7 +9,7 @@ describe('Projects', () => {
   let http: HttpTestingController;
 
   const projectRequest = () =>
-    http.expectOne((request) => request.url.endsWith('/v1/project?includeTools=true'));
+    http.expectOne((request) => request.url.endsWith('/v1/project?includeTools=false'));
 
   const githubRequest = () =>
     http.expectOne((request) =>
@@ -37,7 +37,7 @@ describe('Projects', () => {
 
   afterEach(() => http.verify());
 
-  it('renders project names, contributions, and included tools from the API', async () => {
+  it('renders projects when the API omits tool details', async () => {
     const fixture = render();
 
     projectRequest().flush([
@@ -48,16 +48,6 @@ describe('Projects', () => {
         coverImg: '',
         duration: 12,
         contribution: 'Delivered the portal',
-        techStackSpecs: [
-          {
-            specId: 4,
-            toolName: 'Angular',
-            imgSrc: '',
-            createdAt: '',
-            stackId: 2,
-            stack: 'Frontend',
-          },
-        ],
       },
     ]);
     githubRequest().flush([]);
@@ -66,7 +56,7 @@ describe('Projects', () => {
 
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Portal');
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Delivered the portal');
-    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Angular');
+    expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Angular');
   });
 
   it('renders an empty state when the API returns no projects', async () => {

@@ -22,7 +22,7 @@ import { ExperienceTimeline } from '../../../../../dashboard/core';
       <ol
         class="relative h-60 overflow-y-scroll scroll-smooth [scrollbar-width:thin] [scrollbar-color:#888_transparent]"
       >
-        @for (experience of state().content; track experience.id) {
+        @for (experience of orderedExperiences(); track experience.id) {
           <li class="group relative mb-8 ml-15 border-l-1 border-accent-brand pl-5">
             <h3
               class="absolute top-0 -left-12 rounded-sm border border-accent-brand p-1 text-sm text-accent-brand transition-all duration-300"
@@ -42,12 +42,20 @@ import { ExperienceTimeline } from '../../../../../dashboard/core';
 export class Timeline implements OnInit {
   private readonly experienceService = inject(ExperienceSignalService);
   protected readonly state = computed(() => this.experienceService.getState());
+  protected readonly orderedExperiences = computed(() =>
+    [...this.state().content].sort(
+      (left, right) => Date.parse(right.startedAt) - Date.parse(left.startedAt),
+    ),
+  );
 
   ngOnInit(): void {
     void this.load();
   }
 
   protected load(): Promise<void> {
-    return getContent<ExperienceTimeline>('v1/experience', this.experienceService);
+    return getContent<ExperienceTimeline>(
+      'v1/experience?includeProjects=false',
+      this.experienceService,
+    );
   }
 }

@@ -4,7 +4,7 @@ import { PortfolioSignalService } from '../../../shared/services/portfolio-base.
 
 @Injectable({ providedIn: 'root' })
 export class ResumeProjectSignalService extends PortfolioSignalService<Project> {
-  private static readonly ENDPOINT = 'v1/project?includeTools=true';
+  private static readonly ENDPOINT = 'v1/project?includeTools=false';
 
   async load(): Promise<void> {
     this.setLoading();

@@ -77,7 +77,7 @@ import { ExperienceTimeline } from '../../core';
                         </p>
 
                         <ul class="flex flex-wrap gap-2">
-                          @for (spec of project.techStackSpecs; track spec.specId) {
+                          @for (spec of project.techStackSpecs ?? []; track spec.specId) {
                             <li
                               class="rounded-md bg-muted px-2 py-1 text-xs tracking-wide text-muted-foreground"
                             >
