@@ -24,7 +24,7 @@ export const SIDE_BLOCK_CONTENT: BlockContent[] = [
     content: Timeline,
     inputs: { data: TIMELINE_EVENTS },
   },
-    {
+  {
     id: 'side_block_3',
     title: 'Certifications',
     class: 'md:col-span-2',
@@ -40,7 +40,7 @@ export const MAIN_BLOCK_CONTENT: BlockContent[] = [
     class: 'md:col-span-2 md:bg-transparent ',
     icon: 'lucideBlocks',
     content: Highlights,
-    inputs: { data: PROJECT_HIGHLIGHT.slice(0, 2), style: "" },
+    inputs: { data: PROJECT_HIGHLIGHT.slice(0, 2), style: '' },
   },
   {
     id: 'main_block_2',
@@ -54,6 +54,6 @@ export const MAIN_BLOCK_CONTENT: BlockContent[] = [
     title: '',
     class: 'md:col-span-2 md:bg-transparent',
     content: Maintenance,
-    inputs: { subtitle: "making more features" },
+    inputs: { subtitle: 'making more features' },
   },
 ];

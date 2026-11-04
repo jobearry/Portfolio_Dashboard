@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Marquee } from "../../../../components/marquee/marquee";
+import { Marquee } from '../../../../components/marquee/marquee';
 
 @Component({
   selector: 'app-tech-stack',
@@ -8,5 +8,5 @@ import { Marquee } from "../../../../components/marquee/marquee";
   styleUrl: './tech-stack.css',
 })
 export class TechStack {
-  title = input<string>("")
+  title = input<string>('');
 }

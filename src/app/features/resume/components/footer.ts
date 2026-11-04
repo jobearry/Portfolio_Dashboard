@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment';
       <div class="flex items-center gap-4">
         <span>
           Jonathan Golimlim | {{ year }}
-          @if(env){
+          @if (env) {
             | <span class="text-red-600 font-bold">{{ env }}</span>
           }
         </span>

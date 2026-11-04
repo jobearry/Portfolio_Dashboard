@@ -3,9 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-pill',
   imports: [],
-  template: `
-    <span [class]="classes" [style]="style">{{label}}</span>
-  `,
+  template: ` <span [class]="classes" [style]="style">{{ label }}</span> `,
   styles: ``,
 })
 export class Pill {

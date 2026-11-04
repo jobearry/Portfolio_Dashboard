@@ -5,9 +5,6 @@ import { Pill } from '../../../../components/pill';
   selector: 'app-tech-stack-list',
   imports: [Pill],
   templateUrl: './tech-stack-list.html',
-  styles: `
-  `,
+  styles: ``,
 })
-export class TechStackList {
-
-}
+export class TechStackList {}

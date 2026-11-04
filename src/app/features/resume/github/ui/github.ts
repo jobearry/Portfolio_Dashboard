@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideGithub } from '@ng-icons/lucide';
-import { BlockComponent } from "../../pages/home/components/block-container/block-container";
+import { BlockComponent } from '../../pages/home/components/block-container/block-container';
 import { GithubRepo } from '../../core';
 import { Card } from '../../components/card';
 
