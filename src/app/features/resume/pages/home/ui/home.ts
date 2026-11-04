@@ -5,10 +5,11 @@ import { MAIN_BLOCK_CONTENT, SIDE_BLOCK_CONTENT } from '../constants/home.consta
 import { DynamicHostComponent } from '../components/host';
 import { BlockComponent } from '../components/block-container/block-container';
 import { Profile } from '../components/profile/profile';
+import { Footer } from '../../../components/footer';
 
 @Component({
   selector: 'app-home',
-  imports: [BlockComponent, Profile, NgIcon, DynamicHostComponent],
+  imports: [BlockComponent, Profile, NgIcon, DynamicHostComponent, Footer],
   providers: [provideIcons({ lucideAward, lucideBlocks, lucideHistory, lucideIdCard, lucideToolbox })],
   templateUrl: './home.html',
 })
