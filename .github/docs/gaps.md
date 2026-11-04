@@ -146,7 +146,7 @@ Known issues in the current app after the Tailwind rewrite.
 
 - The unused resume terminal widget and the older marquee-based tech-stack
   component were removed in plan 022. The landing page's active tech-stack list
-  and maintenance block remain in use.
+  remains in use; its Maintenance component is retained but no longer rendered.
 - No known Spartan or rewrite dead code remains.
 
 ## Tooling / fixtures

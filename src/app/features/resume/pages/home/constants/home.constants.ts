@@ -2,7 +2,6 @@ import { About } from '../components/about';
 import { Timeline } from '../components/timeline/timeline';
 import { RecentRepositories } from '../components/recent-repositories/recent-repositories';
 import { BlockContent } from '../types/block.type';
-import { Maintenance } from '../../../components/maintenance';
 import { TechStackList } from '../components/tech-stack-list/tech-stack-list';
 import { Certifications } from '../components/certifications/certifications';
 
@@ -44,12 +43,5 @@ export const MAIN_BLOCK_CONTENT: BlockContent[] = [
     class: 'md:col-span-2 md:bg-transparent',
     icon: 'lucideToolbox',
     content: TechStackList,
-  },
-  {
-    id: 'main_block_3',
-    title: '',
-    class: 'md:col-span-2 md:bg-transparent',
-    content: Maintenance,
-    inputs: { subtitle: 'making more features' },
   },
 ];

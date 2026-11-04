@@ -50,8 +50,13 @@ describe('App shell', () => {
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
+    const resumeShell = element.querySelector('app-home > section');
     expect(router.url).toBe('/');
     expect(element.querySelector('app-shell-sidebar')).toBeFalsy();
+    expect(element.querySelector('app-maintenance')).toBeFalsy();
+    expect(resumeShell?.classList.contains('mx-auto')).toBe(true);
+    expect(resumeShell?.classList.contains('max-w-7xl')).toBe(true);
+    expect(resumeShell?.classList.contains('lg:p-8')).toBe(true);
     expect(element.querySelector('app-profile')).toBeTruthy();
     expect(element.querySelector('app-footer')).toBeTruthy();
     expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();

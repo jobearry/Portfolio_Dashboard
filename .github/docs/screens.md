@@ -164,9 +164,12 @@ redirects to `/`.
   - Profile header: circularly cropped photo (`/jg-profile.png`), name,
     `lucideMapPin` + location, two role pills, GitHub and CV links, and the
     top-right **View dashboard** + theme toggle pair.
+  - Centered, width-capped page container with increased padding and column
+    gutters at desktop sizes.
   - Two-column responsive grid built from `SIDE_BLOCK_CONTENT` and
-    `MAIN_BLOCK_CONTENT`: About, Timeline, Certifications, Recent Projects,
-    Technical Stack, and a `Maintenance` placeholder.
+    `MAIN_BLOCK_CONTENT`: About, Timeline, Certifications, Recent Projects, and
+    Technical Stack. The résumé Maintenance component is retained but not
+    currently rendered.
   - Footer with the current year and a red `DEV` marker when
     `environment.title` is non-empty (development builds only).
 - **Data:** About and Certifications are static. Timeline loads
