@@ -31,7 +31,7 @@ import { ExperienceTimeline } from '../../../../../dashboard/core';
             </h3>
             <div class="mr-5 cursor-pointer rounded text-start">
               <p class="text-sm font-bold">{{ experience.company }}</p>
-              <p class="text-xs text-muted-foreground">{{ experience.role }}</p>
+              <p class="text-xs text-muted-foreground">{{ experience.role }} | {{experience.type}}</p>
             </div>
           </li>
         }
@@ -43,9 +43,9 @@ export class Timeline implements OnInit {
   private readonly experienceService = inject(ExperienceSignalService);
   protected readonly state = computed(() => this.experienceService.getState());
   protected readonly orderedExperiences = computed(() =>
-    [...this.state().content].sort(
-      (left, right) => Date.parse(right.startedAt) - Date.parse(left.startedAt),
-    ).slice(0, 3),
+    [...this.state().content]
+      .sort((left, right) => Date.parse(right.startedAt) - Date.parse(left.startedAt))
+      .slice(0, 3),
   );
 
   ngOnInit(): void {

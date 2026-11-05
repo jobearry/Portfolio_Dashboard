@@ -59,7 +59,7 @@ describe('TechStackList', () => {
 
     const element = fixture.nativeElement as HTMLElement;
     const skillList = element.querySelector('.tech-stack');
-    expect(skillList?.classList.contains('h-64')).toBe(true);
+    expect(skillList?.classList.contains('h-54')).toBe(true);
     expect(skillList?.classList.contains('overflow-y-auto')).toBe(true);
     expect(element.querySelectorAll('.tech-stack__group')).toHaveLength(2);
     expect(element.querySelector('a')).toBeNull();

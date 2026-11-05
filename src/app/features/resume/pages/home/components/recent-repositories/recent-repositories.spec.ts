@@ -59,7 +59,7 @@ describe('RecentRepositories', () => {
 
     expect(link?.getAttribute('href')).toBe('/projects');
     expect(link?.hasAttribute('routerLink')).toBe(false);
-    expect(element.querySelector('section')?.classList.contains('h-64')).toBe(true);
+    expect(element.querySelector('section')?.classList.contains('h-54')).toBe(true);
     expect(element.querySelector('section')?.classList.contains('overflow-y-auto')).toBe(true);
     request().flush([]);
   });
