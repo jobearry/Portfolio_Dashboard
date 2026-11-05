@@ -45,7 +45,7 @@ export class Timeline implements OnInit {
   protected readonly orderedExperiences = computed(() =>
     [...this.state().content].sort(
       (left, right) => Date.parse(right.startedAt) - Date.parse(left.startedAt),
-    ).slice(0, 2),
+    ).slice(0, 3),
   );
 
   ngOnInit(): void {
