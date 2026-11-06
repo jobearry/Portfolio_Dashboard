@@ -24,14 +24,18 @@ import { ExperienceTimeline } from '../../../../../dashboard/core';
       >
         @for (experience of orderedExperiences(); track experience.id) {
           <li class="group relative mb-8 ml-15 border-l border-accent-brand pl-5">
-            <h3
-              class="absolute top-0 -left-12 rounded-sm border border-accent-brand p-1 text-sm text-accent-brand transition-all duration-300"
-            >
-              {{ experience.startedAt.slice(0, 4) }}
-            </h3>
+            @if (year(experience.startedAt); as startYear) {
+              <h3
+                class="absolute top-0 -left-12 rounded-sm border border-accent-brand p-1 text-sm text-accent-brand transition-all duration-300"
+              >
+                {{ startYear }}
+              </h3>
+            }
             <div class="mr-5 cursor-pointer rounded text-start">
               <p class="text-sm font-bold">{{ experience.company }}</p>
-              <p class="text-xs text-muted-foreground">{{ experience.role }} | {{experience.type}}</p>
+              <p class="text-xs text-muted-foreground">
+                {{ experience.role }} | {{ experience.type }}
+              </p>
             </div>
           </li>
         }
@@ -44,7 +48,24 @@ export class Timeline implements OnInit {
   protected readonly state = computed(() => this.experienceService.getState());
   protected readonly orderedExperiences = computed(() =>
     [...this.state().content]
-      .sort((left, right) => Date.parse(right.startedAt) - Date.parse(left.startedAt))
+      .sort((left, right) => {
+        const leftTime = Date.parse(left.startedAt);
+        const rightTime = Date.parse(right.startedAt);
+
+        if (Number.isNaN(leftTime) && Number.isNaN(rightTime)) {
+          return 0;
+        }
+
+        if (Number.isNaN(leftTime)) {
+          return 1;
+        }
+
+        if (Number.isNaN(rightTime)) {
+          return -1;
+        }
+
+        return rightTime - leftTime;
+      })
       .slice(0, 3),
   );
 
@@ -57,5 +78,14 @@ export class Timeline implements OnInit {
       'v1/experience?includeProjects=false',
       this.experienceService,
     );
+  }
+
+  protected year(value: string): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : String(date.getFullYear());
   }
 }

@@ -16,8 +16,6 @@ function writeEnv(filePath, obj) {
   console.log('Wrote', filePath);
 }
 
-const githubToken = process.env.GITHUB_TOKEN || '';
-const githubURL = process.env.GITHUB_BASE_URL || '';
 const portfolioApiHost = process.env.PORTFOLIO_API_HOST || '';
 
 const prod = {

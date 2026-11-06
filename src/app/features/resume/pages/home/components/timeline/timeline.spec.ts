@@ -63,9 +63,26 @@ describe('Resume Timeline', () => {
     expect(element.textContent).not.toContain('This responsibility should not appear');
     expect(element.querySelector('h3')?.classList.contains('text-accent-brand')).toBe(true);
     expect([...element.querySelectorAll('li')].map((item) => item.textContent?.trim())).toEqual([
-      '2024 GlobexDeveloper | Full time',
-      '2022 AcmeSoftware Engineer | Full time',
+      '2024 Globex Developer | Full time',
+      '2022 Acme Software Engineer | Full time',
     ]);
+  });
+
+  it('hides the year when the start date is invalid but still keeps valid entries visible', async () => {
+    const fixture = render();
+    experiencesRequest().flush([
+      experience(1, 'Acme', 'Software Engineer', 'not-a-date'),
+      experience(2, 'Globex', 'Developer', '2024-01-01'),
+    ]);
+
+    await settle(fixture);
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelectorAll('h3').length).toBe(1);
+    expect(element.textContent).toContain('2024');
+    expect(element.textContent).toContain('Globex');
+    expect(element.textContent).not.toContain('Invalid');
+    expect(element.textContent).not.toContain('NaN');
   });
 
   it('shows a loading state while the request is pending', () => {
