@@ -101,8 +101,9 @@ redirects to `/`.
      on."
   2. Vertical list of bordered experience cards:
      - Company `company.name` (`h3`)
-     - Pill with start year from `duration.startedAt`; the pill is omitted when
-       the value is missing or not a valid date (no "Invalid Date")
+     - Subtle filled tag with start year from `duration.startedAt` using the
+       theme-aware `accent-brand`; it is omitted when the value is missing or
+       not a valid date (no "Invalid Date")
      - `role.value` | `description`
      - `responsibility`
      - If projects exist: nested **PROJECTS** block (accent dot + `h4`)
@@ -162,8 +163,10 @@ redirects to `/`.
   dashboard shell route. Renders **without** the dashboard shell.
 - **Shows:**
   - Profile header: circularly cropped photo (`/jg-profile.png`), name,
-    `lucideMapPin` + location, two role pills, GitHub and CV links, and the
-    top-right **View dashboard** + theme toggle pair.
+    `lucideMapPin` + location, two theme-aware plum role tags, GitHub and CV
+    actions, and the top-right **View dashboard** + theme toggle pair. The
+    profile name, location, and GitHub URL are hardcoded; the CV action currently
+    points to `#`.
   - Centered, width-capped page container with increased padding and column
     gutters at desktop sizes.
   - Two-column responsive grid built from `SIDE_BLOCK_CONTENT` and
@@ -172,18 +175,22 @@ redirects to `/`.
     currently rendered.
   - Footer with the current year and a red `DEV` marker when
     `environment.title` is non-empty (development builds only).
-- **Data:** About and Certifications are static. Timeline loads
-  `ExperienceTimeline[]` from `v1/experience?includeProjects=false` and keeps
-  the year badge and vertical-list layout, displaying the start year, company,
-  and role, ordered newest to oldest by start date. The year uses the
-  `accent-brand` theme token. Technical Stack loads `TechStackItem[]` from
+- **Data:** About and Certifications are static; certification labels use
+  the same theme-aware plum tag styling as the profile roles. Timeline loads
+  `ExperienceTimeline[]` from `v1/experience?includeProjects=false`, sorts
+  valid start dates newest first (invalid dates after valid ones), and displays
+  at most three entries in a fixed-height vertical list. Entries show company,
+  role, and type; the year uses a subtle filled `accent-brand` tag and is hidden
+  for invalid dates.
+  Technical Stack loads `TechStackItem[]` from
   `v1/skill` and groups skills by their API category. Its scrollable content
   area is the same fixed height as Recent Projects. Recent Projects loads the
   first two public repositories from
   `v1/github/owner/{username}/repositories`.
 - **Title:** `Jonathan Golimlim | Software Engineer`.
-- **Interactions:** _View more_ inside Recent Projects uses a normal `/projects`
-  link, reloading the application and project data on each click; **View
+- **Interactions:** _View more_ inside Recent Projects uses a theme-aware
+  `accent-brand` link with a subtle accent hover and normal `/projects`
+  navigation, reloading the application and project data on each click; **View
   dashboard** navigates to `/dashboard`; the theme toggle uses the shared
   `ThemeService`.
 - Technical Stack has no View more link until a destination is defined; the

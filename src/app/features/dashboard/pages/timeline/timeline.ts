@@ -38,7 +38,7 @@ import { ExperienceTimeline } from '../../core';
 
                 @if (year(experience.startedAt); as startYear) {
                   <span
-                    class="w-fit rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground tabular-nums"
+                    class="w-fit rounded-full border border-accent-brand/30 bg-accent-brand/10 px-3 py-1 text-xs font-medium text-accent-brand tabular-nums"
                   >
                     {{ startYear }}
                   </span>

@@ -7,7 +7,11 @@
 `.github/docs/` records the **current state** of the application. It is not a
 planning area and not a rulebook.
 
-- Plans go in `.github/plans/`.
+- Use the AI harness's planning facility for task plans; do not copy routine
+  task plans into the repository.
+- A persistent repository plan, when explicitly needed, lives in
+  `.github/plans/plan.md`. Past implementation plans are summarized in
+  `.github/docs/implementation-history.md`.
 - Agent/contributor rules go in `.github/rules/` (this file).
 - Current behavior, architecture, and known issues go in `.github/docs/`.
 
@@ -38,3 +42,4 @@ untrue, the change is not complete.
   - `current-state.md` — architecture, routing, data layer, endpoints, models
   - `screens.md` — screen-by-screen behavior
   - `gaps.md` — bugs, dead code, missing states, open decisions
+  - `implementation-history.md` — compact index of implemented or superseded work

@@ -40,9 +40,8 @@ is a separate codebase; this repository contains no server code.
 
 ## Configuration and secrets
 
-- Notion page ID and public domain must not be hardcoded in components; move
-  them to a config module or environment variable. (Decision pending: see
-  `.github/plans/001-tailwind-rewrite.md`.)
+- Notion page ID and public domain must not be hardcoded in components; use the
+  typed site configuration described in `.github/docs/current-state.md`.
 - Never commit secrets, tokens, API keys, or `.env` contents. `.env` is
   gitignored; `.env.example` is the template.
 - Do not add CORS workarounds or proxy hacks without documenting the constraint.

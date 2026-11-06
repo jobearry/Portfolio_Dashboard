@@ -23,10 +23,18 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Resolved in 005 (site config)
 
-- **Hardcoded personal content** — name, handle, role, bio, GitHub/CV URLs, and
-  avatar filenames come from `site` (`core/config/site.config.ts`).
+- **Shared site configuration** — typed profile, link, asset, Notion, and
+  GitHub values live in `core/config/site.config.ts` and are used by dashboard
+  routes and components.
 - **Hardcoded Notion values** — page ID and public domain come from
   `site.notion`; the blog feature contains no literal.
+
+## Résumé profile configuration gap
+
+- The public résumé Profile component uses `site.assets.profileAvatar` for its
+  image, but its name, location, role labels, and GitHub URL are still hardcoded
+  in `src/app/features/resume/pages/home/components/profile/profile.html`.
+  Its CV action currently points to `#` instead of `site.links.cv`.
 
 ## Resolved in 006 (shell)
 
@@ -44,7 +52,7 @@ Known issues in the current app after the Tailwind rewrite.
 - **Collapse persistence** — desktop rail state survives reloads
   (`portfolio-sidebar-collapsed`).
 
-## Resolved in 007 (screens)
+## Resolved screen and UI issues
 
 - **Spartan removed from the dashboard screens** — `hlmH1`, `hlmH3`, `HlmIcon`,
   and `SkeletonItem` are no longer used by Overview, Timeline, the parked
@@ -53,8 +61,8 @@ Known issues in the current app after the Tailwind rewrite.
   "Than" copy.
 - **Timeline dates** — `startedAt` is parsed defensively; a missing or invalid
   date hides the year pill instead of rendering an empty/`Invalid Date` value.
-- **Former dashboard Profile UI** — retained but unrouted in plan 025; `/profile`
-  redirects to the résumé at `/`.
+- **Former dashboard Profile UI** — retained but unrouted; `/profile` redirects
+  to the résumé at `/`.
 - **Blog entries** — plain `ng-icon`, Tailwind hover/focus lift with a
   `motion-reduce` fallback, and a screen-reader new-tab hint.
 - **Loading** — one shared `app-skeleton` with `text`, `card`, `list`, `grid`, and
@@ -144,8 +152,8 @@ Known issues in the current app after the Tailwind rewrite.
 
 ## Dead code
 
-- The unused resume terminal widget and the older marquee-based tech-stack
-  component were removed in plan 022. The landing page's active tech-stack list
+- The unused résumé terminal widget and older marquee-based tech-stack
+  component were removed during résumé cleanup. The landing page's active tech-stack list
   remains in use; its Maintenance component is retained but no longer rendered.
 - No known Spartan or rewrite dead code remains.
 
@@ -166,18 +174,17 @@ Known issues in the current app after the Tailwind rewrite.
   produce an empty `portfolioApi`, which yields relative `/v1/...` calls. `dotenv`
   is an explicit dev dependency. CI does not need `.env` because the build only
   compiles.
-- **Theme:** own `@theme` tokens replace the Spartan preset (004). Light and
-  dark are both verified on every screen; the toggle lives in the avatar
-  dropdown (006).
+- **Theme:** own `@theme` tokens replace the Spartan preset. Light and dark are
+  both verified on every screen; the toggle lives in the avatar dropdown.
 - **Dependencies:** Angular framework packages are floored at `^21.2.26`, which
   clears every runtime (`dependencies`) advisory — 0 high, 0 critical, 0 low in
   `npm audit`. Remaining advisories (2 distinct, moderate) are build/dev-only and
   reachable only through `@angular/cli` → `pacote`/`glob`/`minimatch` and the
   `eslint` dependency chain; each fix path requires a semver-major upgrade with
-  no exposure for a static SPA. See plan 016.
+  no exposure for a static SPA.
 - **Editor TypeScript version:** VS Code 1.143 bundles TypeScript 6.0.3, which
   reports TS5011 unless `rootDir` is explicit. `tsconfig.json` sets
-  `rootDir: ./src`; the project still compiles with TypeScript 5.9.3. See plan 018.
+  `rootDir: ./src`; the project still compiles with TypeScript 5.9.3.
 - **Not applicable by architecture:** `HttpTransferCache` and SSR router
   advisories. `vercel.json` uses `@vercel/static-build` with no `server` output,
   and the app registers no `provideClientHydration()`, so those code paths never

@@ -55,10 +55,12 @@ describe('RecentRepositories', () => {
   it('uses a full-page link to reload the projects page', () => {
     const fixture = render();
     const element = fixture.nativeElement as HTMLElement;
-    const link = element.querySelector('a');
+    const link = element.querySelector('a[href="/projects"]');
 
     expect(link?.getAttribute('href')).toBe('/projects');
     expect(link?.hasAttribute('routerLink')).toBe(false);
+    expect(link?.classList.contains('text-accent-brand')).toBe(true);
+    expect(link?.classList.contains('hover:bg-accent-brand/10')).toBe(true);
     expect(element.querySelector('section')?.classList.contains('h-54')).toBe(true);
     expect(element.querySelector('section')?.classList.contains('overflow-y-auto')).toBe(true);
     request().flush([]);

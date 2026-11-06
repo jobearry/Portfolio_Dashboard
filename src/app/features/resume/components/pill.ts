@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class Pill {
   @Input() label = '';
-  @Input() variant: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' = 'neutral';
+  @Input() variant: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'brand' = 'neutral';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
 
   get classes(): string {
@@ -18,6 +18,9 @@ export class Pill {
     else base += ' px-3 py-1 text-sm';
 
     switch (this.variant) {
+      case 'brand':
+        base += ' border border-accent-brand/30 bg-accent-brand/10 text-accent-brand';
+        break;
       case 'primary':
         base += ' bg-blue-100 text-blue-800';
         break;
@@ -38,6 +41,10 @@ export class Pill {
   }
 
   get style(): string {
+    if (this.variant === 'brand') {
+      return '';
+    }
+
     let bg = 'var(--color-muted)';
     let fg = 'var(--color-muted-foreground)';
 

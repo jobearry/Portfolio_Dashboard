@@ -44,9 +44,13 @@ describe('Timeline', () => {
 
   it('renders the start year only when the date is valid', async () => {
     const element = await render([base, { ...base, id: 2, startedAt: 'not-a-date' }]);
+    const year = element.querySelector('.tabular-nums');
 
     expect(element.textContent).toContain('2020');
     expect(element.querySelectorAll('.tabular-nums').length).toBe(1);
+    expect(year?.classList.contains('border-accent-brand/30')).toBe(true);
+    expect(year?.classList.contains('bg-accent-brand/10')).toBe(true);
+    expect(year?.classList.contains('text-accent-brand')).toBe(true);
     expect(element.textContent).not.toContain('Invalid');
     expect(element.textContent).not.toContain('NaN');
   });

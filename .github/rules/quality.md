@@ -17,11 +17,10 @@
 
 ## Process
 
-- [ ] A plan exists in `.github/plans/` and its checklist is satisfied.
-- [ ] The plan status is updated (`In progress` → `Done`).
+- [ ] Use the AI harness's planning facility for substantial work when useful
+      or requested; do not create a repository plan for every change.
 - [ ] `.github/docs/` is updated if routes, endpoints, models, UI behavior, or
-  tooling changed.
-- [ ] Deviations from the plan are recorded in the plan file.
+      tooling changed.
 
 ## Anti-patterns
 
@@ -29,6 +28,6 @@ Do not:
 
 - mark work done while a known failure or stuck loading state remains,
 - defer documentation to a follow-up change,
-- leave dead code "for later" without a plan,
-- add a dependency without recording the reason in the plan,
+- leave dead code "for later" without documenting its owner or rationale,
+- add a dependency without recording its reason in the relevant change context,
 - claim tooling (ESLint, CI, tests) exists before it is committed.

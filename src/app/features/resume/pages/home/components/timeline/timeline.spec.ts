@@ -61,7 +61,10 @@ describe('Resume Timeline', () => {
     expect(element.textContent).toContain('2024');
     expect(element.textContent).not.toContain('This detail should not appear');
     expect(element.textContent).not.toContain('This responsibility should not appear');
-    expect(element.querySelector('h3')?.classList.contains('text-accent-brand')).toBe(true);
+    const year = element.querySelector('h3');
+    expect(year?.classList.contains('text-accent-brand')).toBe(true);
+    expect(year?.classList.contains('border-accent-brand/30')).toBe(true);
+    expect(year?.classList.contains('bg-accent-brand/10')).toBe(true);
     expect([...element.querySelectorAll('li')].map((item) => item.textContent?.trim())).toEqual([
       '2024 Globex Developer | Full time',
       '2022 Acme Software Engineer | Full time',

@@ -137,32 +137,67 @@ user-menu/user-menu.ts    avatar dropdown (profile, CV, theme toggle)
   final layout, exposes `role="status"` with visually hidden "Loading…", and
   marks the visual blocks `aria-hidden`.
 
-### Public pages — `src/app/features/resume/`
+### Résumé feature — `src/app/features/resume/`
 
-Imported from `web_resume` in plan 020. These render **outside** the dashboard
-shell — no sidebar, no header — and share the same design tokens.
+The public résumé feature was imported from `web_resume` (see
+[`implementation-history.md`](./implementation-history.md)). Its lazy-loaded
+routes `/` and `/projects` render outside the dashboard shell and share the
+global theme, site configuration, and API client.
 
-```
-pages/home/         landing page: profile, about, timeline, certifications,
-                    recent projects, tech stack list
-pages/projects/     client-project highlights + public GitHub repos
-components/         card, footer, maintenance, pill, spinner, theme-toggler,
-                    dashboard-link
-github/             GithubRepoSignalService + presentational repo list
-shared/constants/   TRANSITION_MOVE_UP
-core/models/        GithubRepo
-```
+#### Landing page — `/`
 
-- `pages/home/constants/home.constants.ts` drives the landing page:
-  `BlockContent` entries pair a title, icon name, and component class, which
-  `DynamicHostComponent` (`pages/home/components/host.ts`) instantiates.
-- Icons are registered per component with `provideIcons()`; the landing page
-  registers `lucideIdCard`, `lucideHistory`, `lucideAward`, `lucideBlocks`, and
-  `lucideToolbox`.
-- `ThemeToggler` delegates to the shared `ThemeService`, so the public pages and
-  the dashboard share one stored preference and one `.dark` class.
-- `pages/home/components/profile` uses the configured `site.assets.profileAvatar`
-  (`/jg-profile.png`) in both themes.
+`pages/home/ui/home.ts` and `home.html` assemble the profile header, footer, and
+five content blocks. `pages/home/constants/home.constants.ts` places About,
+Timeline, and Certifications in the side column and Recent Projects and
+Technical Stack in the main column. `BlockComponent` renders each titled block;
+`DynamicHostComponent` creates its configured standalone content component.
+
+- **Profile:** `pages/home/components/profile/` renders the photo, name,
+  location, role labels, social/CV actions, dashboard link, and theme toggle.
+  The photo comes from `site.assets.profileAvatar`. The other profile text and
+  links are currently hardcoded; the CV action currently points to `#` (see
+  `.github/docs/gaps.md`).
+- **Static content:** About and Certifications are local components. Profile
+  role labels and certification labels use the `brand` variant in
+  `components/pill.ts`; it produces the theme-aware plum tag.
+- **Timeline:** `pages/home/components/timeline/` uses the shared
+  `ExperienceSignalService` and requests
+  `v1/experience?includeProjects=false`. It sorts valid start dates newest
+  first, places invalid dates after valid ones, and displays at most three
+  entries. Each entry shows company, role, and type; its filled accent year tag
+  is omitted for an invalid start date. Loading, empty, and retryable error
+  states are shown.
+- **Recent Projects:** `pages/home/components/recent-repositories/` uses
+  `GithubRepoSignalService` and shows the first two public repositories.
+  Repository cards open GitHub in a new tab; loading, empty, and retryable
+  error states are supported. **View more** is a full-page `/projects` link
+  using the theme-aware accent and subtle accent hover.
+- **Technical Stack:** `pages/home/components/tech-stack-list/` uses the shared
+  `SkillsSignalService` and `v1/skill`, groups skills by API category, and
+  displays them in a fixed-height scroll area with loading, empty, and retryable
+  error states.
+
+#### Projects page — `/projects`
+
+`pages/projects/ui/projects.ts` starts the client-project and GitHub repository
+requests in parallel:
+
+- `ResumeProjectSignalService` calls `v1/project?includeTools=false`. The page
+  maps each API project to a highlight, using contribution text or falling back
+  to its description and listing technology names as tags.
+- `GithubRepoSignalService` calls
+  `v1/github/owner/{site.github.username}/repositories`; this page shows the
+  full list, while the landing page uses only the first two. Repository links
+  open in a new tab.
+- Client projects have loading, empty, and retryable error states. GitHub
+  repositories have loading, empty, and error states.
+
+The page also provides a same-tab **Go back** action to `/`, plus shared
+dashboard and theme controls. The `components/` directory supplies reusable
+cards, pills, spinner, footer, dashboard link, and theme toggle; `Maintenance`
+is retained but unrouted. `core/models/github-repo.ts` defines the repository
+response, and `shared/constants/styles.constants.ts` holds the shared résumé
+transition utility.
 
 ## 5. Data layer
 
@@ -176,9 +211,12 @@ Single typed source of truth for personal content and public integrations:
 - `site.notion` — page ID and public domain.
 - `site.github` — GitHub username used by the repository list and count endpoints.
 
-The object is `as const satisfies SiteConfig`. Consumers: shell (title/subtitle),
-sidebar (avatar), profile (hero + links), blog (page ID/domain), and the root
-route title. Menu labels/URLs/icons stay in `core/constants/sidebar-sections.ts`.
+The object is `as const satisfies SiteConfig`. Consumers include route titles,
+dashboard shell/user menu/overview and its parked Profile page, Blog, and the
+résumé GitHub repository service. On the public résumé landing page, only the
+profile avatar currently comes from `site`; its other profile values and links
+remain hardcoded (see `.github/docs/gaps.md`). Menu labels/URLs/icons stay in
+`core/constants/sidebar-sections.ts`.
 
 ### `ApiClient` — `src/app/core/api/api-client.ts`
 
@@ -238,8 +276,9 @@ The legacy endpoints (`v1/portfolio/count`, `v1/portfolio/projects`,
 `v1/experience/{id}/projects`) are no longer referenced now that the `bak`
 screens are deleted.
 
-The résumé timeline requests `v1/experience?includeProjects=false` and displays
-only the start year, company, and role. The résumé Projects page requests
+The résumé timeline requests `v1/experience?includeProjects=false`, sorts valid
+dates newest first, and displays at most three company, role, and type entries;
+the year tag is hidden for invalid dates. The résumé Projects page requests
 `v1/project?includeTools=false`, so it renders client projects without tool
 details. The former dashboard profile page is parked and unrouted; its
 `v1/recommendation` call is not used by a live route. The résumé Technical
@@ -248,7 +287,8 @@ Stack section uses `v1/skill`.
 `GithubRepoSignalService` uses the owner/repositories endpoint without the
 `/count` suffix. The résumé home page displays its first two results; `/projects`
 displays the full list. The GitHub token deliberately lives on the API: the
-imported `web_resume` shipped it in the browser bundle, which plan 020 removed.
+imported `web_resume` shipped it in the browser bundle; the résumé import
+removed it.
 
 ### Models
 
@@ -267,7 +307,7 @@ imported `web_resume` shipped it in the browser bundle, which plan 020 removed.
   `Role { value }`
 - `NotionPageCard { url, date, title }`
 
-`src/app/features/resume/core/models/` (plan 020):
+`src/app/features/resume/core/models/`:
 
 - `GithubRepo { id, name, fullName, htmlUrl, description, language, topics }` —
   the API normalises `description`/`language` to empty strings and returns only
@@ -301,8 +341,8 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
   `--border`, `--sidebar*`, `--radius: 0.625rem`). It has no Spartan preset, CDK
   overlay CSS, `tw-animate-css` import, or untyped `data-*` variants (all removed
   in 008).
-- Accent color: token `--color-accent-brand` (`#912f56`); templates no longer
-  repeat the hex.
+- Accent color: token `--color-accent-brand` is theme-aware (`#912f56` in light
+  mode and plum `#c39bd3` in dark mode); templates no longer repeat the hex.
 - Template neutrals use semantic tokens (`text-muted-foreground`, `bg-muted/50`)
   so both themes stay legible.
 
@@ -319,7 +359,8 @@ The unused `PortfolioItems` and `Result<T>` models were deleted in 008.
 - [x] Five GET fetches (four portfolio + one Notion).
 - [x] Dashboard overview header + responsive 5-card metric grid, including
       GitHub repository and Notion page counts with independent retry states.
-- [x] Timeline experience cards with year badge, role/description, responsibility,
+- [x] Timeline experience cards with a theme-aware brand-accent year badge,
+      role/description, responsibility,
       nested projects, and technology chips.
 - [x] Résumé profile hero (avatar, name, handle, bio), GitHub and CV links.
 - [x] Blog list: numbered entries, title, date, external link icon, URL rewrite
