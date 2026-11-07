@@ -17,22 +17,30 @@ function writeEnv(filePath, obj) {
 }
 
 const portfolioApiHost = process.env.PORTFOLIO_API_HOST || '';
-
+const cvURL = process.env.CV_URL || '';
+const imgDir = process.env.JG_IMG_DIR || ''
+console.log(imgDir)
 const prod = {
   production: true,
   portfolioApi: portfolioApiHost,
+  cvURL: cvURL,
+  imgDir: imgDir,
   title: '',
 };
 
 const dev = {
   production: false,
   portfolioApi: portfolioApiHost,
+  cvURL: cvURL,
+  imgDir: imgDir,
   title: "DEV"
 };
 
 const example = {
   production: false,
   portfolioApi: "localhost",
+  cvURL: "your-cv-download.path",
+  imgDir: "your-img-dir.path",
   title: "SAMPLE",
 };
 

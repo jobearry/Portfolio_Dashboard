@@ -5,6 +5,7 @@ import { provideRouter, Router } from '@angular/router';
 import { App } from './app';
 import { routes } from './app.routes';
 import { ShellStateService } from './features/dashboard/shell/shell-state.service';
+import { environment } from '../environments/environment';
 
 describe('App shell', () => {
   beforeEach(async () => {
@@ -61,7 +62,7 @@ describe('App shell', () => {
     expect(element.querySelector('app-footer')).toBeTruthy();
     expect(element.querySelector('a[href="/dashboard"]')).toBeTruthy();
     const profileImage = element.querySelector('#profile-img');
-    expect(profileImage?.getAttribute('src')).toBe('/jg-profile.png');
+    expect(profileImage?.getAttribute('src')).toBe(`${environment.imgDir}/jg-profile.png`);
     expect(profileImage?.classList.contains('size-28')).toBe(true);
     expect(profileImage?.classList.contains('sm:size-32')).toBe(true);
     expect(profileImage?.classList.contains('md:size-40')).toBe(true);

@@ -1,3 +1,5 @@
+import { environment } from '../../../environments/environment';
+
 export interface ProfileConfig {
   readonly name: string;
   readonly handle: string;
@@ -45,11 +47,11 @@ export const site = {
   },
   links: {
     github: 'https://github.com/jobearry',
-    cv: 'https://drive.google.com/uc?export=download&id=1FpztsStY7V_zDvG7eFdnDUVWaRZoWcBc',
+    cv: environment.cvURL,
   },
   assets: {
-    sidebarAvatar: 'grad_1.jpeg',
-    profileAvatar: 'jg-profile.png',
+    sidebarAvatar: `${environment.imgDir}/grad_1.jpeg`,
+    profileAvatar: `${environment.imgDir}/jg-profile.png`,
   },
   notion: {
     pageId: '16348b6ae5dd8032b137c4327f9ab77c',
